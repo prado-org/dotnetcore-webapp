@@ -4,10 +4,11 @@
 name: my-first-project
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  #push:
+  #  branches: [ "main" ]
+  #pull_request:
+  #  branches: [ "main" ]
+  workflow_dispatch: 
 
 env:
   CONFIGURATION: Release
