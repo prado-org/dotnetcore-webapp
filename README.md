@@ -1,4 +1,4 @@
-# My First Project Main
+# My First Project
 
 In this tutorial for C# development with ASP.NET Core, you create a C# ASP.NET Core web app in Visual Studio.
 
