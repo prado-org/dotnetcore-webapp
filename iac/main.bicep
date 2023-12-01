@@ -1,7 +1,7 @@
 param webAppName string
 param location string
 param environment string
-
+// teste
 targetScope = 'subscription'
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
