@@ -93,7 +93,7 @@ jobs:
     environment:
       name: dev
       url: https://app-dotnetproject-dev.azurewebsites.net
-    if: ${{ github.ref == 'refs/heads/develop' && github.event_name == 'pull_request' }}
+    if: ${{ github.base_ref == 'develop' && github.event_name == 'pull_request' }}
     steps:
       - uses: actions/download-artifact@v3
       
