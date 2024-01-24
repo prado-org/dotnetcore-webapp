@@ -7,3 +7,4 @@ az deployment sub create --location eastus --template-file main.bicep --paramete
 ```
 
 Teste Leandro
+Outro Teste
