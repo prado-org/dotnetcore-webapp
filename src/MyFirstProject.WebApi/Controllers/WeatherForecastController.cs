@@ -62,5 +62,37 @@ namespace MyFirstProject.WebApi.Controllers
                 throw;
             }
         }
+
+        private WeatherForecast WeatherForecastByTeste(int id)
+        {
+            try
+            {
+                WeatherForecast item = null;
+                using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
+                connection.OpenAsync();
+                
+                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = " + id.ToString();
+
+                SqlCommand command = new SqlCommand(selectCommand, connection);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        DateTime data = reader.GetDateTime(0);
+                        string summary = reader.GetString(1);
+                        int temperature = reader.GetInt32(2);
+
+                        item = new WeatherForecast { Date = data, Summary = summary, TemperatureC = temperature };
+                    }
+                }
+
+                return item;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
     }
 }
