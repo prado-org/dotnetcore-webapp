@@ -32,5 +32,23 @@ namespace MyFirstProject.WebApi.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem item)
+        {
+            try
+            {
+                _logger.LogInformation("Method - PostTodoItem");
+                _context.TodoItems.Add(item);
+                await _context.SaveChangesAsync();
+        
+                return CreatedAtAction(nameof(GetTodoItems), new { id = item.Id }, item);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("ERROR: " + ex.ToString());
+                throw;
+            }
+        }
     }
 }
