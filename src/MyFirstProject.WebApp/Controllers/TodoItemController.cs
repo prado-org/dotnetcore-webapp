@@ -47,5 +47,43 @@ namespace MyFirstProject.WebApp.Controllers
                 return Redirect("/Home/Error");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTodoItem(TodoItem newTodoItem)
+        {
+            try
+            {
+                _logger.LogInformation("Controller:TodoItemController - Method:AddTodoItem");
+        
+                string _urlApi = _configuration.GetSection("Api:Url").Value + "/api/TodoItem";
+                _logger.LogInformation("URL API = " + _urlApi);
+        
+                using (var httpClient = new HttpClient())
+                {
+                    var content = new StringContent(JsonConvert.SerializeObject(newTodoItem), Encoding.UTF8, "application/json");
+        
+                    using (var response = await httpClient.PostAsync(_urlApi, content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, $"Unexpected error occurred: {apiResponse}.");
+                            return View(newTodoItem);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ERROR: " + ex.Message);
+                return Redirect("/Home/Error");
+            }
+        }
+
     }
 }
