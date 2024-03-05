@@ -62,5 +62,27 @@ namespace MyFirstProject.WebApi.Controllers
                 throw;
             }
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            string connectionString = "Server=localhost;Database=Todo;User Id=sa;Password=Password123;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("DELETE FROM WeatherForecasts WHERE Id = " + id.ToString(), connection))
+                {
+                    int affectedRows = command.ExecuteNonQuery();
+                    if (affectedRows > 0)
+                    {
+                        return Ok();
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+            }
+        }
     }
 }
