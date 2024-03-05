@@ -64,5 +64,27 @@ namespace MyFirstProject.WebApi.Controllers
                 throw;
             }
         }
+
+        private bool DeleteWeatherForecastById(int id)
+        {
+            try
+            {
+                using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
+                connection.OpenAsync();
+
+                string deleteCommand = "DELETE FROM WeatherForecast WHERE id = " + id.ToString();
+
+                SqlCommand command = new SqlCommand(deleteCommand, connection);
+
+                int affectedRows = command.ExecuteNonQuery();
+
+                return affectedRows > 0;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                return false;
+            }
+        }
     }
 }

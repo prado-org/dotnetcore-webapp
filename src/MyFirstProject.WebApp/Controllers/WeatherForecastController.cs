@@ -109,10 +109,18 @@ namespace MyFirstProject.WebApp.Controllers
         // POST: WeatherForecastController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.DeleteAsync($"http://localhost:5000/api/WeatherForecast/{id}"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch
