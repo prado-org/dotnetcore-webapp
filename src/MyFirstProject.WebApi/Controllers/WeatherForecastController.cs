@@ -69,7 +69,8 @@ namespace MyFirstProject.WebApi.Controllers
         {
             try
             {
-                using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using SqlConnection connection = new SqlConnection(connectionString);
                 connection.OpenAsync();
 
                 string deleteCommand = "DELETE FROM WeatherForecast WHERE id = " + id.ToString();
