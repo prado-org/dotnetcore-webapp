@@ -33,34 +33,39 @@ namespace MyFirstProject.WebApi.Controllers
             .ToArray();
         }
 
-        private WeatherForecast WeatherForecastById(int id)
+        
+        private async Task<WeatherForecast> WeatherForecastById(int id)
         {
             try
             {
                 WeatherForecast item = null;
-                using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
-                connection.OpenAsync();
-                
-                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = " + id.ToString();
-
+                string connectionString = _configuration.GetConnectionString("MyDbConnection"); // Assuming the connection string is defined in your configuration
+        
+                using SqlConnection connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+        
+                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = @Id";
+        
                 SqlCommand command = new SqlCommand(selectCommand, connection);
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                command.Parameters.Add(new SqlParameter("@Id", id));
+        
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
                         DateTime data = reader.GetDateTime(0);
                         string summary = reader.GetString(1);
                         int temperature = reader.GetInt32(2);
-
+        
                         item = new WeatherForecast { Date = data, Summary = summary, TemperatureC = temperature };
                     }
                 }
-
+        
                 return item;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                _logger.LogError(ex, $"Error in WeatherForecastById with id: {id}");
                 throw;
             }
         }
