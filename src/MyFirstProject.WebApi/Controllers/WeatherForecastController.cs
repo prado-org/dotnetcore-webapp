@@ -21,6 +21,10 @@ namespace MyFirstProject.WebApi.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Retrieves a collection of weather forecasts.
+        /// </summary>
+        /// <returns>An IEnumerable of WeatherForecast objects.</returns>
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
