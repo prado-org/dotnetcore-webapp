@@ -56,5 +56,26 @@ namespace MyFirstProject.Tests
             Assert.IsNotNull(todoItems);
             Assert.AreEqual(4, todoItems!.Count);
         }
+
+        [TestMethod]
+        public async Task PostTodoItem_ReturnsCreatedTodoItem()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem";
+            var newTodoItem = new TodoItem { Name = "Test Todo Item" };
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(newTodoItem), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client!.PostAsync(requestUri, jsonContent);
+            var content = await response.Content.ReadAsStringAsync();
+            var createdTodoItem = JsonConvert.DeserializeObject<TodoItem>(content);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.IsNotNull(createdTodoItem);
+            Assert.AreEqual(newTodoItem.Name, createdTodoItem!.Name);
+        }
+
+        
     }
 }
