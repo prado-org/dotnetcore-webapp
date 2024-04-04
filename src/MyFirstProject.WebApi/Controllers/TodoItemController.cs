@@ -35,19 +35,34 @@ namespace MyFirstProject.WebApi.Controllers
         /// </summary>
         /// <param name="id">The ID of the todo item to delete.</param>
         /// <returns>An <see cref="IActionResult"/> representing the result of the asynchronous operation.</returns>
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodoItem(long id)
         {
-            var todoItem = await _context.TodoItems.FindAsync(id);
-            if (todoItem == null)
+            try
             {
-                return NotFound();
+                var todoItem = await _context.TodoItems.FindAsync(id);
+                if (todoItem == null)
+                {
+                    return NotFound();
+                }
+        
+                _context.TodoItems.Remove(todoItem);
+                    
+                // Use a unit of work to manage the transaction
+                using (var unitOfWork = new UnitOfWork(_context))
+                {
+                    // Commit transaction
+                    await unitOfWork.CompleteAsync();
+                }
+        
+                return NoContent();
             }
-
-            _context.TodoItems.Remove(todoItem);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting TodoItem with id {TodoItemId}", id);
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
