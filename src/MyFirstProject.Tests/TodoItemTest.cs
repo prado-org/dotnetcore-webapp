@@ -56,5 +56,18 @@ namespace MyFirstProject.Tests
             Assert.IsNotNull(todoItems);
             Assert.AreEqual(4, todoItems!.Count);
         }
+
+        [TestMethod]
+        public async Task DeleteTodoItem_ReturnsNoContentStatusCode()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem/1";
+
+            // Act
+            var response = await _client!.DeleteAsync(requestUri);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
+        }
     }
 }
