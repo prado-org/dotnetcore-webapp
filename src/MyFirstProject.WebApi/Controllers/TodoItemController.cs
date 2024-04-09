@@ -25,5 +25,21 @@ namespace MyFirstProject.WebApi.Controllers
             _logger.LogInformation("Method - GetTodoItems");
             return await _context.TodoItems.ToListAsync();
         }
+
+    //metodo para buscar um item pelo id
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
+    {
+        _logger.LogInformation("Method - GetTodoItem");
+        var todoItem = await _context.TodoItems.FindAsync(id);
+
+        if (todoItem == null)
+        {
+            return NotFound();
+        }
+
+        return todoItem;
+    }
+    
     }
 }

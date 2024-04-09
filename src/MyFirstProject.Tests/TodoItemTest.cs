@@ -56,5 +56,33 @@ namespace MyFirstProject.Tests
             Assert.IsNotNull(todoItems);
             Assert.AreEqual(4, todoItems!.Count);
         }
+
+        //criar teste para o metodo GetTodoItem
+        [TestMethod]
+        public async Task GetTodoItem_ReturnsSuccessStatusCode()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem/1";
+
+            // Act
+            var response = await _client!.GetAsync(requestUri);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        //criar um teste que o retorno http seja 404 quando o id não existir
+        [TestMethod]
+        public async Task GetTodoItem_ReturnsNotFoundStatusCode()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem/100";
+
+            // Act
+            var response = await _client!.GetAsync(requestUri);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
     }
 }
