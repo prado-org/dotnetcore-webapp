@@ -2,6 +2,9 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using MyFirstProject.Tests.Models;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 
 namespace MyFirstProject.Tests
 {
@@ -56,5 +59,38 @@ namespace MyFirstProject.Tests
             Assert.IsNotNull(todoItems);
             Assert.AreEqual(4, todoItems!.Count);
         }
+
+        [TestMethod]
+        public async Task GetTodoItem_ReturnsSuccessStatusCode()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem/1";
+
+            // Act
+            var response = await _client!.GetAsync(requestUri);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task PostTodoItem_ReturnsNewlyCreatedItem()
+        {
+            // Arrange
+            var newTodoItem = new TodoItem { Name = "Test item" };
+            var content = new StringContent(JsonConvert.SerializeObject(newTodoItem), Encoding.UTF8, "application/json");
+            var requestUri = "/api/TodoItem";
+        
+            // Act
+            var response = await _client!.PostAsync(requestUri, content);
+            response.EnsureSuccessStatusCode();
+            var returnedItem = JsonConvert.DeserializeObject<TodoItem>(await response.Content.ReadAsStringAsync());
+        
+            // Assert
+            Assert.IsNotNull(returnedItem);
+            Assert.AreEqual(newTodoItem.Name, returnedItem.Name);
+            Assert.IsTrue(returnedItem.Id > 0);
+        }
+
     }
 }
