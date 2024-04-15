@@ -33,20 +33,25 @@ namespace MyFirstProject.WebApi.Controllers
             .ToArray();
         }
 
-        private WeatherForecast WeatherForecastById(int id)
+        /// <summary>
+        /// Retrieves a weather forecast by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the weather forecast.</param>
+        /// <returns>The weather forecast with the specified ID.</returns>
+        private WeatherForecast? WeatherForecastById(int id)
         {
             try
             {
-                WeatherForecast item = null;
+                WeatherForecast? item = null;
                 using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
                 connection.OpenAsync();
-                
+
                 string selectCommand = "SELECT * FROM WeatherForecast WHERE id = " + id.ToString();
 
                 SqlCommand command = new SqlCommand(selectCommand, connection);
 
                 SqlDataReader reader = command.ExecuteReader();
-                
+
                 while (reader.Read())
                 {
                     DateTime data = reader.GetDateTime(0);
@@ -58,7 +63,7 @@ namespace MyFirstProject.WebApi.Controllers
 
                 return item;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
