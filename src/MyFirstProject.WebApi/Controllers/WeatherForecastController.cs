@@ -38,15 +38,16 @@ namespace MyFirstProject.WebApi.Controllers
             try
             {
                 WeatherForecast item = null;
-                using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
+                using SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DefaultConnection"));
                 connection.OpenAsync();
-                
-                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = " + id.ToString();
+
+                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = @id";
 
                 SqlCommand command = new SqlCommand(selectCommand, connection);
+                command.Parameters.AddWithValue("@id", id);
 
                 SqlDataReader reader = command.ExecuteReader();
-                
+
                 while (reader.Read())
                 {
                     DateTime data = reader.GetDateTime(0);
@@ -58,8 +59,9 @@ namespace MyFirstProject.WebApi.Controllers
 
                 return item;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while fetching the weather forecast.");
                 throw;
             }
         }
