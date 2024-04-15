@@ -56,5 +56,38 @@ namespace MyFirstProject.Tests
             Assert.IsNotNull(todoItems);
             Assert.AreEqual(4, todoItems!.Count);
         }
+
+        [TestMethod]
+        public async Task PostTodoItem_ValidName_SavesTodoItem()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem";
+            var todoItem = new TodoItem { Name = "ValidName" };
+            var content = new StringContent(JsonConvert.SerializeObject(todoItem), Encoding.UTF8, "application/json");
+        
+            // Act
+            var response = await _client!.PostAsync(requestUri, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var savedTodoItem = JsonConvert.DeserializeObject<TodoItem>(responseContent);
+        
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.AreEqual(todoItem.Name, savedTodoItem.Name);
+        }
+        
+        [TestMethod]
+        public async Task PostTodoItem_NameWithSpecialCharacter_ReturnsBadRequest()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem";
+            var todoItem = new TodoItem { Name = "InvalidName!" };
+            var content = new StringContent(JsonConvert.SerializeObject(todoItem), Encoding.UTF8, "application/json");
+        
+            // Act
+            var response = await _client!.PostAsync(requestUri, content);
+        
+            // Assert
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
     }
 }

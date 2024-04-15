@@ -25,5 +25,24 @@ namespace MyFirstProject.WebApi.Controllers
             _logger.LogInformation("Method - GetTodoItems");
             return await _context.TodoItems.ToListAsync();
         }
+
+        [HttpPost]
+        public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
+        {
+            _logger.LogInformation("Method - PostTodoItem");
+        
+            // Verifica se o nome contém um caractere especial
+            if (!Regex.IsMatch(todoItem.Name, @"^[a-zA-Z0-9\s]*$"))
+            {
+                return BadRequest("O nome não pode conter caracteres especiais.");
+            }
+        
+            _context.TodoItems.Add(todoItem);
+            await _context.SaveChangesAsync();
+        
+            return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+        }
+
+
     }
 }
