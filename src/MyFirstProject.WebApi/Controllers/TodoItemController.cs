@@ -14,15 +14,21 @@ namespace MyFirstProject.WebApi.Controllers
 
         public TodoItemController(ILogger<TodoItemController> logger, TodoItemContext context)
         {
-            //testes
             _logger = logger;
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves a list of todo items.
+        /// </summary>
+        /// <returns>A list of todo items.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
+            // Log information about the method being called
             _logger.LogInformation("Method - GetTodoItems");
+
+            // Retrieve the list of todo items from the database
             return await _context.TodoItems.ToListAsync();
         }
     }
