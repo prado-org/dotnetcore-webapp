@@ -44,11 +44,11 @@ namespace MyFirstProject.WebApi.Controllers
             {
                 WeatherForecast? item = null;
                 using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
-                connection.OpenAsync();
+                connection.Open();
 
-                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = " + id.ToString();
-
+                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = @id";
                 SqlCommand command = new SqlCommand(selectCommand, connection);
+                command.Parameters.AddWithValue("@id", id);
 
                 SqlDataReader reader = command.ExecuteReader();
 
