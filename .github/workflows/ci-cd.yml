@@ -155,14 +155,14 @@ jobs:
         with:
           resource-group-name: rg-dotnetproject-dev
           app-name: api-dotnetproject-dev
-          package: api-artifact
+          package: api-artifact/PublishApi.zip
       
       - name: Deploy APP
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-dev
           app-name: app-dotnetproject-dev
-          package: app-artifact  
+          package: app-artifact/PublishApp.zip
       
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
@@ -223,14 +223,14 @@ jobs:
         with:
           resource-group-name: rg-dotnetproject-hml
           app-name: api-dotnetproject-hml
-          package: api-artifact
+          package: api-artifact/PublishApi.zip
         
       - name: Deploy APP
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-hml
           app-name: app-dotnetproject-hml
-          package: app-artifact
+          package: app-artifact/PublishApp.zip
           
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
@@ -290,14 +290,14 @@ jobs:
         with:
           resource-group-name: rg-dotnetproject-prd
           app-name: api-dotnetproject-prd
-          package: api-artifact
+          package: api-artifact/PublishApi.zip
         
       - name: Deploy APP
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-prd
           app-name: app-dotnetproject-prd
-          package: app-artifact
+          package: app-artifact/PublishApp.zip
           
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
