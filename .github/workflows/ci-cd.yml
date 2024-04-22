@@ -156,7 +156,14 @@ jobs:
           resource-group-name: rg-dotnetproject-dev
           app-name: api-dotnetproject-dev
           package: api-artifact
-        
+      
+      - name: Deploy APP
+        uses: azure/webapps-deploy@v3
+        with:
+          resource-group-name: rg-dotnetproject-dev
+          app-name: app-dotnetproject-dev
+          package: app-artifact  
+      
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
         with:
@@ -180,12 +187,18 @@ jobs:
               }
             ]
 
-      - name: Deploy APP
-        uses: azure/webapps-deploy@v3
+      - name: Set API Settings
+        uses: Azure/appservice-settings@v1
         with:
-          resource-group-name: rg-dotnetproject-dev
-          app-name: app-dotnetproject-dev
-          package: app-artifact
+          app-name: api-dotnetproject-dev
+          app-settings-json: |
+            [
+              {
+                "name": "ConnectionStrings__DefaultConnection",
+                "value": "${{ secrets.SQL_CONN_STRING }}",
+                "slotSetting": false
+              }
+            ]
   
   Hml:
     needs: 
@@ -212,6 +225,13 @@ jobs:
           app-name: api-dotnetproject-hml
           package: api-artifact
         
+      - name: Deploy APP
+        uses: azure/webapps-deploy@v3
+        with:
+          resource-group-name: rg-dotnetproject-hml
+          app-name: app-dotnetproject-hml
+          package: app-artifact
+          
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
         with:
@@ -234,13 +254,19 @@ jobs:
                 "slotSetting": false
               }
             ]
-
-      - name: Deploy APP
-        uses: azure/webapps-deploy@v3
+      
+      - name: Set API Settings
+        uses: Azure/appservice-settings@v1
         with:
-          resource-group-name: rg-dotnetproject-hml
-          app-name: app-dotnetproject-hml
-          package: app-artifact
+          app-name: api-dotnetproject-hml
+          app-settings-json: |
+            [
+              {
+                "name": "ConnectionStrings__DefaultConnection",
+                "value": "${{ secrets.SQL_CONN_STRING }}",
+                "slotSetting": false
+              }
+            ]
 
   Prd:
     needs: 
@@ -266,6 +292,13 @@ jobs:
           app-name: api-dotnetproject-prd
           package: api-artifact
         
+      - name: Deploy APP
+        uses: azure/webapps-deploy@v3
+        with:
+          resource-group-name: rg-dotnetproject-prd
+          app-name: app-dotnetproject-prd
+          package: app-artifact
+          
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
         with:
@@ -289,9 +322,15 @@ jobs:
               }
             ]
 
-      - name: Deploy APP
-        uses: azure/webapps-deploy@v3
+      - name: Set API Settings
+        uses: Azure/appservice-settings@v1
         with:
-          resource-group-name: rg-dotnetproject-prd
-          app-name: app-dotnetproject-prd
-          package: app-artifact
+          app-name: api-dotnetproject-prd
+          app-settings-json: |
+            [
+              {
+                "name": "ConnectionStrings__DefaultConnection",
+                "value": "${{ secrets.SQL_CONN_STRING }}",
+                "slotSetting": false
+              }
+            ]
