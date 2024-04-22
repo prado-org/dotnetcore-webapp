@@ -1,6 +1,5 @@
 name: dotnetcore-webapp-ci
-#teste
-#teste2
+
 on:
   #push:
   #  branches: 
