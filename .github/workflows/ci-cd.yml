@@ -108,17 +108,27 @@ jobs:
     - name: Publish API
       run: dotnet publish src/MyFirstProject.WebApi/MyFirstProject.WebApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApi
     
+    - name: Zip APP
+      run: |
+        cd ${{ github.workspace }}/PublishApp
+        zip -r PublishApp.zip .
+    
+    - name: Zip API
+      run: |
+        cd ${{ github.workspace }}/PublishApi
+        zip -r PublishApi.zip .
+        
     - name: Upload APP Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-artifact
-        path: PublishApp
+        path: PublishApp/PublishApp.zip
     
     - name: Upload API Artifact
       uses: actions/upload-artifact@v4
       with:
         name: api-artifact
-        path: PublishApi
+        path: PublishApi/PublishApi.zip
 
   Dev:
     needs: 
