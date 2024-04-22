@@ -172,6 +172,11 @@ jobs:
                 "name": "VersionInfo__Date",
                 "value": "${{ env.APP_VERSION_DATE }}",
                 "slotSetting": false
+              },
+              {
+                "name": "Api__Url",
+                "value": "https://api-dotnetproject-dev.azurewebsites.net",
+                "slotSetting": false
               }
             ]
 
@@ -222,6 +227,11 @@ jobs:
                 "name": "VersionInfo__Date",
                 "value": "${{ env.APP_VERSION_DATE }}",
                 "slotSetting": false
+              },
+              {
+                "name": "Api__Url",
+                "value": "https://api-dotnetproject-hml.azurewebsites.net",
+                "slotSetting": false
               }
             ]
 
@@ -270,6 +280,11 @@ jobs:
               {
                 "name": "VersionInfo__Date",
                 "value": "${{ env.APP_VERSION_DATE }}",
+                "slotSetting": false
+              },
+              {
+                "name": "Api__Url",
+                "value": "https://api-dotnetproject-prd.azurewebsites.net",
                 "slotSetting": false
               }
             ]
