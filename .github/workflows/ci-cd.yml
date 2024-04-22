@@ -73,9 +73,6 @@ jobs:
     
     - name: Test
       run: dotnet test src/MyFirstProject.Tests/MyFirstProject.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --verbosity normal --logger "junit;LogFilePath=TestResults/tests.xml"
-    
-    - name: Display Folder
-      run: ls -R
 
     #- name: Create test summary
     #  uses: test-summary/action@dist
@@ -129,7 +126,9 @@ jobs:
       with:
         name: api-artifact
         path: PublishApi/PublishApi.zip
-
+    - name: Display Folder
+      run: ls -R
+      
   Dev:
     needs: 
       - Build
@@ -140,6 +139,9 @@ jobs:
     if: ${{ startsWith(github.ref, 'refs/heads/feature/') }}
     steps:
       - uses: actions/download-artifact@v4
+
+      - name: Display Folder
+        run: ls -R
       
       - name: Set version date
         run: |
@@ -155,14 +157,14 @@ jobs:
         with:
           resource-group-name: rg-dotnetproject-dev
           app-name: api-dotnetproject-dev
-          package: api-artifact/PublishApi.zip
+          package: "api-artifact/PublishApi.zip"
       
       - name: Deploy APP
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-dev
           app-name: app-dotnetproject-dev
-          package: app-artifact/PublishApp.zip
+          package: "app-artifact/PublishApp.zip"
       
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
@@ -204,10 +206,15 @@ jobs:
     needs: 
       - Build
     runs-on: ubuntu-latest
-    environment: webapp-hml
+    environment:
+      name: webapp-hml
+      url: https://app-dotnetproject-hml.azurewebsites.net
     if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
     steps:
       - uses: actions/download-artifact@v4
+
+      - name: Display Folder
+        run: ls -R
       
       - name: Set version date
         run: |
@@ -272,9 +279,14 @@ jobs:
     needs: 
       - Hml
     runs-on: ubuntu-latest
-    environment: webapp-prd
+    environment:
+      name: webapp-prd
+      url: https://app-dotnetproject-prd.azurewebsites.net
     steps:
       - uses: actions/download-artifact@v4
+
+      - name: Display Folder
+        run: ls -R
       
       - name: Set version date
         run: |
