@@ -33,7 +33,7 @@ namespace MyFirstProject.WebApi.Controllers
             if (todoItem == null)
             {
                 return NotFound();
-            }        /// ///         _context.TodoItems.Remove(todoItem);
+            }
             await _context.SaveChangesAsync();
 
             return NoContent();
