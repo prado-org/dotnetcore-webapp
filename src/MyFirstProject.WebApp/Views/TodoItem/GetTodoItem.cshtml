@@ -38,3 +38,13 @@
 <p>
     <a href="@Url.Action("Create", "TodoItems")">Create New</a>
 </p>
+
+/* adicione um botão para editar o todoitem */
+<p>
+    <a href="@Url.Action("Edit", "TodoItems", new { id = Model.Id })">Edit</a>
+</p>
+
+/* adicione um botão para deletar o todoitem */
+<p>
+    <a href="@Url.Action("Delete", "TodoItems", new { id = Model.Id })">Delete</a>
+</p>
