@@ -12,6 +12,8 @@ on:
 
 env:
   CONFIGURATION: Release
+  ACTIONS_STEP_DEBUG: true
+  ACTIONS_RUNNER_DEBUG: true
   
 jobs:
   Build:
