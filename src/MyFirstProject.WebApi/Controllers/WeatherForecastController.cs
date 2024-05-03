@@ -48,21 +48,22 @@ namespace MyFirstProject.WebApi.Controllers
             }
         }
 
-        private WeatherForecast WeatherForecastById(int id)
+        private async Task<WeatherForecast> WeatherForecastByIdAsync(int id)
         {
             try
             {
                 WeatherForecast item = null;
                 using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
-                connection.OpenAsync();
-                
-                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = " + id.ToString();
+                await connection.OpenAsync();
+
+                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = @id";
 
                 SqlCommand command = new SqlCommand(selectCommand, connection);
+                command.Parameters.AddWithValue("@id", id);
 
-                SqlDataReader reader = command.ExecuteReader();
-                
-                while (reader.Read())
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
                 {
                     DateTime data = reader.GetDateTime(0);
                     string summary = reader.GetString(1);
@@ -73,7 +74,7 @@ namespace MyFirstProject.WebApi.Controllers
 
                 return item;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
