@@ -25,6 +25,7 @@ namespace MyFirstProject.Tests
         [TestCleanup]
         public void Cleanup()
         {
+            //teste
             _client?.Dispose();
         }
 
