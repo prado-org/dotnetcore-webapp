@@ -1,5 +1,4 @@
 name: dotnetcore-webapp-ci-cd
-
 on:
   push:
     branches:
@@ -8,7 +7,6 @@ on:
   pull_request:
     branches:
       - main
-
 permissions:
   pull-requests: write
   contents: write
