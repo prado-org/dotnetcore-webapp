@@ -1,13 +1,13 @@
 name: dotnetcore-webapp-ci
 
 on:
-  push:
-    branches: 
-      - main
-      - feature/*
-    paths-ignore:
-      - 'docs/**'
-      - '.github/**'
+  #push:
+  #  branches: 
+  #    - main
+  #    - feature/*
+  #  paths-ignore:
+  #    - 'docs/**'
+  #    - '.github/**'
   workflow_dispatch:
 
 env:
