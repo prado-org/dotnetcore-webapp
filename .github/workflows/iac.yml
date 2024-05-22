@@ -22,7 +22,7 @@ jobs:
     - name: Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Create acr
       uses: Azure/arm-deploy@v1
@@ -42,7 +42,7 @@ jobs:
     - name: Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
 
     - name: Create environment dev
       uses: Azure/arm-deploy@v1
@@ -62,7 +62,7 @@ jobs:
     - name: Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Create environment hml
       uses: Azure/arm-deploy@v1
@@ -82,7 +82,7 @@ jobs:
     - name: Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Create environment prd
       uses: Azure/arm-deploy@v1
