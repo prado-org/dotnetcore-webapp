@@ -34,7 +34,7 @@ jobs:
     - name: Azure Login
       uses: Azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: ACR Login
       run: az acr login --name ${{ vars.ACR_URL }}
@@ -97,13 +97,13 @@ jobs:
     - name: Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
 
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     - name: Deploy set context
       uses: azure/aks-set-context@v1
       with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        creds: '${{ secrets.ORG_AZ_CREDENTIALS }}'
         cluster-name: ${{ vars.AZ_AKS_NAME }}
         resource-group: ${{ vars.AZ_RG_NAME }}
 
@@ -135,13 +135,13 @@ jobs:
     - name: Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
 
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     - name: Deploy set context
       uses: azure/aks-set-context@v1
       with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        creds: '${{ secrets.ORG_AZ_CREDENTIALS }}'
         cluster-name: ${{ vars.AZ_AKS_NAME }}
         resource-group: ${{ vars.AZ_RG_NAME }}
 
@@ -173,13 +173,13 @@ jobs:
     - name: Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
 
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     - name: Deploy set context
       uses: azure/aks-set-context@v1
       with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        creds: '${{ secrets.ORG_AZ_CREDENTIALS }}'
         cluster-name: ${{ vars.AZ_AKS_NAME }}
         resource-group: ${{ vars.AZ_RG_NAME }}
 
