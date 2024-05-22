@@ -150,7 +150,7 @@ jobs:
       - name: Azure Login
         uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
       - name: Deploy API
         uses: azure/webapps-deploy@v3
@@ -223,7 +223,7 @@ jobs:
       - name: Azure Login
         uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
       - name: Deploy API
         uses: azure/webapps-deploy@v3
@@ -295,7 +295,7 @@ jobs:
       - name: Azure Login
         uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
       - name: Deploy API
         uses: azure/webapps-deploy@v3
