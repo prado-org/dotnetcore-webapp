@@ -88,12 +88,6 @@ jobs:
     #    path: src/MyFirstProject.Tests/TestResults/tests.xml
     #    reporter: java-junit
     
-    #- name: Dependency Review
-    #  uses: actions/dependency-review-action@v4
-    #  if: ${{ github.event_name == 'pull_request' }}
-    #  with:
-    #    comment-summary-in-pr: always
-    
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
