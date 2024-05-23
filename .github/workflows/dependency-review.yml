@@ -1,6 +1,9 @@
 name: dotnetcore-webapp-dependency-review
 
 on:
+  pull_request:
+    branches:
+      - main
   #push:
   #  branches: 
   #    - main
