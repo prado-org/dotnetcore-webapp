@@ -12,6 +12,9 @@ on:
 
 env:
   CONFIGURATION: Release
+
+permissions: 
+  pull-requests: write
   
 jobs:
   dependency-review:
@@ -47,5 +50,4 @@ jobs:
     - name: Dependency Review
       uses: actions/dependency-review-action@v4
       with:
-        base-ref: main
-        head-ref: main
+        comment-summary-in-pr: always
