@@ -24,7 +24,7 @@ This tutorial shows you how to:
 - :arrow_right: src/MyFirstProject.WebApi
 - :arrow_right: src/MyFirstProject.Tests
 
-## Build Process
+## Build Processs
 
 ```
 # Restore Packages
