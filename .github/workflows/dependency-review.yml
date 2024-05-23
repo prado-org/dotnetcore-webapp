@@ -25,6 +25,16 @@ jobs:
       with:
         dotnet-version: 6.0.x
     
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+
+    - name: Dump runner context
+      env:
+        RUNNER_CONTEXT: ${{ toJson(runner) }}
+      run: echo "$RUNNER_CONTEXT"
+      
     - name: Restore dependencies
       run: dotnet restore src/MyFirstProject.sln
     
