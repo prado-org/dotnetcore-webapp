@@ -1,3 +1,4 @@
+# sample: dotnet add package LiteDB --version 5.0.1
 name: dotnetcore-webapp-dependency-review
 
 on:
