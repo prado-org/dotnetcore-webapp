@@ -17,7 +17,8 @@ env:
   
 jobs:
   Build:
-    runs-on: linux-x64
+    runs-on: ubuntu-latest
+    #runs-on: linux-x64
       #labels: ubuntu-latest
       #group: larger-runner
       #labels: linux-x64
