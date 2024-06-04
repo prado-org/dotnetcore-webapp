@@ -19,7 +19,7 @@ jobs:
   Build:
     runs-on: 
       #labels: ubuntu-latest
-      group: larger-runner
+      #group: larger-runner
       labels: linux-x64
     steps:
     - name: Check Linux version
