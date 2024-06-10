@@ -15,6 +15,7 @@ namespace MyFirstProject.Tests
         [TestInitialize]
         public void Initialize()
         {
+            //test
             _client = new HttpClient();
 
             // Create a WebApplicationFactory and HttpClient
