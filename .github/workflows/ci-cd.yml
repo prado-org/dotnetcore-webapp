@@ -120,223 +120,224 @@ jobs:
       with:
         name: api-artifact
         path: PublishApi/PublishApi.zip
+    
     - name: Display Folder
       run: ls -R
       
-  Dev:
-    needs: 
-      - Build
-    runs-on: ubuntu-latest
-    environment:
-      name: webapp-dev
-      url: https://app-dotnetproject-dev.azurewebsites.net
-    if: ${{ startsWith(github.ref, 'refs/heads/feature/') }}
-    steps:
-      - uses: actions/download-artifact@v4
+  # Dev:
+  #   needs: 
+  #     - Build
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: webapp-dev
+  #     url: https://app-dotnetproject-dev.azurewebsites.net
+  #   if: ${{ startsWith(github.ref, 'refs/heads/feature/') }}
+  #   steps:
+  #     - uses: actions/download-artifact@v4
 
-      - name: Display Folder
-        run: ls -R
+  #     - name: Display Folder
+  #       run: ls -R
       
-      - name: Set version date
-        run: |
-          echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
+  #     - name: Set version date
+  #       run: |
+  #         echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
           
-      - name: Azure Login
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+  #     - name: Azure Login
+  #       uses: Azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
-      - name: Deploy API
-        uses: azure/webapps-deploy@v3
-        with:
-          resource-group-name: rg-dotnetproject-dev
-          app-name: api-dotnetproject-dev
-          package: "api-artifact/PublishApi.zip"
+  #     - name: Deploy API
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         resource-group-name: rg-dotnetproject-dev
+  #         app-name: api-dotnetproject-dev
+  #         package: "api-artifact/PublishApi.zip"
       
-      - name: Deploy APP
-        uses: azure/webapps-deploy@v3
-        with:
-          resource-group-name: rg-dotnetproject-dev
-          app-name: app-dotnetproject-dev
-          package: "app-artifact/PublishApp.zip"
+  #     - name: Deploy APP
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         resource-group-name: rg-dotnetproject-dev
+  #         app-name: app-dotnetproject-dev
+  #         package: "app-artifact/PublishApp.zip"
       
-      - name: Set APP Settings
-        uses: Azure/appservice-settings@v1
-        with:
-          app-name: app-dotnetproject-dev
-          app-settings-json: |
-            [
-              {
-                "name": "VersionInfo__Number",
-                "value": "1.0.${{ github.run_number }}",
-                "slotSetting": false
-              },
-              {
-                "name": "VersionInfo__Date",
-                "value": "${{ env.APP_VERSION_DATE }}",
-                "slotSetting": false
-              },
-              {
-                "name": "Api__Url",
-                "value": "https://api-dotnetproject-dev.azurewebsites.net",
-                "slotSetting": false
-              }
-            ]
+  #     - name: Set APP Settings
+  #       uses: Azure/appservice-settings@v1
+  #       with:
+  #         app-name: app-dotnetproject-dev
+  #         app-settings-json: |
+  #           [
+  #             {
+  #               "name": "VersionInfo__Number",
+  #               "value": "1.0.${{ github.run_number }}",
+  #               "slotSetting": false
+  #             },
+  #             {
+  #               "name": "VersionInfo__Date",
+  #               "value": "${{ env.APP_VERSION_DATE }}",
+  #               "slotSetting": false
+  #             },
+  #             {
+  #               "name": "Api__Url",
+  #               "value": "https://api-dotnetproject-dev.azurewebsites.net",
+  #               "slotSetting": false
+  #             }
+  #           ]
 
-      - name: Set API Settings
-        uses: Azure/appservice-settings@v1
-        with:
-          app-name: api-dotnetproject-dev
-          app-settings-json: |
-            [
-              {
-                "name": "ConnectionStrings__DefaultConnection",
-                "value": "${{ secrets.SQL_CONN_STRING }}",
-                "slotSetting": false
-              }
-            ]
+  #     - name: Set API Settings
+  #       uses: Azure/appservice-settings@v1
+  #       with:
+  #         app-name: api-dotnetproject-dev
+  #         app-settings-json: |
+  #           [
+  #             {
+  #               "name": "ConnectionStrings__DefaultConnection",
+  #               "value": "${{ secrets.SQL_CONN_STRING }}",
+  #               "slotSetting": false
+  #             }
+  #           ]
   
-  Hml:
-    needs: 
-      - Build
-    runs-on: ubuntu-latest
-    environment:
-      name: webapp-hml
-      url: https://app-dotnetproject-hml.azurewebsites.net
-    if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
-    steps:
-      - uses: actions/download-artifact@v4
+  # Hml:
+  #   needs: 
+  #     - Build
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: webapp-hml
+  #     url: https://app-dotnetproject-hml.azurewebsites.net
+  #   if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+  #   steps:
+  #     - uses: actions/download-artifact@v4
 
-      - name: Display Folder
-        run: ls -R
+  #     - name: Display Folder
+  #       run: ls -R
       
-      - name: Set version date
-        run: |
-          echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
+  #     - name: Set version date
+  #       run: |
+  #         echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
           
-      - name: Azure Login
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+  #     - name: Azure Login
+  #       uses: Azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
-      - name: Deploy API
-        uses: azure/webapps-deploy@v3
-        with:
-          resource-group-name: rg-dotnetproject-hml
-          app-name: api-dotnetproject-hml
-          package: api-artifact/PublishApi.zip
+  #     - name: Deploy API
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         resource-group-name: rg-dotnetproject-hml
+  #         app-name: api-dotnetproject-hml
+  #         package: api-artifact/PublishApi.zip
         
-      - name: Deploy APP
-        uses: azure/webapps-deploy@v3
-        with:
-          resource-group-name: rg-dotnetproject-hml
-          app-name: app-dotnetproject-hml
-          package: app-artifact/PublishApp.zip
+  #     - name: Deploy APP
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         resource-group-name: rg-dotnetproject-hml
+  #         app-name: app-dotnetproject-hml
+  #         package: app-artifact/PublishApp.zip
           
-      - name: Set APP Settings
-        uses: Azure/appservice-settings@v1
-        with:
-          app-name: app-dotnetproject-hml
-          app-settings-json: |
-            [
-              {
-                "name": "VersionInfo__Number",
-                "value": "1.0.${{ github.run_number }}",
-                "slotSetting": false
-              },
-              {
-                "name": "VersionInfo__Date",
-                "value": "${{ env.APP_VERSION_DATE }}",
-                "slotSetting": false
-              },
-              {
-                "name": "Api__Url",
-                "value": "https://api-dotnetproject-hml.azurewebsites.net",
-                "slotSetting": false
-              }
-            ]
+  #     - name: Set APP Settings
+  #       uses: Azure/appservice-settings@v1
+  #       with:
+  #         app-name: app-dotnetproject-hml
+  #         app-settings-json: |
+  #           [
+  #             {
+  #               "name": "VersionInfo__Number",
+  #               "value": "1.0.${{ github.run_number }}",
+  #               "slotSetting": false
+  #             },
+  #             {
+  #               "name": "VersionInfo__Date",
+  #               "value": "${{ env.APP_VERSION_DATE }}",
+  #               "slotSetting": false
+  #             },
+  #             {
+  #               "name": "Api__Url",
+  #               "value": "https://api-dotnetproject-hml.azurewebsites.net",
+  #               "slotSetting": false
+  #             }
+  #           ]
       
-      - name: Set API Settings
-        uses: Azure/appservice-settings@v1
-        with:
-          app-name: api-dotnetproject-hml
-          app-settings-json: |
-            [
-              {
-                "name": "ConnectionStrings__DefaultConnection",
-                "value": "${{ secrets.SQL_CONN_STRING }}",
-                "slotSetting": false
-              }
-            ]
+  #     - name: Set API Settings
+  #       uses: Azure/appservice-settings@v1
+  #       with:
+  #         app-name: api-dotnetproject-hml
+  #         app-settings-json: |
+  #           [
+  #             {
+  #               "name": "ConnectionStrings__DefaultConnection",
+  #               "value": "${{ secrets.SQL_CONN_STRING }}",
+  #               "slotSetting": false
+  #             }
+  #           ]
 
-  Prd:
-    needs: 
-      - Hml
-    runs-on: ubuntu-latest
-    environment:
-      name: webapp-prd
-      url: https://app-dotnetproject-prd.azurewebsites.net
-    steps:
-      - uses: actions/download-artifact@v4
+  # Prd:
+  #   needs: 
+  #     - Hml
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: webapp-prd
+  #     url: https://app-dotnetproject-prd.azurewebsites.net
+  #   steps:
+  #     - uses: actions/download-artifact@v4
 
-      - name: Display Folder
-        run: ls -R
+  #     - name: Display Folder
+  #       run: ls -R
       
-      - name: Set version date
-        run: |
-          echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
+  #     - name: Set version date
+  #       run: |
+  #         echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
           
-      - name: Azure Login
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+  #     - name: Azure Login
+  #       uses: Azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
-      - name: Deploy API
-        uses: azure/webapps-deploy@v3
-        with:
-          resource-group-name: rg-dotnetproject-prd
-          app-name: api-dotnetproject-prd
-          package: api-artifact/PublishApi.zip
+  #     - name: Deploy API
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         resource-group-name: rg-dotnetproject-prd
+  #         app-name: api-dotnetproject-prd
+  #         package: api-artifact/PublishApi.zip
         
-      - name: Deploy APP
-        uses: azure/webapps-deploy@v3
-        with:
-          resource-group-name: rg-dotnetproject-prd
-          app-name: app-dotnetproject-prd
-          package: app-artifact/PublishApp.zip
+  #     - name: Deploy APP
+  #       uses: azure/webapps-deploy@v3
+  #       with:
+  #         resource-group-name: rg-dotnetproject-prd
+  #         app-name: app-dotnetproject-prd
+  #         package: app-artifact/PublishApp.zip
           
-      - name: Set APP Settings
-        uses: Azure/appservice-settings@v1
-        with:
-          app-name: app-dotnetproject-prd
-          app-settings-json: |
-            [
-              {
-                "name": "VersionInfo__Number",
-                "value": "1.0.${{ github.run_number }}",
-                "slotSetting": false
-              },
-              {
-                "name": "VersionInfo__Date",
-                "value": "${{ env.APP_VERSION_DATE }}",
-                "slotSetting": false
-              },
-              {
-                "name": "Api__Url",
-                "value": "https://api-dotnetproject-prd.azurewebsites.net",
-                "slotSetting": false
-              }
-            ]
+  #     - name: Set APP Settings
+  #       uses: Azure/appservice-settings@v1
+  #       with:
+  #         app-name: app-dotnetproject-prd
+  #         app-settings-json: |
+  #           [
+  #             {
+  #               "name": "VersionInfo__Number",
+  #               "value": "1.0.${{ github.run_number }}",
+  #               "slotSetting": false
+  #             },
+  #             {
+  #               "name": "VersionInfo__Date",
+  #               "value": "${{ env.APP_VERSION_DATE }}",
+  #               "slotSetting": false
+  #             },
+  #             {
+  #               "name": "Api__Url",
+  #               "value": "https://api-dotnetproject-prd.azurewebsites.net",
+  #               "slotSetting": false
+  #             }
+  #           ]
 
-      - name: Set API Settings
-        uses: Azure/appservice-settings@v1
-        with:
-          app-name: api-dotnetproject-prd
-          app-settings-json: |
-            [
-              {
-                "name": "ConnectionStrings__DefaultConnection",
-                "value": "${{ secrets.SQL_CONN_STRING }}",
-                "slotSetting": false
-              }
-            ]
+  #     - name: Set API Settings
+  #       uses: Azure/appservice-settings@v1
+  #       with:
+  #         app-name: api-dotnetproject-prd
+  #         app-settings-json: |
+  #           [
+  #             {
+  #               "name": "ConnectionStrings__DefaultConnection",
+  #               "value": "${{ secrets.SQL_CONN_STRING }}",
+  #               "slotSetting": false
+  #             }
+  #           ]
