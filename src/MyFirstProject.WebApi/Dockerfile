@@ -7,16 +7,16 @@ WORKDIR /app
 # Copy csproj and restore dependencies.
 COPY *.csproj ./
 
-RUN dotnet restore
+RUN dotnet restore MyFirstProject.WebApi.csproj
 
 # Copy the rest of the working directory contents.
 COPY . ./
 
 # Build the app
-RUN dotnet build
+RUN dotnet build MyFirstProject.WebApi.csproj
 
 # Publish the app
-RUN dotnet publish --no-build --output out
+RUN dotnet publish MyFirstProject.WebApi.csproj --no-build --output out
 
 # Build runtime image.
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
