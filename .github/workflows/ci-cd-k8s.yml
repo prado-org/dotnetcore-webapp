@@ -63,7 +63,7 @@ jobs:
       run: docker images
     
     - name: Upload Kubernetes files
-      uses: actions/upload-artifact@v3.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: k8s
         path: |
@@ -88,7 +88,7 @@ jobs:
 
     # Download k8s artifact
     - name: Download k8s artifact
-      uses: actions/download-artifact@v3.0.0
+      uses: actions/download-artifact@v4
       with:
         name: k8s
         path: k8s-artifact
@@ -126,7 +126,7 @@ jobs:
     steps:
     # Download k8s artifact
     - name: Download k8s artifact
-      uses: actions/download-artifact@v3.0.0
+      uses: actions/download-artifact@v4
       with:
         name: k8s
         path: k8s-artifact
@@ -164,7 +164,7 @@ jobs:
     steps:
     # Download k8s artifact
     - name: Download k8s artifact
-      uses: actions/download-artifact@v3.0.0
+      uses: actions/download-artifact@v4
       with:
         name: k8s
         path: k8s-artifact
