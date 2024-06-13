@@ -13,10 +13,10 @@ RUN dotnet restore
 COPY . ./
 
 # Build the app
-RUN dotnet build --configuration Release
+RUN dotnet build
 
 # Publish the app
-RUN dotnet publish --no-build --configuration Release --output out
+RUN dotnet publish --no-build --output out
 
 # Build runtime image.
 FROM mcr.microsoft.com/dotnet/aspnet:6.0

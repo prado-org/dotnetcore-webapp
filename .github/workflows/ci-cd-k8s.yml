@@ -11,7 +11,7 @@ on:
   #    - develop
   #    - main
   workflow_dispatch: 
-  
+
 jobs:
   build-docker:
     runs-on: ubuntu-latest
@@ -26,18 +26,26 @@ jobs:
     - name: ACR Login
       run: az acr login --name ${{ vars.ACR_URL }}
     
-    - name: Build and Push Docker WEBAPI image
-      run: |
-        cd src/MyFirstProject.WebApi
-        docker build -t ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }} .
-        docker push ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
+    - name: Build and push WebApi image
+      uses: docker/build-push-action@v5
+      with:
+        context: src/MyFirstProject.WebApi
+        file: src/MyFirstProject.WebApi/Dockerfile
+        tags: |
+          ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
+          ${{ vars.ACR_URL }}/myfirstproject.webapi:latest
+        push: true
 
-    - name: Build and Push Docker WEBAPP image
-      run: |
-        cd src/MyFirstProject.WebApp
-        docker build -t ${{ vars.ACR_URL }}/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }} .
-        docker push ${{ vars.ACR_URL }}/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }}
-
+    - name: Build and push WebApp image
+      uses: docker/build-push-action@v5
+      with:
+        context: src/MyFirstProject.WebApp
+        file: src/MyFirstProject.WebApp/Dockerfile
+        tags: |
+          ${{ vars.ACR_URL }}/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }}
+          ${{ vars.ACR_URL }}/myfirstproject.webapp:latest
+        push: true
+    
     - name: View images
       run: docker images
     
