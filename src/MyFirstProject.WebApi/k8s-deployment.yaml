@@ -35,7 +35,7 @@ spec:
           image: "acrdotnetproject.azurecr.io/myfirstproject.webapi:latest"
           env:
             - name: ConnectionStrings__DefaultConnection
-              value: "teste"
+              value: "Server=tcp:sql-dotnetproject.database.windows.net,1433;Initial Catalog=db-dotnetproject;Persist Security Info=False;User ID=sqladmin;Password=#P@ssw0rd123456#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
           ports:
             - name: http
               containerPort: 80
