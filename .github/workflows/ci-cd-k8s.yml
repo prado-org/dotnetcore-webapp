@@ -92,6 +92,11 @@ jobs:
     - name: Deploy to k8s
       uses: azure/k8s-deploy@v5
       with:
+        resource-group: ${{ vars.AZ_RG_NAME }}
+        name: ${{ vars.AZ_AKS_NAME }}
+        action: deploy
+        strategy: basic
+        private-cluster: true
         namespace: default
         manifests: |
           k8s-artifact/MyFirstProject.WebApi/k8s-deployment.yaml
