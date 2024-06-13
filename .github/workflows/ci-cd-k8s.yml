@@ -40,7 +40,7 @@ jobs:
       run: az acr login --name ${{ vars.ACR_URL }}
     
     - name: Build and push WebApi image
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         context: src/MyFirstProject.WebApi
         file: src/MyFirstProject.WebApi/Dockerfile
@@ -50,7 +50,7 @@ jobs:
         push: true
 
     - name: Build and push WebApp image
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         context: src/MyFirstProject.WebApp
         file: src/MyFirstProject.WebApp/Dockerfile
