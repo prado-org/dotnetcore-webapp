@@ -54,7 +54,7 @@ module aks './kubernetes.bicep' = {
     location: location
     dnsPrefix: 'aks-${webAppName}-${environment}'
     agentCount: 1
-    aksVersion: '1.28.3'
+    aksVersion: '1.28.9'
   }
 }
 
