@@ -10,7 +10,7 @@ jobs:
     - name: Login
       uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Delete acr
       run: az group delete --name rg-dotnetproject --debug --yes
@@ -22,7 +22,7 @@ jobs:
     - name: Login
       uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
 
     - name: Delete environment dev
       run: az group delete --name rg-dotnetproject-dev --debug --yes
@@ -33,7 +33,7 @@ jobs:
     - name: Login
       uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Delete environment hml
       run: az group delete --name rg-dotnetproject-hml --debug --yes
@@ -44,7 +44,7 @@ jobs:
     - name: Login
       uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Delete environment prd
       run: az group delete --name rg-dotnetproject-prd --debug --yes
