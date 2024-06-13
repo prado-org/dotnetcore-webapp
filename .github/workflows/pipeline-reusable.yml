@@ -38,6 +38,6 @@ jobs:
     needs: deploy-azure-webapp-hml
     with:
       runner-name: 'ubuntu-latest'
-      webapp-name: 'app-dotnetproject--prd'
+      webapp-name: 'app-dotnetproject-prd'
       environment-name: 'webapp-prd'
     secrets: inherit
