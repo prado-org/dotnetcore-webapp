@@ -1,6 +1,6 @@
 namespace MyFirstProject.WebApp.Models
 {
-    public class TodoItem
+    public class TodoItemViewModel
     {
         public long Id { get; set; }
         public string? Name { get; set; }

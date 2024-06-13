@@ -22,7 +22,7 @@ namespace MyFirstProject.WebApp.Controllers
             {
                 _logger.LogInformation("Controller:TodoItemController - Method:Index");
 
-                List<TodoItem> lst = new List<TodoItem>();
+                List<TodoItemViewModel> lst = new List<TodoItemViewModel>();
                 string _urlApi = string.Empty;
 
                 using (var httpClient = new HttpClient())
@@ -33,7 +33,7 @@ namespace MyFirstProject.WebApp.Controllers
                     using (var response = await httpClient.GetAsync( _urlApi))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        lst = JsonConvert.DeserializeObject<List<TodoItem>>(apiResponse);
+                        lst = JsonConvert.DeserializeObject<List<TodoItemViewModel>>(apiResponse);
                     }
                 }
 
