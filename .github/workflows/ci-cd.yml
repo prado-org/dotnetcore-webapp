@@ -142,7 +142,7 @@ jobs:
           echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
           
       - name: Azure Login
-        uses: Azure/login@v1
+        uses: Azure/login@v2
         with:
           creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
@@ -215,7 +215,7 @@ jobs:
           echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
           
       - name: Azure Login
-        uses: Azure/login@v1
+        uses: Azure/login@v2
         with:
           creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
@@ -287,7 +287,7 @@ jobs:
           echo "APP_VERSION_DATE=$(date +'%d/%m/%Y %H:%M:%S')" >> $GITHUB_ENV
           
       - name: Azure Login
-        uses: Azure/login@v1
+        uses: Azure/login@v2
         with:
           creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       

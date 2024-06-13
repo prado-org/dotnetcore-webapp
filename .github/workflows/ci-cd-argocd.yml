@@ -32,7 +32,7 @@ jobs:
         run: echo "$RUNNER_CONTEXT"
 
       - name: Azure Login
-        uses: Azure/login@v1
+        uses: Azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       

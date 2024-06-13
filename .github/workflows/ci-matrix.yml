@@ -21,7 +21,7 @@ jobs:
         runner-os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.runner-os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
