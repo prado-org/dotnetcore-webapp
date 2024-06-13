@@ -12,8 +12,11 @@ RUN dotnet restore
 # Copy the rest of the working directory contents.
 COPY . ./
 
-# Build the app.
-RUN dotnet publish -c Release -o out
+# Build the app
+RUN dotnet build --configuration Release
+
+# Publish the app
+RUN dotnet publish --no-build --configuration Release --output out
 
 # Build runtime image.
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
