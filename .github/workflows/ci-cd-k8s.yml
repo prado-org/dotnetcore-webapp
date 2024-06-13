@@ -11,9 +11,6 @@ on:
   #    - develop
   #    - main
   workflow_dispatch: 
-
-env:
-  ACR_NAME: acrdotnetproject
   
 jobs:
   build-docker:
@@ -32,14 +29,14 @@ jobs:
     - name: Build and Push Docker WEBAPI image
       run: |
         cd src/MyFirstProject.WebApi
-        docker build -t ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }} .
-        docker push ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
+        docker build -t ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }} .
+        docker push ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
 
     - name: Build and Push Docker WEBAPP image
       run: |
         cd src/MyFirstProject.WebApp
-        docker build -t ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }} .
-        docker push ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }}
+        docker build -t ${{ vars.ACR_URL }}/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }} .
+        docker push ${{ vars.ACR_URL }}/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }}
 
     - name: View images
       run: docker images
@@ -57,17 +54,6 @@ jobs:
     needs: build-docker
     environment: k8s-dev
     steps:
-    
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-
     # Download k8s artifact
     - name: Download k8s artifact
       uses: actions/download-artifact@v4
