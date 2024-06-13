@@ -13,8 +13,6 @@ on:
   workflow_dispatch: 
 
 env:
-  CONFIGURATION: Release
-  IMAGE_TAG: ${{ github.sha }}
   ACR_NAME: acrdotnetproject
   
 jobs:
@@ -31,9 +29,18 @@ jobs:
     - name: ACR Login
       run: az acr login --name ${{ vars.ACR_URL }}
     
-    - name: Build and Push Docker image
+    - name: Build and Push Docker WEBAPI image
+      run: |
+        cd src/MyFirstProject.WebApi
+        docker build -t ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }} .
+        docker push ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
+
+    - name: Build and Push Docker WEBAPP image
       run: |
         cd src/MyFirstProject.WebApp
-        docker build -t ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapp:${{ env.IMAGE_TAG }} .
-        docker push ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapp:${{ env.IMAGE_TAG }}
+        docker build -t ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }} .
+        docker push ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }}
 
+    - name: View images
+      run: docker images
+    

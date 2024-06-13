@@ -13,23 +13,13 @@ on:
   workflow_dispatch: 
 
 env:
-  CONFIGURATION: Release
+  ACR_NAME: acrdotnetproject
   
 jobs:
   build-docker:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
 
     - name: Azure Login
       uses: Azure/login@v2
@@ -39,29 +29,18 @@ jobs:
     - name: ACR Login
       run: az acr login --name ${{ vars.ACR_URL }}
     
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+    - name: Build and Push Docker WEBAPI image
+      run: |
+        cd src/MyFirstProject.WebApi
+        docker build -t ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }} .
+        docker push ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
 
-    - name: Build and push WebApi image
-      uses: docker/build-push-action@v5
-      with:
-        context: src/MyFirstProject.WebApi
-        file: src/MyFirstProject.WebApi/Dockerfile
-        tags: |
-          ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
-          ${{ vars.ACR_URL }}/myfirstproject.webapi:latest
-        push: true
+    - name: Build and Push Docker WEBAPP image
+      run: |
+        cd src/MyFirstProject.WebApp
+        docker build -t ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }} .
+        docker push ${{ env.ACR_NAME }}.azurecr.io/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }}
 
-    - name: Build and push WebApp image
-      uses: docker/build-push-action@v5
-      with:
-        context: src/MyFirstProject.WebApp
-        file: src/MyFirstProject.WebApp/Dockerfile
-        tags: |
-          ${{ vars.ACR_URL }}/myfirstproject.webapp:${{ GITHUB.RUN_NUMBER }}
-          ${{ vars.ACR_URL }}/myfirstproject.webapp:latest
-        push: true
-    
     - name: View images
       run: docker images
     
