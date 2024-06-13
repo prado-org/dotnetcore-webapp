@@ -17,7 +17,7 @@ jobs:
   Common:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Login
       uses: azure/login@v2
@@ -25,7 +25,7 @@ jobs:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Create acr
-      uses: Azure/arm-deploy@v1
+      uses: Azure/arm-deploy@v2
       with:
         scope: subscription
         region: ${{ env.AZ_LOCATION }}
@@ -45,7 +45,7 @@ jobs:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
 
     - name: Create environment dev
-      uses: Azure/arm-deploy@v1
+      uses: Azure/arm-deploy@v2
       with:
         scope: subscription
         region: ${{ env.AZ_LOCATION }}
@@ -65,7 +65,7 @@ jobs:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Create environment hml
-      uses: Azure/arm-deploy@v1
+      uses: Azure/arm-deploy@v2
       with:
         scope: subscription
         region: ${{ env.AZ_LOCATION }}
@@ -85,7 +85,7 @@ jobs:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
     - name: Create environment prd
-      uses: Azure/arm-deploy@v1
+      uses: Azure/arm-deploy@v2
       with:
         scope: subscription
         region: ${{ env.AZ_LOCATION }}
