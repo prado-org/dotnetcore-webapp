@@ -61,7 +61,9 @@ docker images
 
 # Run docker compose
 cd .\src
-docker-compose -f 'DockerCompose.yml' up --build -d
+docker-compose --file 'DockerCompose.yml' up --build --detach
+docker-compose --file 'DockerCompose.yml' ps
+docker-compose --file 'DockerCompose.yml' down
 
 # List containers running
 docker ps -a

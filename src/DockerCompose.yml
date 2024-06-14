@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - Api__Url=http://myfirstproject-webapi
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - 7171:80
     links:
@@ -21,5 +22,7 @@ services:
     build:
       context: MyFirstProject.WebApi
       dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - 7272:80
