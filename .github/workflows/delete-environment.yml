@@ -12,8 +12,14 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
-    - name: Delete acr
-      run: az group delete --name rg-dotnetproject --debug --yes
+    - name: Delete Resource Group
+      run: |
+        if [ $(az group exists --name rg-dotnetproject) = true ]; then
+          az group delete --name rg-dotnetproject
+        else
+            echo "Resource group not exists"
+        fi
+
   Dev:
     runs-on: ubuntu-latest
     steps:
@@ -24,8 +30,13 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
 
-    - name: Delete environment dev
-      run: az group delete --name rg-dotnetproject-dev --debug --yes
+    - name: Delete Resource Group
+      run: |
+        if [ $(az group exists --name rg-dotnetproject-dev) = true ]; then
+          az group delete --name rg-dotnetproject-dev
+        else
+            echo "Resource group not exists"
+        fi
       
   Hml:
     runs-on: ubuntu-latest
@@ -35,8 +46,13 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
-    - name: Delete environment hml
-      run: az group delete --name rg-dotnetproject-hml --debug --yes
+    - name: Delete Resource Group
+      run: |
+        if [ $(az group exists --name rg-dotnetproject-hml) = true ]; then
+          az group delete --name rg-dotnetproject-hml
+        else
+            echo "Resource group not exists"
+        fi
       
   Prd:
     runs-on: ubuntu-latest
@@ -46,5 +62,10 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
-    - name: Delete environment prd
-      run: az group delete --name rg-dotnetproject-prd --debug --yes
+    - name: Delete Resource Group
+      run: |
+        if [ $(az group exists --name rg-dotnetproject-prd) = true ]; then
+          az group delete --name rg-dotnetproject-prd
+        else
+            echo "Resource group not exists"
+        fi
