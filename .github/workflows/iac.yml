@@ -36,7 +36,7 @@ jobs:
       run: |
         echo "Resource Group Name is ${{ env.RG_NAME }}"
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
-          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
         else
             echo "Resource group already exists"
         fi
@@ -68,7 +68,7 @@ jobs:
         echo "Resource Group Name is ${{ env.RG_NAME }}"
 
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
-          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
         else
             echo "Resource group already exists"
         fi
@@ -100,7 +100,7 @@ jobs:
         echo "Resource Group Name is ${{ env.RG_NAME }}"
 
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
-          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
         else
             echo "Resource group already exists"
         fi
@@ -132,7 +132,7 @@ jobs:
         echo "Resource Group Name is ${{ env.RG_NAME }}"
 
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
-          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
         else
             echo "Resource group already exists"
         fi
