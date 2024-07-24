@@ -32,7 +32,7 @@ jobs:
         region: ${{ env.AZ_LOCATION }}
         template: iac/main-common.bicep
         deploymentMode: Incremental
-        deploymentName: 'gh-actions-common'
+        deploymentName: 'gh-actions-common-${{ GITHUB.RUN_NUMBER }}'
         parameters: acrName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} webAppName=${{ env.AZ_APP_NAME }}
   Dev:
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
         region: ${{ env.AZ_LOCATION }}
         template: iac/main.bicep
         deploymentMode: Incremental
-        deploymentName: 'gh-actions-dev'
+        deploymentName: 'gh-actions-dev-${{ GITHUB.RUN_NUMBER }}'
         parameters: webAppName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} environment=dev acrName=${{ env.AZ_APP_NAME }}
   Hml:
     runs-on: ubuntu-latest
@@ -72,7 +72,7 @@ jobs:
         region: ${{ env.AZ_LOCATION }}
         template: iac/main.bicep
         deploymentMode: Incremental
-        deploymentName: 'gh-actions-hml'
+        deploymentName: 'gh-actions-hml-${{ GITHUB.RUN_NUMBER }}'
         parameters: webAppName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} environment=hml acrName=${{ env.AZ_APP_NAME }}
   Prd:
     runs-on: ubuntu-latest
@@ -92,5 +92,5 @@ jobs:
         region: ${{ env.AZ_LOCATION }}
         template: iac/main.bicep
         deploymentMode: Incremental
-        deploymentName: 'gh-actions-prd'
+        deploymentName: 'gh-actions-prd-${{ GITHUB.RUN_NUMBER }}'
         parameters: webAppName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} environment=prd acrName=${{ env.AZ_APP_NAME }}
