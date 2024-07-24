@@ -47,7 +47,7 @@ module webApi './webApp.bicep' = {
   }
 }
 
-module aks './kubernetes.bicep' = if(enableAks) {
+module aks './kubernetes.bicep' = if (enableAks) {
   name: 'aks'
   scope: rg
   params: {
@@ -59,7 +59,7 @@ module aks './kubernetes.bicep' = if(enableAks) {
   }
 }
 
-module aksRoleAssigment './aksRoleAssignments.bicep' = if(enableAks) {
+module aksRoleAssigment './aksRoleAssignments.bicep' = if (enableAks) {
   name: 'aksRoleAssigment'
   scope: rgCommon
   params: {
