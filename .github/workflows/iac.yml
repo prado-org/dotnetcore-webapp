@@ -61,10 +61,13 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
-    - name: Create Resource Group
+    - name: Generate Resource Group name
       run: |
         rgNAME=rg-${{ env.AZ_APP_NAME }}-dev
         echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+
+    - name: Create Resource Group
+      run: |
         echo "Resource Group Name is ${{ env.RG_NAME }}"
 
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
@@ -93,10 +96,13 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
-    - name: Create Resource Group
+    - name: Generate Resource Group name
       run: |
         rgNAME=rg-${{ env.AZ_APP_NAME }}-hml
         echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+
+    - name: Create Resource Group
+      run: |
         echo "Resource Group Name is ${{ env.RG_NAME }}"
 
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
@@ -125,10 +131,13 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
-    - name: Create Resource Group
+    - name: Generate Resource Group name
       run: |
         rgNAME=rg-${{ env.AZ_APP_NAME }}-prd
         echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+          
+    - name: Create Resource Group
+      run: |
         echo "Resource Group Name is ${{ env.RG_NAME }}"
 
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
