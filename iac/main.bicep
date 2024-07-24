@@ -38,22 +38,22 @@ module webApi './webApp.bicep' = {
   }
 }
 
-//module aks './kubernetes.bicep' = if (enableAks) {
-//  name: 'aks'
-//  params: {
-//    clusterName: 'aks-${webAppName}-${environment}'
-//    location: location
-//    dnsPrefix: 'aks-${webAppName}-${environment}'
-//    agentCount: 1
-//    aksVersion: '1.28.9'
-//  }
-//}
+module aks './kubernetes.bicep' = if (enableAks) {
+  name: 'aks'
+  params: {
+    clusterName: 'aks-${webAppName}-${environment}'
+    location: location
+    dnsPrefix: 'aks-${webAppName}-${environment}'
+    agentCount: 1
+    aksVersion: '1.28.9'
+  }
+}
 
-//module aksRoleAssigment './aksRoleAssignments.bicep' = if (enableAks) {
-//  name: 'aksRoleAssigment'
-//  scope: rgCommon
-//  params: {
-//    acrName: format('acr{0}', acrName)
-//    aksPrincipalId: aks.outputs.principalId
-//  }
-//}
+module aksRoleAssigment './aksRoleAssignments.bicep' = if (enableAks) {
+  name: 'aksRoleAssigment'
+  scope: rgCommon
+  params: {
+    acrName: format('acr{0}', acrName)
+    aksPrincipalId: aks.outputs.principalId
+  }
+}
