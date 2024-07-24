@@ -11,7 +11,8 @@ on:
 
 env:
   #AZ_LOCATION: eastus
-  AZ_LOCATION: centralus
+  AZ_LOCATION: brazilsouth
+  #AZ_LOCATION: centralus
   AZ_APP_NAME: dotnetproject
   
 jobs:
