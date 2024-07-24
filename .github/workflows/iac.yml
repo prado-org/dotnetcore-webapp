@@ -11,8 +11,8 @@ on:
 
 env:
   #AZ_LOCATION: eastus
-  AZ_LOCATION: brazilsouth
   #AZ_LOCATION: centralus
+  AZ_LOCATION: brazilsouth
   AZ_APP_NAME: dotnetproject
   AZ_ENABLE_AKS: 'false'
   
@@ -27,11 +27,23 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
-    - name: Create acr
+    - name: Create Resource Group
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+    
+    - name: Create common resources
       uses: Azure/arm-deploy@v2
       with:
-        scope: subscription
-        region: ${{ env.AZ_LOCATION }}
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
         template: iac/main-common.bicep
         deploymentMode: Incremental
         deploymentName: 'gh-actions-common-${{ GITHUB.RUN_NUMBER }}'
@@ -46,12 +58,24 @@ jobs:
       uses: azure/login@v2
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    
+    - name: Create Resource Group
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}-dev
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
 
     - name: Create environment dev
       uses: Azure/arm-deploy@v2
       with:
-        scope: subscription
-        region: ${{ env.AZ_LOCATION }}
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
         template: iac/main.bicep
         deploymentMode: Incremental
         deploymentName: 'gh-actions-dev-${{ GITHUB.RUN_NUMBER }}'
@@ -67,11 +91,23 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
+    - name: Create Resource Group
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}-hml
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+
     - name: Create environment hml
       uses: Azure/arm-deploy@v2
       with:
-        scope: subscription
-        region: ${{ env.AZ_LOCATION }}
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
         template: iac/main.bicep
         deploymentMode: Incremental
         deploymentName: 'gh-actions-hml-${{ GITHUB.RUN_NUMBER }}'
@@ -87,11 +123,23 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
+    - name: Create Resource Group
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}-prd
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+
     - name: Create environment prd
       uses: Azure/arm-deploy@v2
       with:
-        scope: subscription
-        region: ${{ env.AZ_LOCATION }}
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
         template: iac/main.bicep
         deploymentMode: Incremental
         deploymentName: 'gh-actions-prd-${{ GITHUB.RUN_NUMBER }}'
