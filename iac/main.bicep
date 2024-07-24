@@ -2,6 +2,7 @@ param webAppName string
 param location string
 param environment string
 param acrName string
+param enableAks bool
 
 targetScope = 'subscription'
 
@@ -46,7 +47,7 @@ module webApi './webApp.bicep' = {
   }
 }
 
-module aks './kubernetes.bicep' = {
+module aks './kubernetes.bicep' = if(enableAks) {
   name: 'aks'
   scope: rg
   params: {
@@ -58,7 +59,7 @@ module aks './kubernetes.bicep' = {
   }
 }
 
-module aksRoleAssigment './aksRoleAssignments.bicep' = {
+module aksRoleAssigment './aksRoleAssignments.bicep' = if(enableAks) {
   name: 'aksRoleAssigment'
   scope: rgCommon
   params: {
