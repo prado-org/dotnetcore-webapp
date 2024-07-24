@@ -27,18 +27,20 @@ jobs:
       with:
         creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
     
-    - name: Create Resource Group
+    - name: Generate Resource Group name
       run: |
         rgNAME=rg-${{ env.AZ_APP_NAME }}
         echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
-        echo "Resource Group Name is ${{ env.RG_NAME }}"
 
+    - name: Create Resource Group
+      run: |
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
           az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_RG_LOCATION }}
         else
             echo "Resource group already exists"
         fi
-    
+  
     - name: Create common resources
       uses: Azure/arm-deploy@v2
       with:
