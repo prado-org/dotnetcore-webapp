@@ -19,7 +19,7 @@ module servicePlan './servicePlan.bicep' = {
 }
 
 module webApp './webApp.bicep' = {
-  name: 'webApp'
+  name: 'webAppModule'
   params: {
     planId: servicePlan.outputs.servicePlanId
     webAppName: 'app-${webAppName}-${environment}'
@@ -29,7 +29,7 @@ module webApp './webApp.bicep' = {
 }
 
 module webApi './webApp.bicep' = {
-  name: 'webApi'
+  name: 'webApiModule'
   params: {
     planId: servicePlan.outputs.servicePlanId
     webAppName: 'api-${webAppName}-${environment}'
@@ -39,7 +39,7 @@ module webApi './webApp.bicep' = {
 }
 
 module aks './kubernetes.bicep' = if (enableAks) {
-  name: 'aks'
+  name: 'aksModule'
   params: {
     clusterName: 'aks-${webAppName}-${environment}'
     location: location
@@ -50,7 +50,7 @@ module aks './kubernetes.bicep' = if (enableAks) {
 }
 
 module aksRoleAssigment './aksRoleAssignments.bicep' = if (enableAks) {
-  name: 'aksRoleAssigment'
+  name: 'aksRoleAssigmentModule'
   scope: rgCommon
   params: {
     acrName: format('acr{0}', acrName)

@@ -14,7 +14,7 @@ env:
   #AZ_LOCATION: centralus
   AZ_LOCATION: brazilsouth
   AZ_APP_NAME: dotnetproject
-  AZ_ENABLE_AKS: 'false'
+  AZ_ENABLE_AKS: 'true'
   
 jobs:
   Common:

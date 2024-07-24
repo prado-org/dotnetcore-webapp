@@ -3,7 +3,7 @@ param webAppName string
 param location string
 
 module acr './containerRegistry.bicep' = {
-  name: 'acr'
+  name: 'acrModule'
   params: {
     acrName: format('acr{0}', acrName)
     location: location
@@ -11,7 +11,7 @@ module acr './containerRegistry.bicep' = {
 }
 
 module sqlServer './sqlServer.bicep' = {
-  name: 'sqlServer'
+  name: 'sqlServerModule'
   params: {
     sqlServerName: 'sql-${webAppName}'
     sqlAdministratorLogin: 'sqladmin'
