@@ -15,7 +15,7 @@ jobs:
     - name: Delete Resource Group
       run: |
         if [ $(az group exists --name rg-dotnetproject) = true ]; then
-          az group delete --name rg-dotnetproject
+          az group delete --name rg-dotnetproject --yes
         else
             echo "Resource group not exists"
         fi
@@ -33,7 +33,7 @@ jobs:
     - name: Delete Resource Group
       run: |
         if [ $(az group exists --name rg-dotnetproject-dev) = true ]; then
-          az group delete --name rg-dotnetproject-dev
+          az group delete --name rg-dotnetproject-dev --yes
         else
             echo "Resource group not exists"
         fi
@@ -49,7 +49,7 @@ jobs:
     - name: Delete Resource Group
       run: |
         if [ $(az group exists --name rg-dotnetproject-hml) = true ]; then
-          az group delete --name rg-dotnetproject-hml
+          az group delete --name rg-dotnetproject-hml --yes
         else
             echo "Resource group not exists"
         fi
@@ -65,7 +65,7 @@ jobs:
     - name: Delete Resource Group
       run: |
         if [ $(az group exists --name rg-dotnetproject-prd) = true ]; then
-          az group delete --name rg-dotnetproject-prd
+          az group delete --name rg-dotnetproject-prd --yes
         else
             echo "Resource group not exists"
         fi
