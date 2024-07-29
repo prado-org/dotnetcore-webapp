@@ -46,7 +46,7 @@ jobs:
           push: false
           
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        uses: aquasecurity/trivy-action@0.24.0
         with:
           image-ref: '${{ vars.ACR_URL }}/myfirstproject.webapp:${{ GITHUB.SHA }}'
           format: 'template'
