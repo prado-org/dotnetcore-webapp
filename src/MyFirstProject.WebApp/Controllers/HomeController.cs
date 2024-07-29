@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyFirstProject.WebApp.Models;
 using System.Diagnostics;
+using System.Xml;
 
 namespace MyFirstProject.WebApp.Controllers
 {
@@ -48,6 +49,20 @@ namespace MyFirstProject.WebApp.Controllers
             _logger.LogInformation("My Info = " + myInfo);
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public void ProcessRequest(string employeeName)
+        {
+            using (XmlWriter writer = XmlWriter.Create("employees.xml"))
+            {
+                writer.WriteStartDocument();
+
+                // BAD: Insert user input directly into XML
+                writer.WriteRaw("<employee><name>" + employeeName + "</name></employee>");
+
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+            }
         }
     }
 }
