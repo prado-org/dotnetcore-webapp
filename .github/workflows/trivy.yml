@@ -49,8 +49,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.24.0
         with:
           image-ref: '${{ vars.ACR_URL }}/myfirstproject.webapp:${{ GITHUB.SHA }}'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
+          format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
 
