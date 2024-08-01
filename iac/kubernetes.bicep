@@ -25,6 +25,8 @@ param agentVMSize string = 'Standard_D3_v2'
 
 param aksVersion string = '1.25.6'
 
+param enableAks bool
+
 var logAnalyticsName = toLower('log-${clusterName}')
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2020-03-01-preview' = {
@@ -69,5 +71,5 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
   }
 }
 
-output controlPlaneFQDN string = aks.properties.fqdn
-output principalId string = aks.properties.identityProfile.kubeletidentity.objectId
+output controlPlaneFQDN string = enableAks ? aks.properties.fqdn : ''
+output principalId string = enableAks ? aks.properties.identityProfile.kubeletidentity.objectId : ''

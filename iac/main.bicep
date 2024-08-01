@@ -46,6 +46,7 @@ module aks './kubernetes.bicep' = if (enableAks) {
     dnsPrefix: 'aks-${webAppName}-${environment}'
     agentCount: 1
     aksVersion: '1.28.9'
+    enableAks: enableAks
   }
 }
 
