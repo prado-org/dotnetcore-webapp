@@ -46,7 +46,6 @@ module aks './kubernetes.bicep' = if (enableAks) {
     dnsPrefix: 'aks-${webAppName}-${environment}'
     agentCount: 1
     aksVersion: '1.28.9'
-    enableAks: enableAks
   }
 }
 
@@ -55,6 +54,6 @@ module aksRoleAssigment './aksRoleAssignments.bicep' = if (enableAks) {
   scope: rgCommon
   params: {
     acrName: format('acr{0}', acrName)
-    aksPrincipalId: aks.outputs.principalId
+    aksPrincipalId: enableAks ? aks.outputs.principalId : ''
   }
 }
