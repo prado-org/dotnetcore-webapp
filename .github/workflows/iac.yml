@@ -19,7 +19,6 @@ env:
   #AZ_LOCATION: centralus
   AZ_LOCATION: brazilsouth
   AZ_APP_NAME: dotnetproject
-  AZ_ENABLE_AKS: false
   
 jobs:
   Common:
@@ -30,6 +29,7 @@ jobs:
     - name: Show Inputs
       run: |
         echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
     
     - name: Login
       uses: azure/login@v2
