@@ -142,9 +142,6 @@ argocd cluster add aks-dotnetproject-dev
 # List clusters
 argocd cluster list
 
-# list service account into AKS
-kubectl get serviceAccounts --all-namespaces
-
 # List argocd project
 argocd proj list
 
@@ -155,7 +152,10 @@ argocd repo add https://github.com/prado-org/dotnetcore-webapp-config.git --name
 argocd repo list
 
 # Create argocd app
-argocd app create dotnetcore-webapp --repo https://github.com/prado-org/dotnetcore-webapp-config.git --path ./ --dest-namespace default --dest-server https://aks-dotnetproject-dev-fuqes3xs.hcp.eastus.azmk8s.io:443 --directory-recurse
+argocd app create dotnetcore-webapp --repo https://github.com/prado-org/dotnetcore-webapp-config.git --path ./ --dest-namespace default --dest-server https://aks-dotnetproject-dev-fuqes3xs.hcp.eastus.azmk8s.io:443 --sync-policy automated --directory-recurse
+
+# List argocd app
+argocd app list
 
 # Sync an app
 argocd app sync dotnetcore-webapp
