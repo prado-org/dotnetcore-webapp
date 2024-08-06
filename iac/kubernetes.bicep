@@ -50,15 +50,15 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
     kubernetesVersion: aksVersion
     agentPoolProfiles: [
       {
-        name: 'systempool'
+        name: 'systemNodePool'
         osDiskSizeGB: osDiskSizeGB
         count: 1
         vmSize: agentVMSize
         osType: 'Linux'
         mode: 'System'
-      },
+      }
       {
-        name: 'userpool'
+        name: 'userNodePool'
         osDiskSizeGB: osDiskSizeGB
         count: agentCount
         vmSize: agentVMSize
