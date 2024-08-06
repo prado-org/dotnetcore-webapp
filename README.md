@@ -163,6 +163,11 @@ argocd app sync dotnetcore-webapp
 # Status an app
 argocd app get dotnetcore-webapp
 
+# Test the Sync - Change the image label directly Kubernetes server
+kubectl config current-context
+kubectl config set-context aks-dotnetproject-dev
+kubectl edit deployment -n default myfirstproject-api-deploy
+
 ```
 
 ## Authentication using Service Principal
