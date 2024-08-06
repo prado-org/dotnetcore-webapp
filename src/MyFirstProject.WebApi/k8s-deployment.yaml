@@ -30,6 +30,8 @@ spec:
         app: myfirstproject-api
         tier: backend
     spec:
+      nodeSelector:
+        pool: userpool
       containers:
         - name: myfirstproject-api
           image: "acrdotnetproject.azurecr.io/myfirstproject.webapi:latest"
@@ -46,4 +48,3 @@ spec:
             limits:
               cpu: "500m"
               memory: "128Mi"
-      nodeName: userpool
