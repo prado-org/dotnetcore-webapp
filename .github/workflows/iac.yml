@@ -44,6 +44,8 @@ jobs:
     - name: Create Resource Group
       run: |
         echo "Resource Group Name is ${{ env.RG_NAME }}"
+        echo "Enable AKS is ${{ env.AZ_ENABLE_AKS }}"
+        
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
           az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
         else
