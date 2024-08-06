@@ -8,6 +8,11 @@ on:
   #pull_request:
   #  branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      enableAKS:
+        description: 'Enable AKS?'     
+        required: true
+        default: 'false'
 
 env:
   #AZ_LOCATION: eastus
@@ -22,6 +27,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ env.INPUT_ENABLEAKS }}"
+    
     - name: Login
       uses: azure/login@v2
       with:
