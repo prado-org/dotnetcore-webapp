@@ -66,6 +66,11 @@ jobs:
     needs: Common
     steps:
     - uses: actions/checkout@v4
+    
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
 
     - name: Login
       uses: azure/login@v2
@@ -101,7 +106,12 @@ jobs:
     needs: Dev
     steps:
     - uses: actions/checkout@v4
-
+    
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
+        
     - name: Login
       uses: azure/login@v2
       with:
@@ -137,6 +147,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
+        
     - name: Login
       uses: azure/login@v2
       with:
