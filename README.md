@@ -149,7 +149,7 @@ kubectl get serviceAccounts --all-namespaces
 argocd proj list
 
 # Add private GitRepo to Argocd
-argocd repo add https://github.com/prado-org/dotnetcore-webapp-config.git --name dotnetcore-webapp --username git --password <secret>
+argocd repo add https://github.com/prado-org/dotnetcore-webapp-config.git --name dotnetcore-webapp --username git --password <GIT_HUB_PAT>
 
 # List repos
 argocd repo list
