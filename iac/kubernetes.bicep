@@ -64,6 +64,9 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
         vmSize: agentVMSize
         osType: 'Linux'
         mode: 'User'
+        nodeLabels: {
+          poolName: 'userpool'
+        }
       }
     ]
     addonProfiles: {

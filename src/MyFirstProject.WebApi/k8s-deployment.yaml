@@ -31,7 +31,7 @@ spec:
         tier: backend
     spec:
       nodeSelector:
-        pool: userpool
+        poolName: userpool
       containers:
         - name: myfirstproject-api
           image: "acrdotnetproject.azurecr.io/myfirstproject.webapi:latest"

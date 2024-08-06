@@ -29,7 +29,7 @@ spec:
         tier: frontend
     spec:
       nodeSelector:
-        pool: userpool
+        poolName: userpool
       containers:
         - name: myfirstproject-app
           image: "acrdotnetproject.azurecr.io/myfirstproject.webapp:latest"
