@@ -78,7 +78,7 @@ https://medium.com/@tanmaybhandge/ci-cd-with-github-github-actions-argo-cd-and-k
 
 ```powershell
 $rg_name="rg-argocd"
-$location="eastus"
+$location="brazilsouth"
 $aks_name="aks-argocd"
 $aks_namespace="argocd"
 
