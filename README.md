@@ -142,9 +142,6 @@ argocd cluster add aks-dotnetproject-dev
 # List clusters
 argocd cluster list
 
-# List argocd project
-argocd proj list
-
 # Add private GitRepo to Argocd
 argocd repo add https://github.com/prado-org/dotnetcore-webapp-config.git --name dotnetcore-webapp --username git --password <GIT_HUB_PAT>
 
@@ -152,7 +149,7 @@ argocd repo add https://github.com/prado-org/dotnetcore-webapp-config.git --name
 argocd repo list
 
 # Create argocd app
-argocd app create dotnetcore-webapp --repo https://github.com/prado-org/dotnetcore-webapp-config.git --path ./ --dest-namespace default --dest-server https://aks-dotnetproject-dev-fuqes3xs.hcp.eastus.azmk8s.io:443 --sync-policy automated --directory-recurse
+argocd app create dotnetcore-webapp-dev --repo https://github.com/prado-org/dotnetcore-webapp-config.git --path ./ --dest-namespace default --dest-server <AKS SERVER URL> --sync-policy automated --directory-recurse
 
 # List argocd app
 argocd app list
