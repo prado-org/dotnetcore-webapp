@@ -1,0 +1,183 @@
+name: dotnetcore-webapp-iac-matrix
+
+on:
+  #push:
+  #  branches: [ "main" ]
+  #  paths:
+  #    - 'iac/**'
+  #pull_request:
+  #  branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      enableAKS:
+        description: 'Enable AKS?'     
+        required: true
+        default: 'false'
+
+env:
+  #AZ_LOCATION: eastus
+  #AZ_LOCATION: centralus
+  AZ_LOCATION: brazilsouth
+  AZ_APP_NAME: dotnetproject
+  
+jobs:
+  Common:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
+    
+    - name: Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    
+    - name: Generate Resource Group name
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+
+    - name: Create Resource Group
+      run: |
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+        echo "Enable AKS is ${{ env.AZ_ENABLE_AKS }}"
+        
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+  
+    - name: Create common resources
+      uses: Azure/arm-deploy@v2
+      with:
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
+        template: iac/main-common.bicep
+        deploymentMode: Incremental
+        deploymentName: 'gh-actions-common-${{ GITHUB.RUN_NUMBER }}'
+        parameters: acrName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} webAppName=${{ env.AZ_APP_NAME }}
+  Dev:
+    runs-on: ubuntu-latest
+    needs: Common
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
+
+    - name: Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    
+    - name: Generate Resource Group name
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}-dev
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+
+    - name: Create Resource Group
+      run: |
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+
+    - name: Create environment dev
+      uses: Azure/arm-deploy@v2
+      with:
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
+        template: iac/main.bicep
+        deploymentMode: Incremental
+        deploymentName: 'gh-actions-dev-${{ GITHUB.RUN_NUMBER }}'
+        parameters: webAppName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} environment=dev acrName=${{ env.AZ_APP_NAME }} enableAks=${{ env.AZ_ENABLE_AKS }}
+  Hml:
+    runs-on: ubuntu-latest
+    needs: Dev
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
+        
+    - name: Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    
+    - name: Generate Resource Group name
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}-hml
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+
+    - name: Create Resource Group
+      run: |
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+
+    - name: Create environment hml
+      uses: Azure/arm-deploy@v2
+      with:
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
+        template: iac/main.bicep
+        deploymentMode: Incremental
+        deploymentName: 'gh-actions-hml-${{ GITHUB.RUN_NUMBER }}'
+        parameters: webAppName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} environment=hml acrName=${{ env.AZ_APP_NAME }} enableAks=${{ env.AZ_ENABLE_AKS }}
+  Prd:
+    runs-on: ubuntu-latest
+    needs: Hml
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
+        
+    - name: Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    
+    - name: Generate Resource Group name
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}-prd
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+          
+    - name: Create Resource Group
+      run: |
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+
+    - name: Create environment prd
+      uses: Azure/arm-deploy@v2
+      with:
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
+        template: iac/main.bicep
+        deploymentMode: Incremental
+        deploymentName: 'gh-actions-prd-${{ GITHUB.RUN_NUMBER }}'
+        parameters: webAppName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} environment=prd acrName=${{ env.AZ_APP_NAME }} enableAks=${{ env.AZ_ENABLE_AKS }}
