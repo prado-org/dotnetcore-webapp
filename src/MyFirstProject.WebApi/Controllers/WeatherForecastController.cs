@@ -18,6 +18,7 @@ namespace MyFirstProject.WebApi.Controllers
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration)
         {
+            //teste
             _logger = logger;
             _configuration = configuration;
         }
