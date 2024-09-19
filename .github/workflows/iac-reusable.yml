@@ -1,0 +1,103 @@
+name: dotnetcore-webapp-iac-reusable
+
+on:
+  #push:
+  #  branches: [ "main" ]
+  #  paths:
+  #    - 'iac/**'
+  #pull_request:
+  #  branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      enableAKS:
+        description: 'Enable AKS?'     
+        required: true
+        default: 'false'
+      enableAPIM:
+        description: 'Enable APIM?'     
+        required: true
+        default: 'false'
+
+env:
+  #AZ_LOCATION: eastus
+  #AZ_LOCATION: centralus
+  AZ_LOCATION: brazilsouth
+  AZ_APP_NAME: dotnetproject
+  
+jobs:
+  Common:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ github.event.inputs.enableAKS }}"
+        echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
+
+        echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
+        echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
+    
+    - name: Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    
+    - name: Generate Resource Group name
+      run: |
+        rgNAME=rg-${{ env.AZ_APP_NAME }}
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+
+    - name: Create Resource Group
+      run: |
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+        echo "Enable AKS is ${{ env.AZ_ENABLE_AKS }}"
+        echo "Enable APIM is ${{ env.AZ_ENABLE_APIM }}"
+        
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+  
+    - name: Create common resources
+      uses: Azure/arm-deploy@v2
+      with:
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
+        template: iac/main-common.bicep
+        deploymentMode: Incremental
+        deploymentName: 'gh-actions-common-${{ GITHUB.RUN_NUMBER }}'
+        parameters: acrName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} webAppName=${{ env.AZ_APP_NAME }}
+  Dev:
+    uses: ./.github/workflows/run-bicep.yml
+    with:
+      enableAKS: ${{ github.event.inputs.enableAKS }}
+      enableAPIM: ${{ github.event.inputs.enableAPIM }}
+      AZ_APP_NAME: ${{ env.AZ_APP_NAME }}
+      AZ_LOCATION: ${{ env.AZ_LOCATION }}
+      AZ_ENV_NAME: 'dev'
+    secrets:
+      ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
+      
+  Hml:
+    uses: ./.github/workflows/run-bicep.yml
+    with:
+      enableAKS: ${{ github.event.inputs.enableAKS }}
+      enableAPIM: ${{ github.event.inputs.enableAPIM }}
+      AZ_APP_NAME: ${{ env.AZ_APP_NAME }}
+      AZ_LOCATION: ${{ env.AZ_LOCATION }}
+      AZ_ENV_NAME: 'hml'
+    secrets:
+      ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    
+  Prd:
+    uses: ./.github/workflows/run-bicep.yml
+    with:
+      enableAKS: ${{ github.event.inputs.enableAKS }}
+      enableAPIM: ${{ github.event.inputs.enableAPIM }}
+      AZ_APP_NAME: ${{ env.AZ_APP_NAME }}
+      AZ_LOCATION: ${{ env.AZ_LOCATION }}
+      AZ_ENV_NAME: 'prd'
+    secrets:
+      ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
