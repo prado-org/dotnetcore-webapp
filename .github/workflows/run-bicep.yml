@@ -1,0 +1,67 @@
+name: run-bicep
+
+on:
+  workflow_call:
+    inputs:
+      enableAKS:
+        required: true
+        type: boolean
+      enableAPIM:
+        required: true
+        type: boolean
+      AZ_APP_NAME:
+        required: true
+        type: string
+      AZ_LOCATION:
+        required: true
+        type: string
+      AZ_ENV_NAME:
+        required: true
+        type: string
+    secrets:
+      ORG_AZ_CREDENTIALS:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Show Inputs
+      run: |
+        echo "EnableAks=${{ inputs.enableAKS }}"
+        echo "EnableApim=${{ inputs.enableAPIM }}"
+
+        echo "AZ_ENABLE_AKS=${{ inputs.enableAKS }}" >> $GITHUB_ENV
+        echo "AZ_ENABLE_APIM=${{ inputs.enableAPIM }}" >> $GITHUB_ENV
+        
+    - name: Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    
+    - name: Generate Resource Group name
+      run: |
+        rgNAME=rg-${{ inputs.AZ_APP_NAME }}-${{ inputs.AZ_ENV_NAME }}
+        echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
+          
+    - name: Create Resource Group
+      run: |
+        echo "Resource Group Name is ${{ env.RG_NAME }}"
+
+        if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
+          az group create --name ${{ env.RG_NAME }} --location ${{ inputs.AZ_LOCATION }}
+        else
+            echo "Resource group already exists"
+        fi
+
+    - name: Create environment ${{ inputs.AZ_ENV_NAME }}
+      uses: Azure/arm-deploy@v2
+      with:
+        scope: resourcegroup
+        resourceGroupName: ${{ env.RG_NAME }}
+        template: iac/main.bicep
+        deploymentMode: Incremental
+        deploymentName: 'gh-actions-${{ inputs.AZ_ENV_NAME }}-${{ github.run_number }}'
+        parameters: webAppName=${{ inputs.AZ_APP_NAME }} location=${{ inputs.AZ_LOCATION }} environment=${{ inputs.AZ_ENV_NAME }} acrName=${{ inputs.AZ_APP_NAME }} enableAks=${{ env.AZ_ENABLE_AKS }} enableApim=${{ env.AZ_ENABLE_APIM }}
