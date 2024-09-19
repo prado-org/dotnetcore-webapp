@@ -3,6 +3,7 @@ param location string
 param environment string
 param acrName string
 param enableAks bool
+param enableApim bool
 
 resource rgCommon 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
   scope: subscription()
@@ -55,5 +56,17 @@ module aksRoleAssigment './aksRoleAssignments.bicep' = if (enableAks) {
   params: {
     acrName: format('acr{0}', acrName)
     aksPrincipalId: enableAks ? aks.outputs.principalId : ''
+  }
+}
+
+module apim './apim.bicep' = if (enableApim) {
+  name: 'apimModule'
+  params: {
+    apimName: 'apim-${webAppName}-${environment}'
+    location: location
+    skuName: 'Developer'
+    skuCount: 1
+    publisherEmail: 'leadro@microsoft.com'
+    publisherName: 'Leandro Prado'
   }
 }
