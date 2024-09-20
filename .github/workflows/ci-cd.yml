@@ -5,6 +5,8 @@ on:
     branches:
       - feature/*
       - release/*
+    paths-ignore:
+      - 'iac/**'
   pull_request:
     branches:
       - main
