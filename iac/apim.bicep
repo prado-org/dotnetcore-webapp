@@ -27,7 +27,7 @@ resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
   location: location
   sku: {
     name: skuName
-    capacity: skuCount
+    capacity: skuName == 'Consumption' ? 0 : skuCount // Capacidade é 0 para 'Consumption' e 1 para outras SKUs por padrão
   }
   properties: {
     publisherEmail: publisherEmail
