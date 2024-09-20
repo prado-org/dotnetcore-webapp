@@ -72,7 +72,7 @@ jobs:
       run: dotnet restore src/MyFirstProject.sln
     
     - name: Build
-      run: C
+      run: dotnet build src/MyFirstProject.sln --configuration ${{ env.CONFIGURATION }} --no-restore
     
     - name: Test
       run: dotnet test src/MyFirstProject.Tests/MyFirstProject.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --verbosity normal --logger "junit;LogFilePath=TestResults/tests.xml"
