@@ -102,6 +102,12 @@ jobs:
     - name: Publish API
       run: dotnet publish src/MyFirstProject.WebApi/MyFirstProject.WebApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApi
     
+    - name: Generate Swagger JSON
+      run: |
+        dotnet tool install --global Swashbuckle.AspNetCore.Cli --version 6.7.3
+        export PATH="$PATH:~/.dotnet/tools"
+        dotnet swagger tofile --output PublishSwagger/swagger.json src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.WebApi.dll v1
+
     - name: Zip APP
       run: |
         cd ${{ github.workspace }}/PublishApp
@@ -123,6 +129,12 @@ jobs:
       with:
         name: api-artifact
         path: PublishApi/PublishApi.zip
+    
+    - name: Upload Swagger JSON
+      uses: actions/upload-artifact@v4
+      with:
+        name: swagger-json
+        path: PublishSwagger/swagger.json
       
   Dev:
     needs: 
