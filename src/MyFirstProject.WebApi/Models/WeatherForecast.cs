@@ -1,4 +1,4 @@
-namespace MyFirstProject.WebApi
+namespace MyFirstProject.WebApi.Models
 {
     public class WeatherForecast
     {

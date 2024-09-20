@@ -59,7 +59,7 @@ jobs:
     - name: Setup dotnet version
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -76,7 +76,7 @@ jobs:
     
     - name: Test
       run: dotnet test src/MyFirstProject.Tests/MyFirstProject.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --verbosity normal --logger "junit;LogFilePath=TestResults/tests.xml"
-
+      
     #- name: Create test summary
     #  uses: test-summary/action@dist
     #  with:
@@ -102,6 +102,14 @@ jobs:
     - name: Publish API
       run: dotnet publish src/MyFirstProject.WebApi/MyFirstProject.WebApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApi
     
+    - name: Run API and Generate Swagger JSON
+      run: |
+        export ASPNETCORE_ENVIRONMENT=Development
+        dotnet src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.WebApi.dll &
+        APP_PID=$!
+        sleep 10
+        curl http://localhost:5000/swagger/v1/swagger.json --output swagger.json
+        kill $APP_PID
     - name: Zip APP
       run: |
         cd ${{ github.workspace }}/PublishApp
@@ -123,8 +131,12 @@ jobs:
       with:
         name: api-artifact
         path: PublishApi/PublishApi.zip
-    - name: Display Folder
-      run: ls -R
+    
+    - name: Upload Swagger JSON
+      uses: actions/upload-artifact@v4
+      with:
+        name: swagger-artifact
+        path: swagger.json
       
   Dev:
     needs: 
@@ -198,7 +210,19 @@ jobs:
                 "slotSetting": false
               }
             ]
-  
+      
+      - name: Publish Swagger to APIM
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az apim api import --resource-group rg-dotnetproject-dev \
+                           --service-name apim-dotnetproject-dev \
+                           --path myfirstproject-webapi \
+                           --api-id myfirstproject-webapi \
+                           --specification-path swagger-artifact/swagger.json \
+                           --specification-format OpenApi \
+                           --service-url https://api-dotnetproject-dev.azurewebsites.net
+
   Hml:
     needs: 
       - Build
@@ -271,6 +295,17 @@ jobs:
                 "slotSetting": false
               }
             ]
+      - name: Publish Swagger to APIM
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az apim api import --resource-group rg-dotnetproject-hml \
+                            --service-name apim-dotnetproject-hml \
+                            --path myfirstproject-webapi \
+                            --api-id myfirstproject-webapi \
+                            --specification-path swagger-artifact/swagger.json \
+                            --specification-format OpenApi \
+                            --service-url https://api-dotnetproject-hml.azurewebsites.net
 
   Prd:
     needs: 
@@ -343,3 +378,14 @@ jobs:
                 "slotSetting": false
               }
             ]
+      - name: Publish Swagger to APIM
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az apim api import --resource-group rg-dotnetproject-prd \
+                            --service-name apim-dotnetproject-prd \
+                            --path myfirstproject-webapi \
+                            --api-id myfirstproject-webapi \
+                            --specification-path swagger-artifact/swagger.json \
+                            --specification-format OpenApi \
+                            --service-url https://api-dotnetproject-prd.azurewebsites.net
