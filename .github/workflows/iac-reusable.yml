@@ -51,7 +51,7 @@ jobs:
         echo "Enable APIM is ${{ env.AZ_ENABLE_APIM }}"
         
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
-          az group create --name ${{ env.RG_NAME }} --location ${{ env.AZ_LOCATION }}
+          az group create --name ${{ env.RG_NAME }} --location ${{ vars.AZ_LOCATION }}
         else
             echo "Resource group already exists"
         fi
@@ -64,7 +64,7 @@ jobs:
         template: iac/main-common.bicep
         deploymentMode: Incremental
         deploymentName: 'gh-actions-common-${{ GITHUB.RUN_NUMBER }}'
-        parameters: acrName=${{ vars.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} webAppName=${{ vars.AZ_APP_NAME }}
+        parameters: acrName=${{ vars.AZ_APP_NAME }} location=${{ vars.AZ_LOCATION }} webAppName=${{ vars.AZ_APP_NAME }}
   Dev:
     uses: ./.github/workflows/run-bicep.yml
     with:
