@@ -102,17 +102,12 @@ jobs:
     - name: Publish API
       run: dotnet publish src/MyFirstProject.WebApi/MyFirstProject.WebApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApi
     
-    - name: Generate Swagger JSON
+    - name: Run API and Generate Swagger JSON
       run: |
-        echo "Installing Swashbuckle.AspNetCore.Cli"
-        dotnet tool install --global Swashbuckle.AspNetCore.Cli --version 6.7.3
-        export PATH="$PATH:~/.dotnet/tools"
-
-        echo "Swagger JSON"
-        swagger tofile
-
-        echo "Generating Swagger JSON"
-        swagger tofile --output PublishSwagger/swagger.json src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.WebApi.dll v1
+        export ASPNETCORE_ENVIRONMENT=Development
+        dotnet src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.WebApi.dll &
+        sleep 10
+        curl http://localhost:5000/swagger/v1/swagger.json --output PublishSwagger/swagger.json
 
     - name: Zip APP
       run: |
