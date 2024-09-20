@@ -295,6 +295,17 @@ jobs:
                 "slotSetting": false
               }
             ]
+      - name: Publish Swagger to APIM
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az apim api import --resource-group rg-dotnetproject-hml \
+                            --service-name apim-dotnetproject-hml \
+                            --path myfirstproject-webapi \
+                            --api-id myfirstproject-webapi \
+                            --specification-path swagger-artifact/swagger.json \
+                            --specification-format OpenApi \
+                            --service-url https://api-dotnetproject-hml.azurewebsites.net
 
   Prd:
     needs: 
@@ -367,3 +378,14 @@ jobs:
                 "slotSetting": false
               }
             ]
+      - name: Publish Swagger to APIM
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az apim api import --resource-group rg-dotnetproject-prd \
+                            --service-name apim-dotnetproject-prd \
+                            --path myfirstproject-webapi \
+                            --api-id myfirstproject-webapi \
+                            --specification-path swagger-artifact/swagger.json \
+                            --specification-format OpenApi \
+                            --service-url https://api-dotnetproject-prd.azurewebsites.net
