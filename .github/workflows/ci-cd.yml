@@ -215,7 +215,13 @@ jobs:
         uses: azure/CLI@v2
         with:
           inlineScript: |
-            az apim api import --resource-group rg-dotnetproject-dev --service-name apim-dotnetproject-dev --path myfirstproject-webapi --api-id myfirstproject-webapi --specification-format OpenApi --specification-path swagger-artifact/swagger.json
+            az apim api import --resource-group rg-dotnetproject-dev \
+                           --service-name apim-dotnetproject-dev \
+                           --path myfirstproject-webapi \
+                           --api-id myfirstproject-webapi \
+                           --specification-path swagger-artifact/swagger.json \
+                           --specification-format OpenApi \
+                           --service-url https://api-dotnetproject-dev.azurewebsites.net
 
   Hml:
     needs: 
