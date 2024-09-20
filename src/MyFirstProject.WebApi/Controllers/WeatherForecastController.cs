@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Xml;
+using MyFirstProject.WebApi.Models;
 
 namespace MyFirstProject.WebApi.Controllers
 {
@@ -22,7 +23,7 @@ namespace MyFirstProject.WebApi.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
