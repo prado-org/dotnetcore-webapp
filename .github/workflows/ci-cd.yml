@@ -72,11 +72,11 @@ jobs:
       run: dotnet restore src/MyFirstProject.sln
     
     - name: Build
-      run: dotnet build src/MyFirstProject.sln --configuration ${{ env.CONFIGURATION }} --no-restore
+      run: C
     
     - name: Test
       run: dotnet test src/MyFirstProject.Tests/MyFirstProject.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --verbosity normal --logger "junit;LogFilePath=TestResults/tests.xml"
-
+      
     #- name: Create test summary
     #  uses: test-summary/action@dist
     #  with:
@@ -102,6 +102,12 @@ jobs:
     - name: Publish API
       run: dotnet publish src/MyFirstProject.WebApi/MyFirstProject.WebApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApi
     
+    - name: Generate Swagger JSON
+      run: |
+        dotnet tool install --global Swashbuckle.AspNetCore.Cli
+        export PATH="$PATH:~/.dotnet/tools"
+        dotnet swagger tofile --output PublishSwagger/swagger.json src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net6.0/MyFirstProject.WebApi.dll v1
+    
     - name: Zip APP
       run: |
         cd ${{ github.workspace }}/PublishApp
@@ -123,8 +129,12 @@ jobs:
       with:
         name: api-artifact
         path: PublishApi/PublishApi.zip
-    - name: Display Folder
-      run: ls -R
+    
+    - name: Upload Swagger JSON
+      uses: actions/upload-artifact@v4
+      with:
+        name: swagger-json
+        path: PublishSwagger/*
       
   Dev:
     needs: 
