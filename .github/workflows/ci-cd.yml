@@ -215,7 +215,7 @@ jobs:
         uses: azure/CLI@v2
         with:
           inlineScript: |
-            az apim api import --resource-group rg-dotnetproject-dev --service-name apim-dotnetproject-dev --path myapi --api-id myapi --specification-format OpenApi --specification-path swagger-artifact/swagger.json
+            az apim api import --resource-group rg-dotnetproject-dev --service-name apim-dotnetproject-dev --path myfirstproject-webapi --api-id myfirstproject-webapi --specification-format OpenApi --specification-path swagger-artifact/swagger.json
 
   Hml:
     needs: 
