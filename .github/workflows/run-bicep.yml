@@ -23,8 +23,20 @@ on:
         required: true
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Bicep CLI
+      run: az bicep install
+    
+    - name: Validate Bicep File
+      run: az bicep build --file iac/main.bicep
+
   deploy:
     runs-on: ubuntu-latest
+    needs: validate
     steps:
     - uses: actions/checkout@v4
 
