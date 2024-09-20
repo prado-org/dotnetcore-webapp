@@ -65,11 +65,12 @@ jobs:
         deploymentMode: Incremental
         deploymentName: 'gh-actions-common-${{ GITHUB.RUN_NUMBER }}'
         parameters: acrName=${{ vars.AZ_APP_NAME }} location=${{ vars.AZ_LOCATION }} webAppName=${{ vars.AZ_APP_NAME }}
+  
   Dev:
     uses: ./.github/workflows/run-bicep.yml
     with:
-      enableAKS: ${{ github.event.inputs.enableAKS }}
-      enableAPIM: ${{ github.event.inputs.enableAPIM }}
+      enableAKS: ${{ github.event.inputs.enableAKS == 'true' }}
+      enableAPIM: ${{ github.event.inputs.enableAPIM == 'true' }}
       AZ_APP_NAME: ${{ vars.AZ_APP_NAME }}
       AZ_LOCATION: ${{ vars.AZ_LOCATION }}
       AZ_ENV_NAME: 'dev'
@@ -80,8 +81,8 @@ jobs:
   Hml:
     uses: ./.github/workflows/run-bicep.yml
     with:
-      enableAKS: ${{ github.event.inputs.enableAKS }}
-      enableAPIM: ${{ github.event.inputs.enableAPIM }}
+      enableAKS: ${{ github.event.inputs.enableAKS == 'true' }}
+      enableAPIM: ${{ github.event.inputs.enableAPIM == 'true' }}
       AZ_APP_NAME: ${{ vars.AZ_APP_NAME }}
       AZ_LOCATION: ${{ vars.AZ_LOCATION }}
       AZ_ENV_NAME: 'hml'
@@ -92,8 +93,8 @@ jobs:
   Prd:
     uses: ./.github/workflows/run-bicep.yml
     with:
-      enableAKS: ${{ github.event.inputs.enableAKS }}
-      enableAPIM: ${{ github.event.inputs.enableAPIM }}
+      enableAKS: ${{ github.event.inputs.enableAKS == 'true' }}
+      enableAPIM: ${{ github.event.inputs.enableAPIM == 'true' }}
       AZ_APP_NAME: ${{ vars.AZ_APP_NAME }}
       AZ_LOCATION: ${{ vars.AZ_LOCATION }}
       AZ_ENV_NAME: 'prd'
