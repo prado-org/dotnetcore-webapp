@@ -59,7 +59,7 @@ jobs:
     - name: Setup dotnet version
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -102,12 +102,6 @@ jobs:
     - name: Publish API
       run: dotnet publish src/MyFirstProject.WebApi/MyFirstProject.WebApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApi
     
-    - name: Generate Swagger JSON
-      run: |
-        dotnet tool install --global Swashbuckle.AspNetCore.Cli
-        export PATH="$PATH:~/.dotnet/tools"
-        dotnet swagger tofile --output PublishSwagger/swagger.json src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net6.0/MyFirstProject.WebApi.dll v1
-    
     - name: Zip APP
       run: |
         cd ${{ github.workspace }}/PublishApp
@@ -129,12 +123,6 @@ jobs:
       with:
         name: api-artifact
         path: PublishApi/PublishApi.zip
-    
-    - name: Upload Swagger JSON
-      uses: actions/upload-artifact@v4
-      with:
-        name: swagger-json
-        path: PublishSwagger/*
       
   Dev:
     needs: 
