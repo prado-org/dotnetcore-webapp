@@ -12,11 +12,13 @@ on:
       enableAKS:
         description: 'Enable AKS?'     
         required: true
-        default: 'false'
+        type: boolean
+        default: false
       enableAPIM:
         description: 'Enable APIM?'     
         required: true
-        default: 'false'
+        type: boolean
+        default: false
   
 jobs:
   Common:
@@ -73,6 +75,7 @@ jobs:
       AZ_ENV_NAME: 'dev'
     secrets:
       ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    needs: Common
       
   Hml:
     uses: ./.github/workflows/run-bicep.yml
@@ -84,6 +87,7 @@ jobs:
       AZ_ENV_NAME: 'hml'
     secrets:
       ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    needs: Common
     
   Prd:
     uses: ./.github/workflows/run-bicep.yml
@@ -95,3 +99,4 @@ jobs:
       AZ_ENV_NAME: 'prd'
     secrets:
       ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
+    needs: Common
