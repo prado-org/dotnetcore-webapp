@@ -31,8 +31,11 @@ jobs:
     - name: Install Bicep CLI
       run: az bicep install
     
+    - name: Lint a Bicep file
+      run: az bicep lint --file iac/main.bicep --verbose
+
     - name: Validate Bicep File
-      run: az bicep build --file iac/main.bicep
+      run: az bicep build --file iac/main.bicep --verbose
 
   deploy:
     runs-on: ubuntu-latest
