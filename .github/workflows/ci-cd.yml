@@ -106,7 +106,8 @@ jobs:
       run: |
         dotnet tool install --global Swashbuckle.AspNetCore.Cli --version 6.7.3
         export PATH="$PATH:~/.dotnet/tools"
-        dotnet swagger tofile --output PublishSwagger/swagger.json src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.WebApi.dll v1
+        swagger tofile
+        swagger tofile --output PublishSwagger/swagger.json src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.WebApi.dll v1
 
     - name: Zip APP
       run: |
