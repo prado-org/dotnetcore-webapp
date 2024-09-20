@@ -17,12 +17,6 @@ on:
         description: 'Enable APIM?'     
         required: true
         default: 'false'
-
-env:
-  #AZ_LOCATION: eastus
-  #AZ_LOCATION: centralus
-  AZ_LOCATION: brazilsouth
-  AZ_APP_NAME: dotnetproject
   
 jobs:
   Common:
@@ -45,7 +39,7 @@ jobs:
     
     - name: Generate Resource Group name
       run: |
-        rgNAME=rg-${{ env.AZ_APP_NAME }}
+        rgNAME=rg-${{ vars.AZ_APP_NAME }}
         echo "RG_NAME=$rgNAME" >> $GITHUB_ENV
 
     - name: Create Resource Group
@@ -68,14 +62,14 @@ jobs:
         template: iac/main-common.bicep
         deploymentMode: Incremental
         deploymentName: 'gh-actions-common-${{ GITHUB.RUN_NUMBER }}'
-        parameters: acrName=${{ env.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} webAppName=${{ env.AZ_APP_NAME }}
+        parameters: acrName=${{ vars.AZ_APP_NAME }} location=${{ env.AZ_LOCATION }} webAppName=${{ vars.AZ_APP_NAME }}
   Dev:
     uses: ./.github/workflows/run-bicep.yml
     with:
       enableAKS: ${{ github.event.inputs.enableAKS }}
       enableAPIM: ${{ github.event.inputs.enableAPIM }}
-      AZ_APP_NAME: ${{ env.AZ_APP_NAME }}
-      AZ_LOCATION: ${{ env.AZ_LOCATION }}
+      AZ_APP_NAME: ${{ vars.AZ_APP_NAME }}
+      AZ_LOCATION: ${{ vars.AZ_LOCATION }}
       AZ_ENV_NAME: 'dev'
     secrets:
       ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
@@ -85,8 +79,8 @@ jobs:
     with:
       enableAKS: ${{ github.event.inputs.enableAKS }}
       enableAPIM: ${{ github.event.inputs.enableAPIM }}
-      AZ_APP_NAME: ${{ env.AZ_APP_NAME }}
-      AZ_LOCATION: ${{ env.AZ_LOCATION }}
+      AZ_APP_NAME: ${{ vars.AZ_APP_NAME }}
+      AZ_LOCATION: ${{ vars.AZ_LOCATION }}
       AZ_ENV_NAME: 'hml'
     secrets:
       ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
@@ -96,8 +90,8 @@ jobs:
     with:
       enableAKS: ${{ github.event.inputs.enableAKS }}
       enableAPIM: ${{ github.event.inputs.enableAPIM }}
-      AZ_APP_NAME: ${{ env.AZ_APP_NAME }}
-      AZ_LOCATION: ${{ env.AZ_LOCATION }}
+      AZ_APP_NAME: ${{ vars.AZ_APP_NAME }}
+      AZ_LOCATION: ${{ vars.AZ_LOCATION }}
       AZ_ENV_NAME: 'prd'
     secrets:
       ORG_AZ_CREDENTIALS: ${{ secrets.ORG_AZ_CREDENTIALS }}
