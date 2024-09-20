@@ -106,9 +106,10 @@ jobs:
       run: |
         export ASPNETCORE_ENVIRONMENT=Development
         dotnet src/MyFirstProject.WebApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.WebApi.dll &
+        APP_PID=$!
         sleep 10
         curl http://localhost:5000/swagger/v1/swagger.json --output swagger.json
-
+        kill $APP_PID
     - name: Zip APP
       run: |
         cd ${{ github.workspace }}/PublishApp
