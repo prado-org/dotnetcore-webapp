@@ -135,7 +135,7 @@ jobs:
     - name: Upload Swagger JSON
       uses: actions/upload-artifact@v4
       with:
-        name: swagger-json
+        name: swagger-artifact
         path: swagger.json
       
   Dev:
@@ -210,7 +210,13 @@ jobs:
                 "slotSetting": false
               }
             ]
-  
+      
+      - name: Publish Swagger to APIM
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az apim api import --resource-group rg-dotnetproject-dev --service-name apim-dotnetproject-dev --path myapi --api-id myapi --specification-format Swagger --specification-path swagger-artifact/swagger.json
+
   Hml:
     needs: 
       - Build
