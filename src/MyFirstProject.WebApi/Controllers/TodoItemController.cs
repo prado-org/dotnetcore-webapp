@@ -21,7 +21,7 @@ namespace MyFirstProject.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
-            _logger.LogInformation("Method - GetTodoItems");
+            _logger.LogInformation("Method GetTodoItems");
             return await _context.TodoItems.ToListAsync();
         }
     }
