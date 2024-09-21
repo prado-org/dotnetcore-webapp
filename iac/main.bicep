@@ -39,6 +39,14 @@ module webApi './webApp.bicep' = {
   }
 }
 
+module logWorkspace './LogAnalyticsWorkspace.bicep' = {
+  name: 'logWorkspaceModule'
+  params: {
+    logAnalyticsName: 'log-${webAppName}-${environment}'
+    location: location
+  }
+}
+
 module aks './kubernetes.bicep' = if (enableAks) {
   name: 'aksModule'
   params: {
@@ -47,6 +55,7 @@ module aks './kubernetes.bicep' = if (enableAks) {
     dnsPrefix: 'aks-${webAppName}-${environment}'
     agentCount: 1
     aksVersion: '1.28.9'
+    logAnalyticsWorkspaceId: logWorkspace.outputs.logAnalyticsWorkspaceId
   }
 }
 
@@ -68,5 +77,6 @@ module apim './apim.bicep' = if (enableApim) {
     skuCount: 1
     publisherEmail: 'leadro@microsoft.com'
     publisherName: 'Leandro Prado'
+    logAnalyticsWorkspaceId: logWorkspace.outputs.logAnalyticsWorkspaceId
   }
 }

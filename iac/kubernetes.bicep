@@ -25,18 +25,7 @@ param agentVMSize string = 'Standard_D3_v2'
 
 param aksVersion string = '1.25.6'
 
-var logAnalyticsName = toLower('log-${clusterName}')
-
-resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2020-03-01-preview' = {
-  name: logAnalyticsName
-  location: location
-  properties: {
-    sku: {
-      name: 'PerGB2018'
-    }
-    retentionInDays: 120
-  }
-}
+param logAnalyticsWorkspaceId string
 
 resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
   name: clusterName
@@ -73,7 +62,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
       omsagent: {
         enabled: true
         config: {
-          logAnalyticsWorkspaceResourceID: logAnalyticsWorkspace.id
+          logAnalyticsWorkspaceResourceID: logAnalyticsWorkspaceId
         }
       }
     }
