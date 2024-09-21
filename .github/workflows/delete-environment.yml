@@ -98,5 +98,5 @@ jobs:
             echo "Deleting APIM instance: $name in location: $location"
     
             # Deletar instância
-            az rest --method DELETE --url "https://management.azure.com/subscriptions/${{ env.ORG_AZ_SUBSCRIPTION_ID }}/providers/Microsoft.ApiManagement/locations/${location}/deletedservices/${name}?api-version=2021-08-01"
+            az rest --method DELETE --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/providers/Microsoft.ApiManagement/locations/${location}/deletedservices/${name}?api-version=2021-08-01"
         done
