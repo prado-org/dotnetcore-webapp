@@ -202,10 +202,8 @@ jobs:
             ]
       
       - name: Publish Swagger to APIM
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
+        run: |
+          az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
                            --service-name ${{ env.AZ_APIM_NAME }} \
                            --path myfirstproject-webapi \
                            --api-id myfirstproject-webapi \
@@ -214,19 +212,16 @@ jobs:
                            --service-url https://api-dotnetproject-dev.azurewebsites.net
       
       - name: Create APIM Subscription
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            az rest --method post \
-                    --url "https://management.azure.com/subscriptions/${{ env.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/subscriptions?api-version=2021-08-01" \
-                    --body '{
-                      "properties": {
-                        "scope": "/subscriptions/${{ env.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/products/meu-produto",
-                        "userId": "/subscriptions/${{ env.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/users/meu-usuario",
-                        "displayName": "minha-subscription",
-                        "state": "active"
-                      }
-                    }'
+        run: |
+          az rest --method post \
+                  --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/subscriptions?api-version=2021-08-01" \
+                  --body '{
+                    "properties": {
+                      "scope": "/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/apis/myfirstproject-webapi",
+                      "displayName": "myfirstproject-subscription",
+                      "state": "active"
+                    }
+                  }'
 
   Hml:
     needs: 
