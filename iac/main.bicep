@@ -15,7 +15,7 @@ module servicePlan './servicePlan.bicep' = {
   params: {
     planName: 'plan-${webAppName}-${environment}'
     location: location
-    sku: 'S3'
+    sku: 'P1v3' //2 cores 8GB ram 250GB disk
   }
 }
 
