@@ -87,16 +87,23 @@ jobs:
       run: |
         # Listar instâncias soft-deleted
         response=$(az rest --method GET --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/providers/Microsoft.ApiManagement/deletedservices?api-version=2021-08-01")
-    
-        # Processar cada instância soft-deleted
-        echo "$response" | jq -c '.value[] | {name: .name, location: .location}' | while read -r item; do
-            # Extrair nome e localização
-            name=$(echo $item | jq -r '.name')
-            location=$(echo $item | jq -r '.location')
-    
-            # Exibir nome e localização
-            echo "Deleting APIM instance: $name in location: $location"
-    
-            # Deletar instância
-            az rest --method DELETE --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/providers/Microsoft.ApiManagement/locations/${location}/deletedservices/${name}?api-version=2021-08-01"
-        done
+        
+        # Verificar se existem instâncias soft-deleted
+        count=$(echo "$response" | jq '.value | length')
+        
+        if [ "$count" -eq 0 ]; then
+          echo "No APIM instances to purge."
+        else
+          # Processar cada instância soft-deleted
+          echo "$response" | jq -c '.value[] | {name: .name, location: .location}' | while read -r item; do
+              # Extrair nome e localização
+              name=$(echo $item | jq -r '.name')
+              location=$(echo $item | jq -r '.location')
+      
+              # Exibir nome e localização
+              echo "Deleting APIM instance: $name in location: $location"
+      
+              # Deletar instância
+              az rest --method DELETE --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/providers/Microsoft.ApiManagement/locations/${location}/deletedservices/${name}?api-version=2021-08-01"
+          done
+        fi
