@@ -12,13 +12,13 @@ on:
   #    - main
   workflow_dispatch: 
 
-# permissions:
-#   pull-requests: write
-#   contents: write
-#   statuses: write
-#   checks: write
-#   actions: write    
-#   security-events: write
+permissions:
+  pull-requests: write
+  contents: write
+  statuses: write
+  checks: write
+  actions: write    
+  security-events: write
   
 env:
   CONFIGURATION: Release
@@ -213,8 +213,8 @@ jobs:
       
       - name: Create APIM Subscription
         run: |
-          az rest --method post \
-                  --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/subscriptions?api-version=2021-08-01" \
+          az rest --method PUT \
+                  --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/subscriptions/myfirstproject-subscription?api-version=2021-08-01" \
                   --body '{
                     "properties": {
                       "scope": "/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/apis/myfirstproject-webapi",
@@ -222,7 +222,6 @@ jobs:
                       "state": "active"
                     }
                   }'
-
   Hml:
     needs: 
       - Build

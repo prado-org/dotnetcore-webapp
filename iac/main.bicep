@@ -15,7 +15,7 @@ module servicePlan './servicePlan.bicep' = {
   params: {
     planName: 'plan-${webAppName}-${environment}'
     location: location
-    sku: 'S3'
+    sku: 'P1v3' //2 cores 8GB ram 250GB disk
   }
 }
 
@@ -25,7 +25,7 @@ module webApp './webApp.bicep' = {
     planId: servicePlan.outputs.servicePlanId
     webAppName: 'app-${webAppName}-${environment}'
     location: location
-    linuxFxVersion: 'DOTNETCORE|6.0'
+    linuxFxVersion: 'DOTNETCORE|8.0'
   }
 }
 
@@ -35,7 +35,15 @@ module webApi './webApp.bicep' = {
     planId: servicePlan.outputs.servicePlanId
     webAppName: 'api-${webAppName}-${environment}'
     location: location
-    linuxFxVersion: 'DOTNETCORE|6.0'
+    linuxFxVersion: 'DOTNETCORE|8.0'
+  }
+}
+
+module logWorkspace './LogAnalyticsWorkspace.bicep' = {
+  name: 'logWorkspaceModule'
+  params: {
+    logAnalyticsName: 'log-${webAppName}-${environment}'
+    location: location
   }
 }
 
@@ -47,6 +55,7 @@ module aks './kubernetes.bicep' = if (enableAks) {
     dnsPrefix: 'aks-${webAppName}-${environment}'
     agentCount: 1
     aksVersion: '1.28.9'
+    logAnalyticsWorkspaceId: logWorkspace.outputs.logAnalyticsWorkspaceId
   }
 }
 
@@ -68,5 +77,6 @@ module apim './apim.bicep' = if (enableApim) {
     skuCount: 1
     publisherEmail: 'leadro@microsoft.com'
     publisherName: 'Leandro Prado'
+    logAnalyticsWorkspaceId: logWorkspace.outputs.logAnalyticsWorkspaceId
   }
 }

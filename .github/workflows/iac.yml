@@ -29,10 +29,7 @@ jobs:
         echo "EnableAks=${{ github.event.inputs.enableAKS }}"
         echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
 
-        echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
-
         echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
-        echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
         echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
     
     - name: Login
@@ -49,7 +46,6 @@ jobs:
       run: |
         echo "Resource Group Name is ${{ env.RG_NAME }}"
         echo "Enable AKS is ${{ env.AZ_ENABLE_AKS }}"
-        echo "Enable APIM is ${{ env.AZ_ENABLE_APIM }}"
         echo "Enable APIM is ${{ env.AZ_ENABLE_APIM }}"
         
         if [ $(az group exists --name ${{ env.RG_NAME }}) = false ]; then
@@ -78,10 +74,7 @@ jobs:
         echo "EnableAks=${{ github.event.inputs.enableAKS }}"
         echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
 
-        echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
-
         echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
-        echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
         echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
 
     - name: Login
@@ -124,10 +117,7 @@ jobs:
         echo "EnableAks=${{ github.event.inputs.enableAKS }}"
         echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
 
-        echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
-
         echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
-        echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
         echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
         
     - name: Login
@@ -171,10 +161,7 @@ jobs:
         echo "EnableAks=${{ github.event.inputs.enableAKS }}"
         echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
 
-        echo "EnableApim=${{ github.event.inputs.enableAPIM }}"
-
         echo "AZ_ENABLE_AKS=${{ github.event.inputs.enableAKS }}" >> $GITHUB_ENV
-        echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
         echo "AZ_ENABLE_APIM=${{ github.event.inputs.enableAPIM }}" >> $GITHUB_ENV
         
     - name: Login

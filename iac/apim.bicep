@@ -28,6 +28,7 @@ param skuCount int = 1
 
 param publisherEmail string
 param publisherName string
+param logAnalyticsWorkspaceId string
 
 resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
   name: apimName
@@ -39,5 +40,25 @@ resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
   properties: {
     publisherEmail: publisherEmail
     publisherName: publisherName
+  }
+}
+
+resource apiManagementDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  scope: apim
+  name: 'apiManagementDiagnosticSettings'
+  properties: {
+    workspaceId: logAnalyticsWorkspaceId
+    logs: [
+      {
+        category: 'GatewayLogs'
+        enabled: true
+      }
+    ]
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+      }
+    ]
   }
 }
