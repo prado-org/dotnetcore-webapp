@@ -12,13 +12,13 @@ on:
   #    - main
   workflow_dispatch: 
 
-# permissions:
-#   pull-requests: write
-#   contents: write
-#   statuses: write
-#   checks: write
-#   actions: write    
-#   security-events: write
+permissions:
+  pull-requests: write
+  contents: write
+  statuses: write
+  checks: write
+  actions: write    
+  security-events: write
   
 env:
   CONFIGURATION: Release
