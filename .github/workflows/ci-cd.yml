@@ -1,16 +1,16 @@
 name: dotnetcore-webapp-ci-cd
 
 on:
-  # push:
-  #   branches:
-  #     - feature/*
-  #     - release/*
-  #   paths-ignore:
-  #     - 'iac/**'
-  #     - '.github/workflows/**'
-  # pull_request:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - feature/*
+      - release/*
+    paths-ignore:
+      - 'iac/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:

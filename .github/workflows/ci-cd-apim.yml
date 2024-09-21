@@ -135,7 +135,8 @@ jobs:
     env:
       AZ_RG_NAME: 'rg-dotnetproject-dev'
       AZ_APIM_NAME: 'apim-dotnetproject-dev'
-    if: ${{ startsWith(github.ref, 'refs/heads/feature/') }}
+      AZ_API_NAME: 'api-dotnetproject-dev'
+      AZ_APP_NAME: 'app-dotnetproject-dev'
     steps:
       - uses: actions/download-artifact@v4
 
@@ -155,20 +156,20 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: ${{ env.AZ_RG_NAME }}
-          app-name: api-dotnetproject-dev
+          app-name: ${{ env.AZ_API_NAME }}
           package: "api-artifact/PublishApi.zip"
       
       - name: Deploy APP
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: ${{ env.AZ_RG_NAME }}
-          app-name: app-dotnetproject-dev
+          app-name: ${{ env.AZ_APP_NAME }}
           package: "app-artifact/PublishApp.zip"
       
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: app-dotnetproject-dev
+          app-name: ${{ env.AZ_APP_NAME }}
           app-settings-json: |
             [
               {
@@ -183,7 +184,7 @@ jobs:
               },
               {
                 "name": "Api__Url",
-                "value": "https://api-dotnetproject-dev.azurewebsites.net",
+                "value": "https://${{ env.AZ_API_NAME }}.azurewebsites.net",
                 "slotSetting": false
               }
             ]
@@ -191,7 +192,7 @@ jobs:
       - name: Set API Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: api-dotnetproject-dev
+          app-name: ${{ env.AZ_API_NAME }}
           app-settings-json: |
             [
               {
@@ -209,7 +210,7 @@ jobs:
                            --api-id myfirstproject-webapi \
                            --specification-path swagger-artifact/swagger.json \
                            --specification-format OpenApi \
-                           --service-url https://api-dotnetproject-dev.azurewebsites.net
+                           --service-url https://${{ env.AZ_API_NAME }}.azurewebsites.net
       
       - name: Create APIM Subscription
         run: |
@@ -222,14 +223,19 @@ jobs:
                       "state": "active"
                     }
                   }'
+  
   Hml:
     needs: 
-      - Build
+      - Dev
     runs-on: ubuntu-latest
     environment:
       name: webapp-hml
       url: https://app-dotnetproject-hml.azurewebsites.net
-    if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+    env:
+      AZ_RG_NAME: 'rg-dotnetproject-hml'
+      AZ_APIM_NAME: 'apim-dotnetproject-hml'
+      AZ_API_NAME: 'api-dotnetproject-hml'
+      AZ_APP_NAME: 'app-dotnetproject-hml'
     steps:
       - uses: actions/download-artifact@v4
 
@@ -249,20 +255,20 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-hml
-          app-name: api-dotnetproject-hml
+          app-name: ${{ env.AZ_API_NAME }}
           package: api-artifact/PublishApi.zip
         
       - name: Deploy APP
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-hml
-          app-name: app-dotnetproject-hml
+          app-name: ${{ env.AZ_APP_NAME }}
           package: app-artifact/PublishApp.zip
           
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: app-dotnetproject-hml
+          app-name: ${{ env.AZ_APP_NAME }}
           app-settings-json: |
             [
               {
@@ -277,7 +283,7 @@ jobs:
               },
               {
                 "name": "Api__Url",
-                "value": "https://api-dotnetproject-hml.azurewebsites.net",
+                "value": "https://${{ env.AZ_API_NAME }}.azurewebsites.net",
                 "slotSetting": false
               }
             ]
@@ -285,7 +291,7 @@ jobs:
       - name: Set API Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: api-dotnetproject-hml
+          app-name: ${{ env.AZ_API_NAME }}
           app-settings-json: |
             [
               {
@@ -294,17 +300,28 @@ jobs:
                 "slotSetting": false
               }
             ]
+      
       - name: Publish Swagger to APIM
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            az apim api import --resource-group rg-dotnetproject-hml \
-                            --service-name apim-dotnetproject-hml \
+        run: |
+          az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
+                            --service-name ${{ env.AZ_APIM_NAME }} \
                             --path myfirstproject-webapi \
                             --api-id myfirstproject-webapi \
                             --specification-path swagger-artifact/swagger.json \
                             --specification-format OpenApi \
-                            --service-url https://api-dotnetproject-hml.azurewebsites.net
+                            --service-url https://${{ env.AZ_API_NAME }}.azurewebsites.net
+      
+      - name: Create APIM Subscription
+        run: |
+          az rest --method PUT \
+                  --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/subscriptions/myfirstproject-subscription?api-version=2021-08-01" \
+                  --body '{
+                    "properties": {
+                      "scope": "/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/apis/myfirstproject-webapi",
+                      "displayName": "myfirstproject-subscription",
+                      "state": "active"
+                    }
+                  }'
 
   Prd:
     needs: 
@@ -313,6 +330,11 @@ jobs:
     environment:
       name: webapp-prd
       url: https://app-dotnetproject-prd.azurewebsites.net
+    env:
+      AZ_RG_NAME: 'rg-dotnetproject-prd'
+      AZ_APIM_NAME: 'apim-dotnetproject-prd'
+      AZ_API_NAME: 'api-dotnetproject-prd'
+      AZ_APP_NAME: 'app-dotnetproject-prd'
     steps:
       - uses: actions/download-artifact@v4
 
@@ -332,20 +354,20 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-prd
-          app-name: api-dotnetproject-prd
+          app-name: ${{ env.AZ_API_NAME }}
           package: api-artifact/PublishApi.zip
         
       - name: Deploy APP
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-prd
-          app-name: app-dotnetproject-prd
+          app-name: ${{ env.AZ_APP_NAME }}
           package: app-artifact/PublishApp.zip
           
       - name: Set APP Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: app-dotnetproject-prd
+          app-name: ${{ env.AZ_APP_NAME }}
           app-settings-json: |
             [
               {
@@ -360,7 +382,7 @@ jobs:
               },
               {
                 "name": "Api__Url",
-                "value": "https://api-dotnetproject-prd.azurewebsites.net",
+                "value": "https://${{ env.AZ_API_NAME }}.azurewebsites.net",
                 "slotSetting": false
               }
             ]
@@ -368,7 +390,7 @@ jobs:
       - name: Set API Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: api-dotnetproject-prd
+          app-name: ${{ env.AZ_API_NAME }}
           app-settings-json: |
             [
               {
@@ -377,14 +399,25 @@ jobs:
                 "slotSetting": false
               }
             ]
+      
       - name: Publish Swagger to APIM
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            az apim api import --resource-group rg-dotnetproject-prd \
-                            --service-name apim-dotnetproject-prd \
+        run: |
+          az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
+                            --service-name ${{ env.AZ_APIM_NAME }} \
                             --path myfirstproject-webapi \
                             --api-id myfirstproject-webapi \
                             --specification-path swagger-artifact/swagger.json \
                             --specification-format OpenApi \
-                            --service-url https://api-dotnetproject-prd.azurewebsites.net
+                            --service-url https://${{ env.AZ_API_NAME }}.azurewebsites.net
+      
+      - name: Create APIM Subscription
+        run: |
+          az rest --method PUT \
+                  --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/subscriptions/myfirstproject-subscription?api-version=2021-08-01" \
+                  --body '{
+                    "properties": {
+                      "scope": "/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/apis/myfirstproject-webapi",
+                      "displayName": "myfirstproject-subscription",
+                      "state": "active"
+                    }
+                  }'
