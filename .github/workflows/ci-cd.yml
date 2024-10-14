@@ -5,9 +5,6 @@ on:
     branches:
       - feature/*
       - release/*
-    paths-ignore:
-      - 'iac/**'
-      - '.github/workflows/**'
   pull_request:
     branches:
       - main
