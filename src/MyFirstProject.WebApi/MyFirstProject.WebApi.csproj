@@ -15,7 +15,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SQLite" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SQLite" Version="7.0.19" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
     <PackageReference Include="Npgsql" Version="7.0.6" />
