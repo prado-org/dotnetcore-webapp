@@ -1,5 +1,7 @@
 name: dotnetcore-webapp-ci-cd
 
+run-name: ${{ github.actor }} - dotnetcore
+
 on:
   push:
     branches:
