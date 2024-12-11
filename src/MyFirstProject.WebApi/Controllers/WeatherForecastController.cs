@@ -46,34 +46,48 @@ namespace MyFirstProject.WebApi.Controllers
             }
         }
 
-        private WeatherForecast WeatherForecastById(int id)
+                private async Task<WeatherForecast> WeatherForecastByIdAsync(int id)
         {
             try
             {
                 WeatherForecast item = null;
-                using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
-                connection.OpenAsync();
-                
-                string selectCommand = "SELECT * FROM WeatherForecast WHERE id = " + id.ToString();
-
-                SqlCommand command = new SqlCommand(selectCommand, connection);
-
-                SqlDataReader reader = command.ExecuteReader();
-                
-                while (reader.Read())
+                var connectionString = "Server=localhost;Database=Todo;User Id=sa;Password=Password123;";
+        
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    DateTime data = reader.GetDateTime(0);
-                    string summary = reader.GetString(1);
-                    int temperature = reader.GetInt32(2);
-
-                    item = new WeatherForecast { Date = data, Summary = summary, TemperatureC = temperature };
+                    await connection.OpenAsync();
+        
+                    string selectCommand = "SELECT Date, Summary, TemperatureC FROM WeatherForecast WHERE id = @id";
+        
+                    using (SqlCommand command = new SqlCommand(selectCommand, connection))
+                    {
+                        command.Parameters.AddWithValue("@id", id);
+        
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                DateTime data = reader.GetDateTime(0);
+                                string summary = reader.GetString(1);
+                                int temperature = reader.GetInt32(2);
+        
+                                item = new WeatherForecast { Date = data, Summary = summary, TemperatureC = temperature };
+                            }
+                        }
+                    }
                 }
-
+        
                 return item;
             }
-            catch(Exception)
+            catch (SqlException ex)
             {
-                throw;
+                // Log and handle SQL exceptions
+                throw new Exception("An error occurred while accessing the database.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Log and handle other exceptions
+                throw new Exception("An unexpected error occurred.", ex);
             }
         }
     }
