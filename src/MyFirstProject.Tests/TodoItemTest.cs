@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using MyFirstProject.Tests.Models;
