@@ -1,0 +1,33 @@
+@model MyFirstProject.WebApp.Models.TodoItemViewModel
+
+@{
+    ViewData["Title"] = "Create TodoItem";
+}
+
+<h1>Create TodoItem</h1>
+
+<h4>TodoItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsComplete" class="control-label"></label>
+                <input asp-for="IsComplete" class="form-control" />
+                <span asp-validation-for="IsComplete" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create TodoItem" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
