@@ -57,5 +57,54 @@ namespace MyFirstProject.Tests
             Assert.IsNotNull(todoItems);
             Assert.AreEqual(4, todoItems!.Count);
         }
+
+        [TestMethod]
+        public async Task CreateTodoItem_ReturnsSuccessStatusCode()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem";
+            var newTodoItem = new TodoItem { Name = "New Task", IsComplete = false };
+            var content = new StringContent(JsonConvert.SerializeObject(newTodoItem), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client!.PostAsync(requestUri, content);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task CreateTodoItem_ReturnsValidationErrorForInvalidName()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem";
+            var newTodoItem = new TodoItem { Name = "Invalid@Name", IsComplete = false };
+            var content = new StringContent(JsonConvert.SerializeObject(newTodoItem), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client!.PostAsync(requestUri, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.IsTrue(responseContent.Contains("The Name field is required, cannot contain special characters, and must be less than 255 characters."));
+        }
+
+        [TestMethod]
+        public async Task CreateTodoItem_ReturnsConfirmationMessage()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem";
+            var newTodoItem = new TodoItem { Name = "New Task", IsComplete = false };
+            var content = new StringContent(JsonConvert.SerializeObject(newTodoItem), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client!.PostAsync(requestUri, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.IsTrue(responseContent.Contains("New Task"));
+        }
     }
 }
