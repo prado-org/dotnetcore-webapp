@@ -18,7 +18,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Is Complete</th>
-                <th>Due Date</th> <!-- Novo campo -->
+                <th>Due Date</th>
                 <th></th>
             </tr>
         </thead>
@@ -29,7 +29,7 @@
                     <td>@r.Id</td>
                     <td>@r.Name</td>
                     <td>@r.IsComplete</td>
-                    <td>@r.DueDate?.ToString("yyyy-MM-dd")</td> <!-- Novo campo -->
+                    <td>@r.DueDate?.ToString("yyyy-MM-dd")</td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = r.Id }) |
                         @Html.ActionLink("Details", "Details", new { id = r.Id }) |
