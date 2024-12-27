@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "buildWebApi",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MyFirstProject.WebApi/bin/Debug/net6.0/MyFirstProject.WebApi.dll",
+            "program": "${workspaceFolder}/src/MyFirstProject.WebApi/bin/Debug/net8.0/MyFirstProject.WebApi.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/MyFirstProject.WebApi",
             "stopAtEntry": false,
@@ -36,7 +36,7 @@
             "request": "launch",
             "preLaunchTask": "buildWebApp",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MyFirstProject.WebApp/bin/Debug/net6.0/MyFirstProject.WebApp.dll",
+            "program": "${workspaceFolder}/src/MyFirstProject.WebApp/bin/Debug/net8.0/MyFirstProject.WebApp.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/MyFirstProject.WebApp",
             "stopAtEntry": false,
