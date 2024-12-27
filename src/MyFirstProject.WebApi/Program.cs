@@ -63,10 +63,10 @@ using (var scope = app.Services.CreateScope())
         // Check if any TodoItems exist, if not, add some
         if (!context.TodoItems.Any())
         {
-            context.TodoItems.Add(new TodoItem { Name = "Task 1", IsComplete = false });
-            context.TodoItems.Add(new TodoItem { Name = "Task 2", IsComplete = true });
-            context.TodoItems.Add(new TodoItem { Name = "Task 3", IsComplete = true });
-            context.TodoItems.Add(new TodoItem { Name = "Task 4", IsComplete = true });
+            context.TodoItems.Add(new TodoItem { Name = "Task 1", IsComplete = false, DueDate = DateTime.Now.AddDays(7) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 2", IsComplete = true, DueDate = DateTime.Now.AddDays(14) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 3", IsComplete = true, DueDate = DateTime.Now.AddDays(21) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 4", IsComplete = true, DueDate = DateTime.Now.AddDays(28) });
             context.SaveChanges();
         }
     }

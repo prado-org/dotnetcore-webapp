@@ -47,5 +47,39 @@ namespace MyFirstProject.WebApp.Controllers
                 return Redirect("/Home/Error");
             }
         }
+
+        public async Task<IActionResult> Details(long id)
+        {
+            try
+            {
+                _logger.LogInformation("Controller:TodoItemController - Method:Details");
+
+                TodoItemViewModel item = null;
+                string _urlApi = _configuration.GetSection("Api:Url").Value + $"/api/TodoItem/{id}";
+
+                using (var httpClient = new HttpClient())
+                {
+                    _logger.LogInformation("URL API = " + _urlApi);
+
+                    using (var response = await httpClient.GetAsync(_urlApi))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        item = JsonConvert.DeserializeObject<TodoItemViewModel>(apiResponse);
+                    }
+                }
+
+                if (item == null)
+                {
+                    return NotFound();
+                }
+
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ERROR: " + ex.Message);
+                return Redirect("/Home/Error");
+            }
+        }
     }
 }
