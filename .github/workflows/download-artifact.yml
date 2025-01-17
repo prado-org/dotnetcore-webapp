@@ -15,6 +15,7 @@ jobs:
         with:
            run-id: 12322972171
            repository: prado-org/dotnetcore-webapp
+           github-token: ${{ secrets.ORG_GH_PAT }}
            
       - name: Dir
         run: ls -R
