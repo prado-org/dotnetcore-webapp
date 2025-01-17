@@ -21,6 +21,7 @@ jobs:
         run: ls -R
   deploy:
     runs-on: ubuntu-latest
+    environment: teste-deploy
     steps:
       - name: Dump GitHub context
         env:
