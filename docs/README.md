@@ -11,3 +11,4 @@ Testando a publicaçção do GH Pages
 ## Learn more
 - [About](About.md)
 - [CI/CD Process](ci-cd.md)
+- [Mermaid](mermaid.html)
