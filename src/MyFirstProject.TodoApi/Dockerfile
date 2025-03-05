@@ -8,7 +8,7 @@ WORKDIR /app
 COPY *.csproj ./
 
 # Copy nuget.config from the parent directory
-COPY ../nuget.config ./
+COPY nuget.config ./
 
 RUN dotnet restore MyFirstProject.TodoApi.csproj
 
