@@ -68,6 +68,7 @@ jobs:
         name: k8s
         path: |
           src/MyFirstProject.TodoApi/k8s-deployment.yaml
+          src/MyFirstProject.WeatherForecastApi/k8s-deployment.yaml
           src/MyFirstProject.WebApp/k8s-deployment.yaml
   
   k8s-dev:
