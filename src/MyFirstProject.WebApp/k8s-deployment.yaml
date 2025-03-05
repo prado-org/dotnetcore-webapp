@@ -34,8 +34,10 @@ spec:
         - name: myfirstproject-app
           image: "acrdotnetproject.azurecr.io/myfirstproject.webapp:latest"
           env:
-            - name: Api__Url
-              value: "http://myfirstproject-api-svc.default.svc.cluster.local"
+            - name: Api__Todo
+              value: "http://myfirstproject-todoapi-svc.default.svc.cluster.local"
+            - name: Api__WeatherForecast
+              value: "http://myfirstproject-weatherforecastapi-svc.default.svc.cluster.local"
           ports:
             - name: http
               containerPort: 80
