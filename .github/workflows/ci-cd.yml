@@ -75,7 +75,12 @@ jobs:
     
     - name: Test
       run: dotnet test src/MyFirstProject.Tests/MyFirstProject.Tests.csproj --no-build --configuration ${{ env.CONFIGURATION }} --verbosity normal --logger "junit;LogFilePath=TestResults/tests.xml"
-      
+    
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:csharp"
+    
     - name: Create test summary
       uses: test-summary/action@v2
       if: success() || failure()
@@ -89,11 +94,6 @@ jobs:
     #    name: UnitTests
     #    path: src/MyFirstProject.Tests/TestResults/tests.xml
     #    reporter: java-junit
-    
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:csharp"
     
     - name: Publish MyFirstProject.WebApp.csproj
       run: dotnet publish src/MyFirstProject.WebApp/MyFirstProject.WebApp.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApp
@@ -245,14 +245,21 @@ jobs:
         with:
           creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
-      - name: Deploy API
+      - name: Deploy TodoApi
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-hml
-          app-name: api-dotnetproject-hml
-          package: api-artifact/PublishApi.zip
+          app-name: api-todo-hml
+          package: "todo-api-artifact/PublishTodoApi.zip"
+      
+      - name: Deploy WeatherForecastApi
+        uses: azure/webapps-deploy@v3
+        with:
+          resource-group-name: rg-dotnetproject-hml
+          app-name: api-weatherforecast-hml
+          package: "weather-api-artifact/PublishWeatherForecastApi.zip"
         
-      - name: Deploy APP
+      - name: Deploy WebApp
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-hml
@@ -276,8 +283,13 @@ jobs:
                 "slotSetting": false
               },
               {
-                "name": "Api__Url",
-                "value": "https://api-dotnetproject-hml.azurewebsites.net",
+                "name": "Api__Todo",
+                "value": "https://api-todo-dev.azurewebsites.net",
+                "slotSetting": false
+              },
+              {
+                "name": "Api__WeatherForecast",
+                "value": "https://api-weatherforecast-dev.azurewebsites.net",
                 "slotSetting": false
               }
             ]
@@ -285,7 +297,7 @@ jobs:
       - name: Set API Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: api-dotnetproject-hml
+          app-name: api-todo-hml
           app-settings-json: |
             [
               {
@@ -317,14 +329,21 @@ jobs:
         with:
           creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
-      - name: Deploy API
+      - name: Deploy TodoApi
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-prd
-          app-name: api-dotnetproject-prd
-          package: api-artifact/PublishApi.zip
-        
-      - name: Deploy APP
+          app-name: api-todo-prd
+          package: "todo-api-artifact/PublishTodoApi.zip"
+      
+      - name: Deploy WeatherForecastApi
+        uses: azure/webapps-deploy@v3
+        with:
+          resource-group-name: rg-dotnetproject-prd
+          app-name: api-weatherforecast-prd
+          package: "weather-api-artifact/PublishWeatherForecastApi.zip"
+
+      - name: Deploy WebApp
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-prd
@@ -348,8 +367,13 @@ jobs:
                 "slotSetting": false
               },
               {
-                "name": "Api__Url",
-                "value": "https://api-dotnetproject-prd.azurewebsites.net",
+                "name": "Api__Todo",
+                "value": "https://api-todo-dev.azurewebsites.net",
+                "slotSetting": false
+              },
+              {
+                "name": "Api__WeatherForecast",
+                "value": "https://api-weatherforecast-dev.azurewebsites.net",
                 "slotSetting": false
               }
             ]
@@ -357,7 +381,7 @@ jobs:
       - name: Set API Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: api-dotnetproject-prd
+          app-name: api-todo-prd
           app-settings-json: |
             [
               {
