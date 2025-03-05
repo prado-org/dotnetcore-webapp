@@ -3,7 +3,30 @@
 }
 <h1>@ViewData["Title"]</h1>
 <p>Use this page to detail your site's privacy policy.</p>
-<p>VersionInfo Number = @ViewBag.VersionInfoNumber</p>
-<p>VersionInfo Date = @ViewBag.VersionInfoDate</p>
-<p>API URL = @ViewBag.Api</p>
-<p>EnvironmentName = @ViewBag.EnvironmentName</p>
+
+<table class="table table-sm table-striped table-bordered m-2">
+    <tr>
+        <th>Property</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>VersionInfo Number</td>
+        <td>@ViewBag.VersionInfoNumber</td>
+    </tr>
+    <tr>
+        <td>VersionInfo Date</td>
+        <td>@ViewBag.VersionInfoDate</td>
+    </tr>
+    <tr>
+        <td>TodoApi URL</td>
+        <td>@ViewBag.TodoApi</td>
+    </tr>
+    <tr>
+        <td>WeatherForecastApi URL</td>
+        <td>@ViewBag.WeatherForecastApi</td>
+    </tr>
+    <tr>
+        <td>EnvironmentName</td>
+        <td>@ViewBag.EnvironmentName</td>
+    </tr>
+</table>

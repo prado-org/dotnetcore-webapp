@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using MyFirstProject.WebApi.Models;
+using MyFirstProject.TodoApi.Models;
+using System.Xml;
 
-namespace MyFirstProject.WebApi.Controllers
+namespace MyFirstProject.TodoApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -25,18 +26,47 @@ namespace MyFirstProject.WebApi.Controllers
             return await _context.TodoItems.ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
+        private void CreateXml(string itemName)
         {
-            _logger.LogInformation("Method GetTodoItem");
-            var todoItem = await _context.TodoItems.FindAsync(id);
-
-            if (todoItem == null)
+            using (XmlWriter writer = XmlWriter.Create("todos.xml"))
             {
-                return NotFound();
+                writer.WriteStartDocument();
+                writer.WriteRaw("<todo><name>" + itemName + "</name></todo>");
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
             }
+        }
 
-            return todoItem;
+        private TodoItem GetTodoItemById(int id)
+        {
+            try
+            {
+                TodoItem item = null;
+                using SqlConnection connection = new SqlConnection("Server=localhost;Database=Todo;User Id=sa;Password=Password123;");
+                connection.OpenAsync();
+
+                string selectCommand = "SELECT * FROM TodoItem WHERE id = " + id.ToString();
+
+                SqlCommand command = new SqlCommand(selectCommand, connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int Id = reader.GetInt32(0);
+                    string Name = reader.GetString(1);
+                    bool IsComplete = reader.GetBoolean(2);
+                    DateTime DueDate = reader.GetDateTime(3);
+
+                    item = new TodoItem { Id = Id, Name = Name, IsComplete = IsComplete, DueDate = DueDate };
+                }
+
+                return item;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

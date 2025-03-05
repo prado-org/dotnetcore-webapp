@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
-using MyFirstProject.WebApi.Models;
+using MyFirstProject.TodoApi.Models;
 
-namespace MyFirstProject.WebApi.Models
+namespace MyFirstProject.TodoApi.Models
 {
     public class TodoItemContext : DbContext
     {

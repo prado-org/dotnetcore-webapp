@@ -2,7 +2,7 @@ using Azure.Storage.Blobs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MyFirstProject.WebApi
+namespace MyFirstProject.TodoApi
 {
     public class AzureBlobStorage
     {

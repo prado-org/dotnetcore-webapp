@@ -30,7 +30,7 @@ namespace MyFirstProject.WebApp.Controllers
 
                 using (var httpClient = new HttpClient())
                 {
-                    string _urlApi = _config.GetSection("Api:Url").Value;
+                    string _urlApi = _config.GetSection("Api:WeatherForecast").Value;
                     _logger.LogInformation("URL API = " + _urlApi);
 
                     httpClient.BaseAddress = new Uri(_urlApi);

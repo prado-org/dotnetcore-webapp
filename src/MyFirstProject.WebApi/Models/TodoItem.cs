@@ -1,4 +1,4 @@
-namespace MyFirstProject.WebApi.Models
+namespace MyFirstProject.TodoApi.Models
 {
     public class TodoItem
     {

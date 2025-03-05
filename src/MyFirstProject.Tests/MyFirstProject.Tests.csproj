@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyFirstProject.WebApi\MyFirstProject.WebApi.csproj" />
+    <ProjectReference Include="..\MyFirstProject.WebApi\MyFirstProject.TodoApi.csproj" />
   </ItemGroup>
 
 </Project>

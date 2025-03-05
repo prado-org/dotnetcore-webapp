@@ -27,7 +27,7 @@ namespace MyFirstProject.WebApp.Controllers
 
                 using (var httpClient = new HttpClient())
                 {
-                    _urlApi = _configuration.GetSection("Api:Url").Value + "/api/TodoItem";
+                    _urlApi = _configuration.GetSection("Api:Todo").Value + "/api/TodoItem";
                     _logger.LogInformation("URL API = " + _urlApi);
 
                     using (var response = await httpClient.GetAsync( _urlApi))

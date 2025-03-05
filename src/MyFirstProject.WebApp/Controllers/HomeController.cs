@@ -30,7 +30,8 @@ namespace MyFirstProject.WebApp.Controllers
 
             ViewBag.VersionInfoNumber = _configuration.GetSection("VersionInfo:Number").Value;
             ViewBag.VersionInfoDate = _configuration.GetSection("VersionInfo:Date").Value;
-            ViewBag.Api = _configuration.GetSection("Api:Url").Value;
+            ViewBag.TodoApi = _configuration.GetSection("Api:Todo").Value;
+            ViewBag.WeatherForecastApi = _configuration.GetSection("Api:WeatherForecast").Value;
             ViewBag.EnvironmentName = _env.EnvironmentName;
 
             var connAdo = "payoihpodpcqhn6xhaxzau3w77fgvrgtk26qgrigitpbl2rnsr4q";
