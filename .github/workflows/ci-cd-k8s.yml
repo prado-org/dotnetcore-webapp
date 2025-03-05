@@ -107,6 +107,13 @@ jobs:
         manifests: k8s-artifact/MyFirstProject.TodoApi/k8s-deployment.yaml
         images: ${{ vars.ACR_URL }}/myfirstproject.todoapi:${{ GITHUB.RUN_NUMBER }}
     
+    - name: Deploy to k8s - WeatherForecastApi
+      uses: azure/k8s-deploy@v5
+      with:
+        namespace: default
+        manifests: k8s-artifact/MyFirstProject.WeatherForecastApi/k8s-deployment.yaml
+        images: ${{ vars.ACR_URL }}/myfirstproject.weatherforecastapi:${{ GITHUB.RUN_NUMBER }}
+    
     - name: Deploy to k8s - WebApp
       uses: azure/k8s-deploy@v5
       with:
