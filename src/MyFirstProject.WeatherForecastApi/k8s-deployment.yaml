@@ -1,13 +1,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: myfirstproject-todoapi-svc
+  name: myfirstproject-weatherforecastapi-svc
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   type: LoadBalancer
   selector:
-    app: myfirstproject-todoapi
+    app: myfirstproject-weatherforecastapi
     tier: backend
   ports:
     - protocol: TCP
@@ -17,27 +17,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myfirstproject-todoapi-deploy
+  name: myfirstproject-weatherforecastapi-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myfirstproject-todoapi
+      app: myfirstproject-weatherforecastapi
       tier: backend
   template:
     metadata:
       labels:
-        app: myfirstproject-todoapi
+        app: myfirstproject-weatherforecastapi
         tier: backend
     spec:
       nodeSelector:
         poolName: userpool
       containers:
-        - name: myfirstproject-todoapi
-          image: "acrdotnetproject.azurecr.io/myfirstproject.todoapi:latest"
-          env:
-            - name: ConnectionStrings__DefaultConnection
-              value: "Server=tcp:sql-dotnetproject.database.windows.net,1433;Initial Catalog=db-dotnetproject;Persist Security Info=False;User ID=sqladmin;Password=#P@ssw0rd123456#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+        - name: myfirstproject-weatherforecastapi
+          image: "acrdotnetproject.azurecr.io/myfirstproject.weatherforecastapi:latest"
           ports:
             - name: http
               containerPort: 80

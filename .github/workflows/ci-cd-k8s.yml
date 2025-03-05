@@ -29,14 +29,24 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     
-    - name: Build and push WebApi image
+    - name: Build and push TodoApi image
       uses: docker/build-push-action@v5
       with:
-        context: src/MyFirstProject.WebApi
-        file: src/MyFirstProject.WebApi/Dockerfile
+        context: src/MyFirstProject.TodoApi
+        file: src/MyFirstProject.TodoApi/Dockerfile
         tags: |
-          ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
-          ${{ vars.ACR_URL }}/myfirstproject.webapi:latest
+          ${{ vars.ACR_URL }}/myfirstproject.todoapi:${{ GITHUB.RUN_NUMBER }}
+          ${{ vars.ACR_URL }}/myfirstproject.todoapi:latest
+        push: true
+    
+    - name: Build and push WeatherForecastApi image
+      uses: docker/build-push-action@v5
+      with:
+        context: src/MyFirstProject.WeatherForecastApi
+        file: src/MyFirstProject.WeatherForecastApi/Dockerfile
+        tags: |
+          ${{ vars.ACR_URL }}/myfirstproject.weatherforecastapi:${{ GITHUB.RUN_NUMBER }}
+          ${{ vars.ACR_URL }}/myfirstproject.weatherforecastapi:latest
         push: true
 
     - name: Build and push WebApp image
@@ -57,7 +67,7 @@ jobs:
       with:
         name: k8s
         path: |
-          src/MyFirstProject.WebApi/k8s-deployment.yaml
+          src/MyFirstProject.TodoApi/k8s-deployment.yaml
           src/MyFirstProject.WebApp/k8s-deployment.yaml
   
   k8s-dev:
@@ -89,12 +99,12 @@ jobs:
         resource-group: ${{ vars.AZ_RG_NAME }}
 
     # Deploy app to AKS
-    - name: Deploy to k8s - WebApi
+    - name: Deploy to k8s - TodoApi
       uses: azure/k8s-deploy@v5
       with:
         namespace: default
-        manifests: k8s-artifact/MyFirstProject.WebApi/k8s-deployment.yaml
-        images: ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
+        manifests: k8s-artifact/MyFirstProject.TodoApi/k8s-deployment.yaml
+        images: ${{ vars.ACR_URL }}/myfirstproject.todoapi:${{ GITHUB.RUN_NUMBER }}
     
     - name: Deploy to k8s - WebApp
       uses: azure/k8s-deploy@v5
@@ -132,12 +142,12 @@ jobs:
         resource-group: ${{ vars.AZ_RG_NAME }}
 
     # Deploy app to AKS
-    - name: Deploy to k8s - WebApi
+    - name: Deploy to k8s - TodoApi
       uses: azure/k8s-deploy@v5
       with:
         namespace: default
-        manifests: k8s-artifact/MyFirstProject.WebApi/k8s-deployment.yaml
-        images: ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
+        manifests: k8s-artifact/MyFirstProject.TodoApi/k8s-deployment.yaml
+        images: ${{ vars.ACR_URL }}/myfirstproject.todoapi:${{ GITHUB.RUN_NUMBER }}
     
     - name: Deploy to k8s - WebApp
       uses: azure/k8s-deploy@v5
@@ -175,12 +185,12 @@ jobs:
         resource-group: ${{ vars.AZ_RG_NAME }}
 
     # Deploy app to AKS
-    - name: Deploy to k8s - WebApi
+    - name: Deploy to k8s - TodoApi
       uses: azure/k8s-deploy@v5
       with:
         namespace: default
-        manifests: k8s-artifact/MyFirstProject.WebApi/k8s-deployment.yaml
-        images: ${{ vars.ACR_URL }}/myfirstproject.webapi:${{ GITHUB.RUN_NUMBER }}
+        manifests: k8s-artifact/MyFirstProject.TodoApi/k8s-deployment.yaml
+        images: ${{ vars.ACR_URL }}/myfirstproject.todoapi:${{ GITHUB.RUN_NUMBER }}
     
     - name: Deploy to k8s - WebApp
       uses: azure/k8s-deploy@v5
