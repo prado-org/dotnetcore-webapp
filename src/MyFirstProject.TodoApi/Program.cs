@@ -67,6 +67,12 @@ using (var scope = app.Services.CreateScope())
             context.TodoItems.Add(new TodoItem { Name = "Task 2", IsComplete = true, DueDate = DateTime.Now.AddDays(14) });
             context.TodoItems.Add(new TodoItem { Name = "Task 3", IsComplete = true, DueDate = DateTime.Now.AddDays(21) });
             context.TodoItems.Add(new TodoItem { Name = "Task 4", IsComplete = true, DueDate = DateTime.Now.AddDays(28) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 5", IsComplete = false, DueDate = DateTime.Now.AddDays(35) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 6", IsComplete = true, DueDate = DateTime.Now.AddDays(42) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 7", IsComplete = false, DueDate = DateTime.Now.AddDays(49) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 8", IsComplete = true, DueDate = DateTime.Now.AddDays(56) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 9", IsComplete = false, DueDate = DateTime.Now.AddDays(63) });
+            context.TodoItems.Add(new TodoItem { Name = "Task 10", IsComplete = true, DueDate = DateTime.Now.AddDays(70) });
             context.SaveChanges();
         }
     }
