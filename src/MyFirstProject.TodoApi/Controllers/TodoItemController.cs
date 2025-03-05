@@ -28,6 +28,7 @@ namespace MyFirstProject.TodoApi.Controllers
 
         private void CreateXml(string itemName)
         {
+            _logger.LogInformation("Method CreateXml");
             using (XmlWriter writer = XmlWriter.Create("todos.xml"))
             {
                 writer.WriteStartDocument();
@@ -39,6 +40,7 @@ namespace MyFirstProject.TodoApi.Controllers
 
         private TodoItem GetTodoItemById(int id)
         {
+            _logger.LogInformation("Method GetTodoItemById");
             try
             {
                 TodoItem item = null;
