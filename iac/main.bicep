@@ -4,6 +4,7 @@ param environment string
 param acrName string
 param enableAks bool
 param enableApim bool
+param dotnetVersion string = 'DOTNETCORE|8.0'
 
 resource rgCommon 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
   scope: subscription()
@@ -25,7 +26,7 @@ module webApp './webApp.bicep' = {
     planId: servicePlan.outputs.servicePlanId
     webAppName: 'app-${webAppName}-${environment}'
     location: location
-    linuxFxVersion: 'DOTNETCORE|8.0'
+    linuxFxVersion: dotnetVersion
   }
 }
 
@@ -35,7 +36,7 @@ module todoApi './webApp.bicep' = {
     planId: servicePlan.outputs.servicePlanId
     webAppName: 'api-todo-${environment}'
     location: location
-    linuxFxVersion: 'DOTNETCORE|8.0'
+    linuxFxVersion: dotnetVersion
   }
 }
 
@@ -45,7 +46,7 @@ module weatherForecastApi './webApp.bicep' = {
     planId: servicePlan.outputs.servicePlanId
     webAppName: 'api-weatherforecast-${environment}'
     location: location
-    linuxFxVersion: 'DOTNETCORE|8.0'
+    linuxFxVersion: dotnetVersion
   }
 }
 

@@ -10,13 +10,13 @@ module acr './containerRegistry.bicep' = {
   }
 }
 
-module sqlServer './sqlServer.bicep' = {
-  name: 'sqlServerModule'
-  params: {
-    sqlServerName: 'sql-${webAppName}'
-    sqlAdministratorLogin: 'sqladmin'
-    sqlAdministratorLoginPassword: '#P@ssw0rd123456#'
-    sqlDatabaseName: 'db-${webAppName}'
-    location: location
-  }
-}
+// module sqlServer './sqlServer.bicep' = {
+//   name: 'sqlServerModule'
+//   params: {
+//     sqlServerName: 'sql-${webAppName}'
+//     sqlAdministratorLogin: 'sqladmin'
+//     sqlAdministratorLoginPassword: '#P@ssw0rd123456#'
+//     sqlDatabaseName: 'db-${webAppName}'
+//     location: location
+//   }
+// }
