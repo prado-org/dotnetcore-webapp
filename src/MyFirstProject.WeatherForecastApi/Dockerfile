@@ -7,19 +7,19 @@ WORKDIR /app
 # Copy csproj and restore dependencies.
 COPY *.csproj ./
 
-RUN dotnet restore MyFirstProject.TodoApi.csproj
+RUN dotnet restore MyFirstProject.WeatherForecastApi.csproj
 
 # Copy the rest of the working directory contents.
 COPY . ./
 
 # Build the app
-RUN dotnet build MyFirstProject.TodoApi.csproj
+RUN dotnet build MyFirstProject.WeatherForecastApi.csproj
 
 # Publish the app
-RUN dotnet publish MyFirstProject.TodoApi.csproj --no-build --output out
+RUN dotnet publish MyFirstProject.WeatherForecastApi.csproj --no-build --output out
 
 # Build runtime image.
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "MyFirstProject.TodoApi.dll"]
+ENTRYPOINT ["dotnet", "MyFirstProject.WeatherForecastApi.dll"]
