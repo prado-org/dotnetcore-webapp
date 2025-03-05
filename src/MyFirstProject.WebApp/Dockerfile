@@ -12,10 +12,10 @@ RUN dotnet restore MyFirstProject.WebApp.csproj
 COPY . ./
 
 # Build the app.
-RUN dotnet build MyFirstProject.WebApp.csproj
+RUN dotnet build MyFirstProject.WebApp.csproj --configuration Release --no-restore
 
 # Publish the app.
-RUN dotnet publish MyFirstProject.WebApp.csproj --no-build --output out
+RUN dotnet publish MyFirstProject.WebApp.csproj --no-build --configuration Release --output out
 
 # Build runtime image.
 FROM mcr.microsoft.com/dotnet/aspnet:8.0

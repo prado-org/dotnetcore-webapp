@@ -13,10 +13,10 @@ RUN dotnet restore MyFirstProject.WeatherForecastApi.csproj
 COPY . ./
 
 # Build the app
-RUN dotnet build MyFirstProject.WeatherForecastApi.csproj
+RUN dotnet build MyFirstProject.WeatherForecastApi.csproj --configuration Release --no-restore
 
 # Publish the app
-RUN dotnet publish MyFirstProject.WeatherForecastApi.csproj --no-build --output out
+RUN dotnet publish MyFirstProject.WeatherForecastApi.csproj --no-build --configuration Release --output out
 
 # Build runtime image.
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
