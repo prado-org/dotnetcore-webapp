@@ -160,14 +160,14 @@ jobs:
         with:
           creds: ${{ secrets.ORG_AZ_CREDENTIALS }}
       
-      - name: Deploy API
+      - name: Deploy TodoApi
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-dev
-          app-name: api-dotnetproject-dev
-          package: "api-artifact/PublishApi.zip"
+          app-name: api-todo-dev
+          package: "todo-api-artifact/PublishTodoApi.zip"
       
-      - name: Deploy APP
+      - name: Deploy WebApp
         uses: azure/webapps-deploy@v3
         with:
           resource-group-name: rg-dotnetproject-dev
@@ -191,8 +191,8 @@ jobs:
                 "slotSetting": false
               },
               {
-                "name": "Api__Url",
-                "value": "https://api-dotnetproject-dev.azurewebsites.net",
+                "name": "Api__Todo",
+                "value": "https://api-todo-dev.azurewebsites.net",
                 "slotSetting": false
               }
             ]
