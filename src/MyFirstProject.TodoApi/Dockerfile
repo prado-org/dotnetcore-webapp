@@ -16,10 +16,10 @@ RUN dotnet restore MyFirstProject.TodoApi.csproj
 COPY . ./
 
 # Build the app
-RUN dotnet build MyFirstProject.TodoApi.csproj
+RUN dotnet build MyFirstProject.TodoApi.csproj --configuration Release --no-restore
 
 # Publish the app
-RUN dotnet publish MyFirstProject.TodoApi.csproj --no-build --output out
+RUN dotnet publish MyFirstProject.TodoApi.csproj --no-build --configuration Release --output out
 
 # Build runtime image.
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
