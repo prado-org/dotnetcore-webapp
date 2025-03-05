@@ -10,11 +10,11 @@ on:
   workflow_dispatch:
     inputs:
       enableAKS:
-        description: 'Enable AKS?'     
+        description: 'Enable AKS?'
         required: true
         default: 'false'
       enableAPIM:
-        description: 'Enable APIM?'     
+        description: 'Enable APIM?'
         required: true
         default: 'false'
 
@@ -63,6 +63,7 @@ jobs:
         deploymentMode: Incremental
         deploymentName: 'gh-actions-common-${{ GITHUB.RUN_NUMBER }}'
         parameters: acrName=${{ vars.AZ_APP_NAME }} location=${{ vars.AZ_LOCATION }} webAppName=${{ vars.AZ_APP_NAME }}
+  
   Dev:
     runs-on: ubuntu-latest
     needs: Common
@@ -106,6 +107,7 @@ jobs:
         deploymentMode: Incremental
         deploymentName: 'gh-actions-dev-${{ GITHUB.RUN_NUMBER }}'
         parameters: webAppName=${{ vars.AZ_APP_NAME }} location=${{ vars.AZ_LOCATION }} environment=dev acrName=${{ vars.AZ_APP_NAME }} enableAks=${{ env.AZ_ENABLE_AKS }} enableApim=${{ env.AZ_ENABLE_APIM }}
+  
   Hml:
     runs-on: ubuntu-latest
     needs: Dev

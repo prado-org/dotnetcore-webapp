@@ -29,11 +29,21 @@ module webApp './webApp.bicep' = {
   }
 }
 
-module webApi './webApp.bicep' = {
-  name: 'webApiModule'
+module todoApi './webApp.bicep' = {
+  name: 'todoApiModule'
   params: {
     planId: servicePlan.outputs.servicePlanId
-    webAppName: 'api-${webAppName}-${environment}'
+    webAppName: 'api-todo-${environment}'
+    location: location
+    linuxFxVersion: 'DOTNETCORE|8.0'
+  }
+}
+
+module weatherForecastApi './webApp.bicep' = {
+  name: 'weatherForecastApiModule'
+  params: {
+    planId: servicePlan.outputs.servicePlanId
+    webAppName: 'api-weatherforecast-${environment}'
     location: location
     linuxFxVersion: 'DOTNETCORE|8.0'
   }
