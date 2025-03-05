@@ -65,7 +65,7 @@ module aks './kubernetes.bicep' = if (enableAks) {
     location: location
     dnsPrefix: 'aks-${webAppName}-${environment}'
     agentCount: 1
-    aksVersion: '1.28.9'
+    aksVersion: '1.31.5'
     logAnalyticsWorkspaceId: logWorkspace.outputs.logAnalyticsWorkspaceId
   }
 }
