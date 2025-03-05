@@ -95,33 +95,47 @@ jobs:
       with:
         category: "/language:csharp"
     
-    - name: Publish APP
+    - name: Publish MyFirstProject.WebApp.csproj
       run: dotnet publish src/MyFirstProject.WebApp/MyFirstProject.WebApp.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApp
 
-    - name: Publish API
-      run: dotnet publish src/MyFirstProject.WebApi/MyFirstProject.WebApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishApi
+    - name: Publish MyFirstProject.TodoApi
+      run: dotnet publish src/MyFirstProject.TodoApi/MyFirstProject.TodoApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishTodoApi
     
-    - name: Zip APP
+    - name: Publish MyFirstProject.WeatherForecastApi
+      run: dotnet publish src/MyFirstProject.WeatherForecastApi/MyFirstProject.WeatherForecastApi.csproj --no-build --configuration ${{ env.CONFIGURATION }} --output PublishWeatherForecastApi
+    
+    - name: Zip WebApp
       run: |
         cd ${{ github.workspace }}/PublishApp
         zip -r PublishApp.zip .
     
-    - name: Zip API
+    - name: Zip TodoApi
       run: |
-        cd ${{ github.workspace }}/PublishApi
-        zip -r PublishApi.zip .
-        
-    - name: Upload APP Artifact
+        cd ${{ github.workspace }}/PublishTodoApi
+        zip -r PublishTodoApi.zip .
+    
+    - name: Zip WeatherForecastApi
+      run: |
+        cd ${{ github.workspace }}/PublishWeatherForecastApi
+        zip -r PublishWeatherForecastApi.zip .
+      
+    - name: Upload WebApp Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-artifact
         path: PublishApp/PublishApp.zip
     
-    - name: Upload API Artifact
+    - name: Upload TodoApi Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: api-artifact
-        path: PublishApi/PublishApi.zip
+        name: todo-api-artifact
+        path: PublishTodoApi/PublishTodoApi.zip
+    
+    - name: Upload WeatherForecastApi Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: weather-api-artifact
+        path: PublishWeatherForecastApi/PublishWeatherForecastApi.zip
       
   Dev:
     needs: 
