@@ -212,7 +212,7 @@ jobs:
       - name: Set API Settings
         uses: Azure/appservice-settings@v1
         with:
-          app-name: api-dotnetproject-dev
+          app-name: api-todo-dev
           app-settings-json: |
             [
               {
