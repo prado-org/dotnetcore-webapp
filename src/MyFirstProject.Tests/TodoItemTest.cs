@@ -55,7 +55,7 @@ namespace MyFirstProject.Tests
 
             // Assert
             Assert.IsNotNull(todoItems);
-            Assert.AreEqual(4, todoItems!.Count);
+            Assert.AreEqual(10, todoItems!.Count);
         }
     }
 }
