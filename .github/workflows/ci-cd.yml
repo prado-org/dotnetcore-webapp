@@ -1,6 +1,6 @@
 name: dotnetcore-webapp-ci-cd
 
-run-name: ${{ github.actor }} - dotnetcore
+run-name: ${{ github.actor }} - ${{ github.ref_name }} - dotnetcore
 
 on:
   push:
@@ -167,6 +167,13 @@ jobs:
           app-name: api-todo-dev
           package: "todo-api-artifact/PublishTodoApi.zip"
       
+      - name: Deploy WeatherForecastApi
+        uses: azure/webapps-deploy@v3
+        with:
+          resource-group-name: rg-dotnetproject-dev
+          app-name: api-weatherforecast-dev
+          package: "weather-api-artifact/PublishWeatherForecastApi.zip"
+    
       - name: Deploy WebApp
         uses: azure/webapps-deploy@v3
         with:
@@ -193,6 +200,11 @@ jobs:
               {
                 "name": "Api__Todo",
                 "value": "https://api-todo-dev.azurewebsites.net",
+                "slotSetting": false
+              },
+              {
+                "name": "Api__WeatherForecast",
+                "value": "https://api-weatherforecast-dev.azurewebsites.net",
                 "slotSetting": false
               }
             ]
