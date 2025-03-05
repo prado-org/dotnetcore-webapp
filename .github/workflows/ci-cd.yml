@@ -284,12 +284,12 @@ jobs:
               },
               {
                 "name": "Api__Todo",
-                "value": "https://api-todo-dev.azurewebsites.net",
+                "value": "https://api-todo-hml.azurewebsites.net",
                 "slotSetting": false
               },
               {
                 "name": "Api__WeatherForecast",
-                "value": "https://api-weatherforecast-dev.azurewebsites.net",
+                "value": "https://api-weatherforecast-hml.azurewebsites.net",
                 "slotSetting": false
               }
             ]
@@ -368,12 +368,12 @@ jobs:
               },
               {
                 "name": "Api__Todo",
-                "value": "https://api-todo-dev.azurewebsites.net",
+                "value": "https://api-todo-prd.azurewebsites.net",
                 "slotSetting": false
               },
               {
                 "name": "Api__WeatherForecast",
-                "value": "https://api-weatherforecast-dev.azurewebsites.net",
+                "value": "https://api-weatherforecast-prd.azurewebsites.net",
                 "slotSetting": false
               }
             ]
