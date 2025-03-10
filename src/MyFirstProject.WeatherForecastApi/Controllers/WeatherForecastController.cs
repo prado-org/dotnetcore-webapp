@@ -7,6 +7,7 @@ namespace MyFirstProject.WeatherForecastApi.Controllers
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        // nova alteração Gh4Women
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
