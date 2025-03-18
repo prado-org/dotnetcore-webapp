@@ -14,12 +14,24 @@
         "problemMatcher": "$msCompile"
       },
       {
-        "label": "buildWebApi",
+        "label": "buildTodoApi",
         "command": "dotnet",
         "type": "process",
         "args": [
           "build",
-          "${workspaceFolder}/src/MyFirstProject.WebApi/MyFirstProject.WebApi.csproj",
+          "${workspaceFolder}/src/MyFirstProject.TodoApi/MyFirstProject.TodoApi.csproj",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "buildWeatherForecastApi",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build",
+          "${workspaceFolder}/src/MyFirstProject.WeatherForecastApi/MyFirstProject.WeatherForecastApi.csproj",
           "/property:GenerateFullPaths=true",
           "/consoleloggerparameters:NoSummary"
         ],

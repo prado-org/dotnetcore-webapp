@@ -5,14 +5,14 @@
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": "MyFirstProject.WebApi",
+            "name": "MyFirstProject.TodoApi",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "buildWebApi",
+            "preLaunchTask": "buildTodoApi",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MyFirstProject.WebApi/bin/Debug/net8.0/MyFirstProject.WebApi.dll",
+            "program": "${workspaceFolder}/src/MyFirstProject.TodoApi/bin/Debug/net8.0/MyFirstProject.TodoApi.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/MyFirstProject.WebApi",
+            "cwd": "${workspaceFolder}/src/MyFirstProject.TodoApi",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
@@ -22,9 +22,29 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+            "name": "MyFirstProject.WeatherForecastApi",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildWeatherForecastApi",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/src/MyFirstProject.WeatherForecastApi/bin/Debug/net8.0/MyFirstProject.WeatherForecastApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/MyFirstProject.WeatherForecastApi",
+            "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger"
             },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
             }
         },
         {
@@ -61,9 +81,10 @@
     ],
     "compounds": [
         {
-            "name": "WebApi and WebApp",
+            "name": "WebApis and WebApp",
             "configurations": [
-                "MyFirstProject.WebApi",
+                "MyFirstProject.TodoApi",
+                "MyFirstProject.WeatherForecastApi",
                 "MyFirstProject.WebApp"
             ]
         }
