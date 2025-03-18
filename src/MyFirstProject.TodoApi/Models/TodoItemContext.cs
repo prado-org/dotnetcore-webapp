@@ -16,10 +16,10 @@ namespace MyFirstProject.TodoApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TodoItem>()
-                .HasOne(t => t.Category)
-                .WithMany()
-                .HasForeignKey(t => t.CategoryId);
+            //modelBuilder.Entity<TodoItem>()
+            //    .HasOne(t => t.Category)
+            //    .WithMany(c=> c.TodoItems)
+            //    .HasForeignKey(t => t.CategoryId);
 
             base.OnModelCreating(modelBuilder);
         }
