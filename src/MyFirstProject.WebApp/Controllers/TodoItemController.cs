@@ -90,7 +90,7 @@ namespace MyFirstProject.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,IsComplete,DueDate")] TodoItemViewModel item)
+        public async Task<IActionResult> Create(TodoItemViewModel item)
         {
             try
             {
@@ -119,5 +119,124 @@ namespace MyFirstProject.WebApp.Controllers
                 return Redirect("/Home/Error");
             }
         }
+
+        public async Task<IActionResult> Edit(long id)
+        {
+            try
+            {
+                _logger.LogInformation("Controller:TodoItemController - Method:Edit");
+                TodoItemViewModel item = null;
+                string _urlApi = _configuration.GetSection("Api:Todo").Value + $"/api/TodoItem/{id}";
+                using (var httpClient = new HttpClient())
+                {
+                    _logger.LogInformation("URL API = " + _urlApi);
+                    using (var response = await httpClient.GetAsync(_urlApi))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        item = JsonConvert.DeserializeObject<TodoItemViewModel>(apiResponse);
+                    }
+                }
+                if (item == null)
+                {
+                    return NotFound();
+                }
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ERROR: " + ex.Message);
+                return Redirect("/Home/Error");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(long id, TodoItemViewModel item)
+        {
+            try
+            {
+                _logger.LogInformation("Controller:TodoItemController - Method:Edit");
+                if (id != item.Id)
+                {
+                    return NotFound();
+                }
+                if (ModelState.IsValid)
+                {
+                    string _urlApi = _configuration.GetSection("Api:Todo").Value + $"/api/TodoItem/{id}";
+                    using (var httpClient = new HttpClient())
+                    {
+                        _logger.LogInformation("URL API = " + _urlApi);
+                        var content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                        using (var response = await httpClient.PutAsync(_urlApi, content))
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            item = JsonConvert.DeserializeObject<TodoItemViewModel>(apiResponse);
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ERROR: " + ex.Message);
+                return Redirect("/Home/Error");
+            }
+        }
+
+        public async Task<IActionResult> Delete(long id)
+        {
+            try
+            {
+                _logger.LogInformation("Controller:TodoItemController - Method:Delete");
+                TodoItemViewModel item = null;
+                string _urlApi = _configuration.GetSection("Api:Todo").Value + $"/api/TodoItem/{id}";
+                using (var httpClient = new HttpClient())
+                {
+                    _logger.LogInformation("URL API = " + _urlApi);
+                    using (var response = await httpClient.GetAsync(_urlApi))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        item = JsonConvert.DeserializeObject<TodoItemViewModel>(apiResponse);
+                    }
+                }
+                if (item == null)
+                {
+                    return NotFound();
+                }
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ERROR: " + ex.Message);
+                return Redirect("/Home/Error");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(long id, TodoItemViewModel item)
+        {
+            try
+            {
+                _logger.LogInformation("Controller:TodoItemController - Method:DeleteConfirmed");
+                string _urlApi = _configuration.GetSection("Api:Todo").Value + $"/api/TodoItem/{id}";
+                using (var httpClient = new HttpClient())
+                {
+                    _logger.LogInformation("URL API = " + _urlApi);
+                    using (var response = await httpClient.DeleteAsync(_urlApi))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ERROR: " + ex.Message);
+                return Redirect("/Home/Error");
+            }
+        }
+
     }
 }
