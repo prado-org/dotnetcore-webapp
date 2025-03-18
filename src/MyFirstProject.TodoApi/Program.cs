@@ -47,8 +47,7 @@ builder.Services.AddDbContext<TodoItemContext>(options =>
 {
     if (isDevelopment)
     {
-        //options.UseInMemoryDatabase("MyInMemoryDb");
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        options.UseInMemoryDatabase("MyInMemoryDb");
     }
     else
     {
