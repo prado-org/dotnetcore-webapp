@@ -1,6 +1,6 @@
 name: dotnetcore-webapp-ci-cd
 
-run-name: ${{ github.actor }} - ${{ github.ref_name }} - dotnetcore
+# run-name: ${{ github.actor }} - ${{ github.ref_name }} - dotnetcore
 
 on:
   push:
