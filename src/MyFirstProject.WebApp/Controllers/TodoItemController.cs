@@ -2,6 +2,7 @@
 using MyFirstProject.WebApp.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text;
 
 namespace MyFirstProject.WebApp.Controllers
 {
@@ -55,7 +56,7 @@ namespace MyFirstProject.WebApp.Controllers
                 _logger.LogInformation("Controller:TodoItemController - Method:Details");
 
                 TodoItemViewModel item = null;
-                string _urlApi = _configuration.GetSection("Api:Url").Value + $"/api/TodoItem/{id}";
+                string _urlApi = _configuration.GetSection("Api:Todo").Value + $"/api/TodoItem/{id}";
 
                 using (var httpClient = new HttpClient())
                 {
@@ -73,6 +74,43 @@ namespace MyFirstProject.WebApp.Controllers
                     return NotFound();
                 }
 
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ERROR: " + ex.Message);
+                return Redirect("/Home/Error");
+            }
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,IsComplete,DueDate")] TodoItemViewModel item)
+        {
+            try
+            {
+                _logger.LogInformation("Controller:TodoItemController - Method:Create");
+
+                if (ModelState.IsValid)
+                {
+                    string _urlApi = _configuration.GetSection("Api:Todo").Value + "/api/TodoItem";
+                    using (var httpClient = new HttpClient())
+                    {
+                        _logger.LogInformation("URL API = " + _urlApi);
+                        var content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                        using (var response = await httpClient.PostAsync(_urlApi, content))
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            item = JsonConvert.DeserializeObject<TodoItemViewModel>(apiResponse);
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
                 return View(item);
             }
             catch (Exception ex)
