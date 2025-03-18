@@ -12,5 +12,16 @@ namespace MyFirstProject.TodoApi.Models
         }
 
         public DbSet<TodoItem> TodoItems { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TodoItem>()
+                .HasOne(t => t.Category)
+                .WithMany()
+                .HasForeignKey(t => t.CategoryId);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
