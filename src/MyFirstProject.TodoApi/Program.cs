@@ -34,12 +34,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-//string connString = builder.Configuration.GetConnectionString("DefaultConnection");
-string? connString = builder.Configuration.GetConnectionString("DefaultConnection");
-if (string.IsNullOrEmpty(connString))
-{
-    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-}
+string connString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 //builder.Services.AddDbContext<TodoItemContext>(opt =>
 //    opt.UseSqlServer(connString));
