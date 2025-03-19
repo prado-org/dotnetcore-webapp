@@ -201,8 +201,8 @@ jobs:
         run: |
           az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
                             --service-name ${{ env.AZ_APIM_NAME }} \
-                            --path todoapi-path \
-                            --api-id todoapi-id \
+                            --path todo \
+                            --api-id todoapi \
                             --specification-path swagger-artifact/todoapi-swagger.json \
                             --specification-format OpenApi \
                             --service-url https://api-todo-dev.azurewebsites.net
@@ -211,7 +211,7 @@ jobs:
         run: |
           az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
                             --service-name ${{ env.AZ_APIM_NAME }} \
-                            --path weatherforecastapi \
+                            --path weatherforecast \
                             --api-id weatherforecastapi \
                             --specification-path swagger-artifact/weatherforecastapi-swagger.json \
                             --specification-format OpenApi \
