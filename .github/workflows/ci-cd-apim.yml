@@ -56,7 +56,7 @@ jobs:
         dotnet src/MyFirstProject.TodoApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.TodoApi.dll &
         APP_PID=$!
         sleep 5
-        curl http://localhost:5000/swagger/v1/swagger.json --output swagger/todoapi-swagger.json
+        curl http://localhost:5000/swagger/v1/swagger.json --output todoapi-swagger.json
         kill $APP_PID
     
     - name: Generate WeatherForecastApi Swagger JSON
@@ -65,7 +65,7 @@ jobs:
         dotnet src/MyFirstProject.WeatherForecastApi/bin/${{ env.CONFIGURATION }}/net8.0/MyFirstProject.WeatherForecastApi.dll &
         APP_PID=$!
         sleep 5
-        curl http://localhost:5000/swagger/v1/swagger.json --output swagger/weatherforecastapi-swagger.json
+        curl http://localhost:5000/swagger/v1/swagger.json --output weatherforecastapi-swagger.json
         kill $APP_PID
 
     - name: Zip WebApp
@@ -105,7 +105,9 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: swagger-artifact
-        path: swagger/*.json
+        path: |
+          todoapi-swagger.json
+          weatherforecastapi-swagger.json
       
   Dev:
     needs: 
