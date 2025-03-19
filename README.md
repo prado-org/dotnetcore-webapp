@@ -180,23 +180,71 @@ kubectl edit deployment -n default myfirstproject-api-deploy
 
 ## APIM
 ```powershell
-$headers = @{
-  "Ocp-Apim-Subscription-Key" = "7b000d597ffd47048bbf55cc8c67aaef"
+# Primary
+$headersP = @{
+  "Ocp-Apim-Subscription-Key" = "bd290bb5e33549688ca02038b63c7249"
+}
+# Secondary
+$headersS = @{
+  "Ocp-Apim-Subscription-Key" = "2378848bb5f74e59ab7c6aa53f5f2f6a"
 }
 
 for ($i = 1; $i -le 10; $i++) 
 {
   Write-Output "Request $i"
-  Invoke-RestMethod -Uri "https://apim-dotnetproject-dev.azure-api.net/todoapi/api/Categories" -Headers $headers
+  Invoke-RestMethod -Uri "https://apim-dotnetproject-dev.azure-api.net/todo/api/Categories" -Headers $headersP
 }
 
 for ($i = 1; $i -le 10; $i++) 
 {
   Write-Output "Request $i"
-  Invoke-RestMethod -Uri "https://apim-dotnetproject-dev.azure-api.net/todoapi/api/TodoItem" -Headers $headers
+  Invoke-RestMethod -Uri "https://apim-dotnetproject-dev.azure-api.net/todo/api/TodoItem" -Headers $headersP
 }
+
+
+$headersP = @{
+  "Ocp-Apim-Subscription-Key" = "0e05290211d04466bca5336e0deb8a94"
+}
+
+for ($i = 1; $i -le 10; $i++) 
+{
+  Write-Output "Request $i"
+  Invoke-RestMethod -Uri "https://apim-dotnetproject-dev.azure-api.net/weatherforecast/api/WeatherForecast" -Headers $headersP
+}
+```
+
+### APIM Custom Policy - All APIs
+
+https://learn.microsoft.com/en-us/azure/api-management/api-management-policies
+
+```xml
+<policies>
+    <inbound>
+        <!-- Por Key da Subscription -->
+        <rate-limit-by-key calls="5" renewal-period="60" counter-key="@(context.Subscription.Key)" />
+        
+        <!-- Por Subscription - Não importa qual Key está usando -->
+        <!-- <rate-limit-by-key calls="5" renewal-period="60" counter-key="@(context.Subscription.Id)" />-->
+        
+        <!-- Restrição por IP -->
+        <ip-filter action="allow">
+            <address-range from="177.92.82.0" to="177.92.82.99" />
+            <address-range from="191.235.89.0" to="191.235.89.99" />
+        </ip-filter>
+    </inbound>
+    <backend>
+        <forward-request />
+    </backend>
+    <outbound>
+        <set-header name="Custom-Header" exists-action="append">
+            <value>Leandro Prado</value>
+        </set-header>
+    </outbound>
+    <on-error />
+</policies>
 
 ```
+
 
 ## Contribute
 
