@@ -164,7 +164,7 @@ argocd app get dotnetcore-webapp
 kubectl config current-context
 kubectl config set-context aks-dotnetproject-dev
 kubectl edit deployment -n default myfirstproject-api-deploy
-
+-he
 ```
 
 ## Authentication using Service Principal
@@ -176,6 +176,17 @@ kubectl edit deployment -n default myfirstproject-api-deploy
   "password": "rJe8Q~Hdb3nYkT6HmNoxJuBjwnJwfuivsVzlsdyM",
   "tenant": "16b3c013-d300-468d-ac64-7eda0820b6d3"
 }
+```
+
+## APIM
+```powershell
+
+$headers = @{
+  "Ocp-Apim-Subscription-Key" = "7b000d597ffd47048bbf55cc8c67aaef"
+}
+
+Invoke-RestMethod https://apim-dotnetproject-dev.azure-api.net/todoapi/api/Categories -Headers $headers
+
 ```
 
 ## Contribute
