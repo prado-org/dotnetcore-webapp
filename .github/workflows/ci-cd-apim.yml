@@ -197,7 +197,7 @@ jobs:
               }
             ]
       
-      - name: Publish todoapi Swagger to APIM
+      - name: APIM - Publish todoapi Swagger
         run: |
           az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
                             --service-name ${{ env.AZ_APIM_NAME }} \
@@ -207,7 +207,7 @@ jobs:
                             --specification-format OpenApi \
                             --service-url https://api-todo-dev.azurewebsites.net
 
-      - name: Publish weatherforecastapi Swagger to APIM
+      - name: APIM - Publish weatherforecastapi Swagger
         run: |
           az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
                             --service-name ${{ env.AZ_APIM_NAME }} \
@@ -217,7 +217,7 @@ jobs:
                             --specification-format OpenApi \
                             --service-url https://api-weatherforecast-dev.azurewebsites.net
 
-      - name: Create APIM Subscription
+      - name: APIM - Create todoapi Subscription
         run: |
           az rest --method PUT \
                   --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/subscriptions/todoapi-subscription?api-version=2021-08-01" \
@@ -225,6 +225,18 @@ jobs:
                     "properties": {
                       "scope": "/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/apis/todoapi",
                       "displayName": "todoapi-subscription",
+                      "state": "active"
+                    }
+                  }'
+      
+      - name: APIM - Create weatherforecastapi Subscription
+        run: |
+          az rest --method PUT \
+                  --url "https://management.azure.com/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/subscriptions/weatherforecastapi-subscription?api-version=2021-08-01" \
+                  --body '{
+                    "properties": {
+                      "scope": "/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/apis/weatherforecastapi",
+                      "displayName": "weatherforecastapi-subscription",
                       "state": "active"
                     }
                   }'
