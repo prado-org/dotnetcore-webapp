@@ -3,13 +3,14 @@ name: dotnetcore-webapp-ci-cd
 # run-name: ${{ github.actor }} - ${{ github.ref_name }} - dotnetcore
 
 on:
-  push:
-    branches:
-      - feature/*
-      - release/*
-  pull_request:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - feature/*
+  #     - release/*
+  # pull_request:
+  #   branches:
+  #     - main
+  workflow_dispatch: 
 
 permissions:
   pull-requests: write
