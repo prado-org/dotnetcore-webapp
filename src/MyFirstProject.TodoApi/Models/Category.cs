@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
-        public List<TodoItem> TodoItems { get; set; } = new List<TodoItem>();
+        //public List<TodoItem> TodoItems { get; set; } = new List<TodoItem>();
     }
 }

@@ -180,12 +180,21 @@ kubectl edit deployment -n default myfirstproject-api-deploy
 
 ## APIM
 ```powershell
-
 $headers = @{
   "Ocp-Apim-Subscription-Key" = "7b000d597ffd47048bbf55cc8c67aaef"
 }
 
-Invoke-RestMethod https://apim-dotnetproject-dev.azure-api.net/todoapi/api/Categories -Headers $headers
+for ($i = 1; $i -le 10; $i++) 
+{
+  Write-Output "Request $i"
+  Invoke-RestMethod -Uri "https://apim-dotnetproject-dev.azure-api.net/todoapi/api/Categories" -Headers $headers
+}
+
+for ($i = 1; $i -le 10; $i++) 
+{
+  Write-Output "Request $i"
+  Invoke-RestMethod -Uri "https://apim-dotnetproject-dev.azure-api.net/todoapi/api/TodoItem" -Headers $headers
+}
 
 ```
 
