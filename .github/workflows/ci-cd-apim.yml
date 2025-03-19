@@ -116,6 +116,9 @@ jobs:
     environment:
       name: webapp-dev
       url: https://app-dotnetproject-dev.azurewebsites.net
+    env:
+      AZ_RG_NAME: rg-dotnetproject-dev
+      AZ_APIM_NAME: apim-dotnetproject-dev
     if: ${{ startsWith(github.ref, 'refs/heads/feature/') }}
     steps:
       - uses: actions/download-artifact@v4
@@ -198,11 +201,11 @@ jobs:
         run: |
           az apim api import --resource-group ${{ env.AZ_RG_NAME }} \
                             --service-name ${{ env.AZ_APIM_NAME }} \
-                            --path myfirstproject-webapi \
-                            --api-id myfirstproject-webapi \
-                            --specification-path swagger-artifact/swagger.json \
+                            --path todoapi \
+                            --api-id todoapi \
+                            --specification-path swagger-artifact/todoapi-swagger.json \
                             --specification-format OpenApi \
-                            --service-url https://${{ env.AZ_API_NAME }}.azurewebsites.net
+                            --service-url https://api-todo-dev.azurewebsites.net
       
       - name: Create APIM Subscription
         run: |
@@ -211,7 +214,7 @@ jobs:
                   --body '{
                     "properties": {
                       "scope": "/subscriptions/${{ secrets.ORG_AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RG_NAME }}/providers/Microsoft.ApiManagement/service/${{ env.AZ_APIM_NAME }}/apis/myfirstproject-webapi",
-                      "displayName": "myfirstproject-subscription",
+                      "displayName": "todoapi-subscription",
                       "state": "active"
                     }
                   }'
