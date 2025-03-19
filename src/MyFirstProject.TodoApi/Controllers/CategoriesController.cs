@@ -105,17 +105,5 @@ namespace MyFirstProject.TodoApi.Controllers
             _logger.LogInformation("Method CategoryExists");
             return _context.Categories.Any(e => e.Id == id);
         }
-
-        [HttpGet("{id}/todos")]
-        public async Task<ActionResult<Category>> GetCategoryWithTodos(int id)
-        {
-            _logger.LogInformation("Method GetCategoryWithTodos");
-            var category = await _context.Categories.Include(c => c.TodoItems).FirstOrDefaultAsync(c => c.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return category;
-        }
     }
 }
