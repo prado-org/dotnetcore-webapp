@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyFirstProject.TodoApi.Models;
-
+using System.Xml;
 
 namespace MyFirstProject.TodoApi.Controllers
 {
@@ -23,6 +23,18 @@ namespace MyFirstProject.TodoApi.Controllers
         {
             _logger.LogInformation("Method GetTodoItems");
             return await _context.TodoItems.ToListAsync();
+        }
+
+        private void CreateXml(string itemName, bool isComplete)
+        {
+            _logger.LogInformation("Method CreateXml");
+            using (XmlWriter writer = XmlWriter.Create("todos.xml"))
+            {
+                writer.WriteStartDocument();
+                writer.WriteRaw("<todo><name>" + itemName + "</name><isComplete>" + isComplete.ToString() + "</isComplete></todo>");
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+            }
         }
     }
 }
