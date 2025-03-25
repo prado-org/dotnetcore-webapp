@@ -70,7 +70,7 @@ namespace MyFirstProject.TodoApi.Controllers
             }
 
             // Implementa uma regra para verificar se o campo Name possui caracteres especiais, usando regex. Se possuir, retorna um BadRequest com uma mensagem de erro.
-            if (Regex.IsMatch(todoItem.Name, @"[!@#$%^&*(),.?\"))
+            if (Regex.IsMatch(todoItem.Name, @"[!@#$%^&*(),.?\""]"))
             {
                 return BadRequest("O campo Name não pode conter caracteres especiais.");
             }
