@@ -25,6 +25,11 @@ namespace MyFirstProject.TodoApi.Controllers
             return await _context.TodoItems.ToListAsync();
         }
 
+        /// <summary>
+        /// Creates an XML file named "todos.xml" with the provided todo item details.
+        /// </summary>
+        /// <param name="itemName">The name of the todo item.</param>
+        /// <param name="isComplete">A boolean indicating whether the todo item is complete.</param>
         private void CreateXml(string itemName, bool isComplete)
         {
             _logger.LogInformation("Method CreateXml");
