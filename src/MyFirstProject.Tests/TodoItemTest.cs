@@ -57,5 +57,43 @@ namespace MyFirstProject.Tests
             Assert.IsNotNull(todoItems);
             Assert.AreEqual(10, todoItems!.Count);
         }
+
+        [TestMethod]
+        public async Task CreateTodoItem_ReturnsSuccessStatusCode()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem";
+            var newTodoItem = new TodoItem
+            {
+                Name = "New Task",
+                IsComplete = false
+            };
+            var content = new StringContent(JsonConvert.SerializeObject(newTodoItem), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client!.PostAsync(requestUri, content);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task CreateTodoItem_ReturnsBadRequestForInvalidName()
+        {
+            // Arrange
+            var requestUri = "/api/TodoItem";
+            var newTodoItem = new TodoItem
+            {
+                Name = "Invalid@Name",
+                IsComplete = false
+            };
+            var content = new StringContent(JsonConvert.SerializeObject(newTodoItem), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client!.PostAsync(requestUri, content);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        }
     }
 }

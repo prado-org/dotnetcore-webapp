@@ -2,6 +2,7 @@
 using MyFirstProject.WebApp.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text;
 
 namespace MyFirstProject.WebApp.Controllers
 {
@@ -80,6 +81,57 @@ namespace MyFirstProject.WebApp.Controllers
                 _logger.LogError("ERROR: " + ex.Message);
                 return Redirect("/Home/Error");
             }
+        }
+
+        /// <summary>
+        /// Exibe o formulário para criar um novo TodoItem.
+        /// </summary>
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Processa a submissão do formulário para criar um novo TodoItem.
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(TodoItemViewModel todoItem)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string _urlApi = _configuration.GetSection("Api:Todo").Value + "/api/TodoItem";
+                    _logger.LogInformation("URL API = " + _urlApi);
+
+                    using (var httpClient = new HttpClient())
+                    {
+                        var json = JsonConvert.SerializeObject(todoItem);
+                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        using (var response = await httpClient.PostAsync(_urlApi, content))
+                        {
+                            if (response.IsSuccessStatusCode)
+                            {
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(string.Empty, "Erro ao criar o TodoItem.");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("ERROR: " + ex.Message);
+                    return Redirect("/Home/Error");
+                }
+            }
+
+            return View(todoItem);
         }
     }
 }
