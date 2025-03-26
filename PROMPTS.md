@@ -58,3 +58,10 @@ adicione em todos os métodos, um registro de log que o método foi chamado. Se 
 Em todos os métodos que contém tratamento de exceção, adicione um registro no log como Error.
 
 atue como um engenheiro de software senior, com amplo conhecimento em dotnet core. Sua tarefa é revisar esse controller analisando seu comportamento do ponto de vista de segurança, performance e eficiência e a utilização de métodos assincronos
+
+### Copilot Vision (Imagem)
+Adicione a image no chat e faça os seguintes prompts
+
+descreva os componentes dessa arquitetura, e suas relações
+
+implemente a camada de application utilizando o framework dotnet core 8 e a linguagem C#
