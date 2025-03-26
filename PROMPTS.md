@@ -60,7 +60,7 @@ Em todos os métodos que contém tratamento de exceção, adicione um registro n
 atue como um engenheiro de software senior, com amplo conhecimento em dotnet core. Sua tarefa é revisar esse controller analisando seu comportamento do ponto de vista de segurança, performance e eficiência e a utilização de métodos assincronos
 
 ### Copilot Vision (Imagem)
-Adicione a image no chat e faça os seguintes prompts
+Adicione a imagem (images/todo-app-classic.png) no chat e faça os seguintes prompts
 
 descreva os componentes dessa arquitetura, e suas relações
 
