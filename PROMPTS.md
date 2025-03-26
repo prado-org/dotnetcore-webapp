@@ -4,7 +4,7 @@ Nesse documento está descrito os passos necessários para a demo de GH Copilot
 
 ## Copilot PR Review
 
-O código abaixo deve ser inserido dentro de um controller. Esse códio é ruim de proposito. Quando criar o PR o Copilot PR Review vai validar esse código e sugerir um melhor.
+O código abaixo deve ser inserido dentro de um controller. Esse códio é **ruim** de proposito. Quando criar o PR o Copilot PR Review vai validar esse código e sugerir um melhor.
 
 ```cs
 private void CreateXml(string itemName, bool isComplete)
@@ -21,6 +21,8 @@ private void CreateXml(string itemName, bool isComplete)
 ```
 ## Prompts
 
+### Copilot Chat
+
 @azure /changeTenant
 
 @azure liste todos os resources groups
@@ -36,3 +38,18 @@ private void CreateXml(string itemName, bool isComplete)
 @github liste os prs que estao abertos
 
 @github descreva os detalhes do pr Pr - Feature/apresentacao 11 12
+
+[Api - TodoItemController.cs]
+crie um método para salvar um TodoItem
+
+crie um método para editar um todo item
+
+### Copilot Edit
+
+[Api - TodoItemController.cs]
+implemente uma regra de negocio para os metodos de criar e editar para verificar se o campo Name possui caracteres especiais. Se conter retornar uma mensagem de erro "Campo Name é inválido"
+
+adicione em todos os métodos, um registro de log que o método foi chamado. Se o método ja tiver esse registro de log, ignore.
+
+Em todos os métodos que contém tratamento de exceção, adicione um registro no log como Error.
+
