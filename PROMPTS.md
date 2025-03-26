@@ -53,3 +53,4 @@ adicione em todos os métodos, um registro de log que o método foi chamado. Se 
 
 Em todos os métodos que contém tratamento de exceção, adicione um registro no log como Error.
 
+atue como um engenheiro de software senior, com amplo conhecimento em dotnet core. Sua tarefa é revisar esse controller analisando seu comportamento do ponto de vista de segurança, performance e eficiência e a utilização de métodos assincronos
