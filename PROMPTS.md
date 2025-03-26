@@ -39,6 +39,10 @@ private void CreateXml(string itemName, bool isComplete)
 
 @github descreva os detalhes do pr Pr - Feature/apresentacao 11 12
 
+@workspace descreva qual o objeitvo desse repositorio. Liste todos os projetos contidos. Para cada projeto liste a tecnologia, framework e versão utilizada.
+
+@workspace descreva as camadas do projeto MyFirstProject.TodoApi. Identifique quais são as camadas de API, Dominio, Infraestrutura, Data. Liste o relacionamento e dependencias entre essas camadas.
+
 [Api - TodoItemController.cs]
 crie um método para salvar um TodoItem
 
